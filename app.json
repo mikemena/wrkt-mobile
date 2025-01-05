@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "WRKT",
+    "slug": "wrkt",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/weight-plates.png",
+    "scheme": "wrkt",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.jpg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tokyolabs.wrkt"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.tokyolabs.wrkt"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-router"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f0dc0016-48ae-486a-a0b5-27c29072b61a"
+      }
+    }
+  }
+}
