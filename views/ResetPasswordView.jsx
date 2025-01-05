@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
+import Config from 'react-native-config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { Ionicons } from '@expo/vector-icons';
@@ -59,7 +60,7 @@ const ResetPasswordView = ({ navigation, route }) => {
 
     try {
       const response = await fetch(
-        'http://localhost:9025/api/auth/reset-password',
+        `${Config.API_URL}/api/auth/reset-password`,
         {
           method: 'POST',
           headers: {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator, Image, StyleSheet } from 'react-native';
+import Config from 'react-native-config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import {
@@ -26,7 +27,7 @@ const ExerciseImage = ({ exercise }) => {
   const refreshImageUrl = async () => {
     try {
       const response = await fetch(
-        `http://localhost:9025/api/exercise-catalog/${exercise.id}/image`
+        `${Config.API_URL}/api/exercise-catalog/${exercise.id}/image`
       );
       const data = await response.json();
 

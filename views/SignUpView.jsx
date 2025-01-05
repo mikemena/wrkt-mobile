@@ -12,6 +12,7 @@ import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { Ionicons } from '@expo/vector-icons';
+import Config from 'react-native-config';
 
 const SignUpView = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -92,16 +93,13 @@ const SignUpView = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const signupResponse = await fetch(
-        'http://localhost:9025/api/auth/signup',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ auth_provider: 'email', email, password })
-        }
-      );
+      const signupResponse = await fetch(`${Config.API_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ auth_provider: 'email', email, password })
+      });
 
       const userData = await signupResponse.json();
 
@@ -110,7 +108,7 @@ const SignUpView = ({ navigation }) => {
       }
 
       const settingsResponse = await fetch(
-        `http://localhost:9025/api/settings/${userData.user.id}`,
+        `${Config.API_URL}/api/settings/${userData.user.id}`,
         {
           method: 'POST',
           headers: {
@@ -151,7 +149,7 @@ const SignUpView = ({ navigation }) => {
 
       if (authData) {
         // Send to your backend
-        const response = await fetch('http://localhost:9025/api/auth/social', {
+        const response = await fetch(`${Config.API_URL}/api/auth/social`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

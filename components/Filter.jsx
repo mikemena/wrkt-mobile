@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, SafeAreaView, Text } from 'react-native';
+import Config from 'react-native-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
 import PillButton from './PillButton';
@@ -66,7 +67,7 @@ const Filter = ({
 
   const fetchMuscles = async () => {
     try {
-      const response = await fetch('http://localhost:9025/api/muscles');
+      const response = await fetch(`${Config.API_URL}/api/muscles`);
       const data = await response.json();
       return data.map(muscle => ({
         label: `${muscle.muscle} (${muscle.muscle_group})`,
@@ -80,7 +81,7 @@ const Filter = ({
 
   const fetchEquipment = async () => {
     try {
-      const response = await fetch('http://localhost:9025/api/equipment');
+      const response = await fetch(`${Config.API_URL}/api/equipment`);
       const data = await response.json();
       return data.map(equipment => ({
         label: equipment.name,

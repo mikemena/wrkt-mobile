@@ -7,6 +7,7 @@ import {
   ScrollView,
   ActivityIndicator
 } from 'react-native';
+import Config from 'react-native-config';
 import { useTheme } from '../src/hooks/useTheme';
 import { useUser } from '../src/context/userContext';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -37,8 +38,8 @@ const ProgressView = () => {
   const fetchProgressData = async () => {
     try {
       const [summaryResponse, recordsResponse] = await Promise.all([
-        fetch(`http://localhost:9025/api/progress/summary/${userId}`),
-        fetch(`http://localhost:9025/api/progress/records/${userId}`)
+        fetch(`${Config.API_URL}/api/progress/summary/${userId}`),
+        fetch(`${Config.API_URL}/api/progress/records/${userId}`)
       ]);
 
       if (!summaryResponse.ok || !recordsResponse.ok) {

@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useEffect } from 'react';
+import Config from 'react-native-config';
 import { useUser } from '../context/userContext.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { themeReducer, initialState } from '../reducers/themeReducer';
@@ -14,7 +15,7 @@ export const ThemeProvider = ({ children }) => {
       if (userId) {
         try {
           const response = await fetch(
-            `http://localhost:9025/api/settings/${userId}`
+            `${Config.API_URL}/api/settings/${userId}`
           );
           const settings = await response.json();
 

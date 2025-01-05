@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
+import Config from 'react-native-config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 
@@ -59,7 +60,7 @@ const ForgotPasswordView = ({ navigation }) => {
 
     try {
       const response = await fetch(
-        'http://localhost:9025/api/auth/forgot-password',
+        `${Config.API_URL}/api/auth/forgot-password`,
         {
           method: 'POST',
           headers: {

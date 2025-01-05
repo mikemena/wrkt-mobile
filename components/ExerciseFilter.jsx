@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Config from 'react-native-config';
 import {
   View,
   TextInput,
@@ -68,7 +69,7 @@ const ExerciseFilter = ({
 
   const fetchMuscles = async () => {
     try {
-      const response = await fetch('http://localhost:9025/api/muscles');
+      const response = await fetch(`${Config.API_URL}/api/muscles`);
       const data = await response.json();
       return data.map(muscle => ({
         label: `${muscle.muscle} (${muscle.muscle_group})`,
@@ -82,7 +83,7 @@ const ExerciseFilter = ({
 
   const fetchEquipment = async () => {
     try {
-      const apiUrl = 'http://localhost:9025/api/equipments';
+      const apiUrl = `${Config.API_URL}/api/equipments`;
       const response = await fetch(apiUrl);
 
       if (!response.ok) {

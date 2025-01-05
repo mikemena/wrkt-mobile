@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
+import Config from 'react-native-config';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -57,7 +58,7 @@ const SignInView = ({ navigation }) => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:9025/api/auth/signin', {
+      const response = await fetch(`${Config.API_URL}/api/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

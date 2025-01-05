@@ -1,8 +1,8 @@
-// src/utils/exerciseApi.js
 import { useState, useEffect } from 'react';
+import Config from 'react-native-config';
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-const BASE_URL = 'http://localhost:9025/api';
+const BASE_URL = (Config.API_URL || 'http://localhost:9025') + '/api';
 
 class ExerciseCache {
   constructor() {
@@ -56,6 +56,8 @@ export async function fetchExerciseData(endpoint, params = {}) {
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error:', errorText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -66,7 +68,7 @@ export async function fetchExerciseData(endpoint, params = {}) {
 
     return data;
   } catch (error) {
-    console.error('Error fetching exercise data:', error);
+    console.error('Error fetching exercise data:', error, 'URL:', url);
     throw error;
   }
 }

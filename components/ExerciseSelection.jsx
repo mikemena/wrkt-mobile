@@ -14,6 +14,7 @@ import {
   Modal,
   StyleSheet
 } from 'react-native';
+import Config from 'react-native-config';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
@@ -81,7 +82,7 @@ const ExerciseSelection = ({ navigation, route }) => {
       });
 
       const response = await fetch(
-        `http://localhost:9025/api/exercise-catalog?${queryParams}`,
+        `${Config.API_URL}/api/exercise-catalog?${queryParams}`,
         {
           headers: {
             Accept: 'application/json',
@@ -239,29 +240,6 @@ const ExerciseSelection = ({ navigation, route }) => {
   const handleBack = () => {
     navigation.goBack();
   };
-
-  // Utility function to compare exercises for equality
-  // const areExercisesEqual = (exercise1, exercise2) => {
-  //   // Check for undefined or null exercises
-  //   if (!exercise1 || !exercise2) {
-  //     return false;
-  //   }
-
-  //   // Primary comparison using catalogExerciseId
-  //   if (exercise1.catalogExerciseId && exercise2.catalogExerciseId) {
-  //     return exercise1.catalogExerciseId === exercise2.catalogExerciseId;
-  //   }
-
-  //   // If either exercise is missing catalogExerciseId, use multiple criteria
-  //   const nameMatch = exercise1.name === exercise2.name;
-  //   const muscleMatch = exercise1.muscle === exercise2.muscle;
-  //   const equipmentMatch = exercise1.equipment === exercise2.equipment;
-
-  //   // Consider exercises equal if they match on all three criteria
-  //   return nameMatch && muscleMatch && equipmentMatch;
-  // };
-
-  // In ExerciseSelection.jsx, update the handleAdd function:
 
   const handleAdd = async () => {
     try {
