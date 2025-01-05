@@ -58,3 +58,6 @@ ios/*.ipa
 # IDE
 .idea/
 .vscode/
+
+# Specific Files
+DOMAINCONFIG.MD

@@ -1,5 +1,5 @@
-// api.js
-import { API_URL_MOBILE } from '@env';
+import Config from 'react-native-config';
+const { API_URL } = Config;
 import {
   transformRequestData,
   transformResponseData
@@ -14,9 +14,7 @@ export const setUser = id => {
 export const getPrograms = async userId => {
   if (!userId) return [];
   try {
-    const response = await fetch(
-      `${API_URL_MOBILE}/api/users/${userId}/programs`
-    );
+    const response = await fetch(`${API_URL}/api/users/${userId}/programs`);
     if (response.status === 404) return [];
     if (!response.ok) {
       const errorText = await response.text();
@@ -34,7 +32,7 @@ export const getActiveProgram = async userId => {
   if (!userId) return null;
   try {
     const response = await fetch(
-      `${API_URL_MOBILE}/api/active-program/user/${userId}`
+      `${API_URL}/api/active-program/user/${userId}`
     );
     if (response.status === 404) return null;
     if (!response.ok) {
@@ -51,7 +49,7 @@ export const getActiveProgram = async userId => {
 
 export const getProgram = async programId => {
   try {
-    const response = await fetch(`${API_URL_MOBILE}/api/programs/${programId}`);
+    const response = await fetch(`${API_URL}/api/programs/${programId}`);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -80,7 +78,7 @@ export const createActiveProgram = async programData => {
     programId: programData.programId
   });
 
-  const response = await fetch(`${API_URL_MOBILE}/api/active-program`, {
+  const response = await fetch(`${API_URL}/api/active-program`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -99,16 +97,13 @@ export const createActiveProgram = async programData => {
 
 export const deleteActiveProgram = async userId => {
   try {
-    const response = await fetch(
-      `${API_URL_MOBILE}/api/active-program/${userId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
+    const response = await fetch(`${API_URL}/api/active-program/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       }
-    );
+    });
 
     // First check if the response is ok
     if (!response.ok) {
@@ -135,7 +130,7 @@ export const createProgram = async programData => {
     // Transform to snake_case for backend
     const backendData = transformRequestData(programData);
 
-    const response = await fetch(`${API_URL_MOBILE}/api/programs`, {
+    const response = await fetch(`${API_URL}/api/programs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -163,17 +158,14 @@ export const updateProgram = async programData => {
     // Transform to snake_case for backend
     const backendData = transformRequestData(programData);
 
-    const response = await fetch(
-      `${API_URL_MOBILE}/api/programs/${programData.id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(backendData)
-      }
-    );
+    const response = await fetch(`${API_URL}/api/programs/${programData.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(backendData)
+    });
 
     // Handle non-200 responses
     if (!response.ok) {
@@ -202,16 +194,13 @@ export const deleteProgram = async programId => {
       throw new Error('Program ID is required for deletion');
     }
 
-    const response = await fetch(
-      `${API_URL_MOBILE}/api/programs/${programId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+    const response = await fetch(`${API_URL}/api/programs/${programId}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
-    );
+    });
 
     if (!response.ok) {
       const errorText = await response.text();

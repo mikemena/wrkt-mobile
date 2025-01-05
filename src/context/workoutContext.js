@@ -8,7 +8,8 @@ import * as Crypto from 'expo-crypto';
 import { actionTypes } from '../actions/actionTypes';
 import { workoutReducer } from '../reducers/workoutReducer';
 import { getActiveProgram } from '../services/api';
-import { API_URL_MOBILE } from '@env';
+import Config from 'react-native-config';
+const { API_URL } = Config;
 import { useUser } from '../context/userContext';
 
 // Initial state
@@ -244,7 +245,7 @@ export const WorkoutProvider = ({ children }) => {
           JSON.stringify(workoutData, null, 2)
         );
 
-        const response = await fetch(`${API_URL_MOBILE}/api/workout/complete`, {
+        const response = await fetch(`${API_URL}/api/workout/complete`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
