@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react';
-import Constants from 'expo-constants';
 import { useUser } from '../context/userContext.js';
+import { useConfig } from '../src/context/configContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { themeReducer, initialState } from '../reducers/themeReducer';
 
@@ -8,15 +8,14 @@ export const ThemeContext = createContext(undefined);
 
 export const ThemeProvider = ({ children }) => {
   const { userId } = useUser();
+  const { apiUrl } = useConfig();
   const [state, dispatch] = useReducer(themeReducer, initialState);
-
-  const API_URL = Constants.expoConfig.extra.apiUrl;
 
   useEffect(() => {
     const fetchUserSettings = async () => {
-      if (userId) {
+      if (userId && apiUrl) {
         try {
-          const response = await fetch(`${API_URL}/api/settings/${userId}`);
+          const response = await fetch(`${apiUrl}/api/settings/${userId}`);
           const settings = await response.json();
 
           dispatch({

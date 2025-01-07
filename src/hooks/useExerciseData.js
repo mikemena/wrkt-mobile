@@ -1,11 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
-import Constants from 'expo-constants';
 
-const API_URL = Constants.expoConfig.extra.apiUrl;
+let apiUrl = null;
 
-export function useExerciseData(
-  baseUrl = (API_URL || 'http://localhost:9025') + '/api'
-) {
+export const initializeExerciseApi = config => {
+  if (!config.API_URL) {
+    throw new Error('API URL is required for exercise API initialization');
+  }
+  apiUrl = config.API_URL + '/api';
+};
+
+const ensureInitialized = () => {
+  if (!apiUrl) {
+    throw new Error('Exercise API service must be initialized before use');
+  }
+};
+
+export function useExerciseData() {
   const [exercises, setExercises] = useState([]);
   const [muscles, setMuscles] = useState([]);
   const [equipment, setEquipment] = useState([]);
@@ -14,12 +24,9 @@ export function useExerciseData(
 
   const fetchMetadata = useCallback(async () => {
     try {
-      // const musclesUrl = `${baseUrl}/muscles`;
-      // const equipmentUrl = `${baseUrl}/equipments`;
-
       const [musclesRes, equipmentRes] = await Promise.all([
-        fetch(`${baseUrl}/muscles`),
-        fetch(`${baseUrl}/equipments`)
+        fetch(`${apiUrl}/muscles`),
+        fetch(`${apiUrl}/equipments`)
       ]);
 
       if (!musclesRes.ok || !equipmentRes.ok) {
@@ -36,28 +43,25 @@ export function useExerciseData(
     } catch (err) {
       setError(err.message);
     }
-  }, [baseUrl]);
+  }, []);
 
-  const fetchExercises = useCallback(
-    async (params = {}) => {
-      try {
-        const queryString = new URLSearchParams(params).toString();
-        const response = await fetch(
-          `${baseUrl}/exercise-catalog${queryString ? `?${queryString}` : ''}`
-        );
+  const fetchExercises = useCallback(async (params = {}) => {
+    try {
+      const queryString = new URLSearchParams(params).toString();
+      const response = await fetch(
+        `${apiUrl}/exercise-catalog${queryString ? `?${queryString}` : ''}`
+      );
 
-        if (!response.ok) throw new Error('Failed to fetch exercises');
+      if (!response.ok) throw new Error('Failed to fetch exercises');
 
-        const data = await response.json();
-        setExercises(data.exercises);
-        return data;
-      } catch (err) {
-        setError(err.message);
-        return null;
-      }
-    },
-    [baseUrl]
-  );
+      const data = await response.json();
+      setExercises(data.exercises);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      return null;
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);

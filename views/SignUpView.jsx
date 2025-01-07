@@ -96,8 +96,6 @@ const SignUpView = ({ navigation }) => {
 
     setIsSigningUp(true);
 
-    // const API_URL = Constants.expoConfig.extra.apiUrl;
-
     console.log('api URL', apiUrl);
 
     try {
@@ -165,7 +163,7 @@ const SignUpView = ({ navigation }) => {
 
       if (authData) {
         // Send to your backend
-        const response = await fetch(`${API_URL}/api/auth/social`, {
+        const response = await fetch(`${apiUrl}/api/auth/social`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

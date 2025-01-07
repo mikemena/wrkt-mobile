@@ -11,6 +11,8 @@ import { WorkoutProvider } from './src/context/workoutContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
 import { ConfigProvider } from './src/context/configContext';
+import { initializeApi } from './src/services/api';
+import { getEnvVars } from './src/utils/env';
 
 // Import your view components
 import ProgramsView from './views/ProgramsView';
@@ -168,22 +170,43 @@ const RootNavigator = () => {
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isApiInitialized, setIsApiInitialized] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const config = await getEnvVars();
+        initializeApi(config);
+        setIsApiInitialized(true);
+      } catch (error) {
+        console.error('Failed to initialize API:', error);
+      }
+    };
+    init();
+  }, []);
 
   useEffect(() => {
     async function loadFonts() {
-      await Font.loadAsync({
-        Tiny5: require('./assets/fonts/Tiny5-Regular.ttf'),
-        Teko: require('./assets/fonts/Teko-Light.ttf'),
-        Lexend: require('./assets/fonts/Lexend-VariableFont_wght.ttf')
-      });
-      setFontsLoaded(true);
+      try {
+        await Font.loadAsync({
+          Tiny5: require('./assets/fonts/Tiny5-Regular.ttf'),
+          Teko: require('./assets/fonts/Teko-Light.ttf'),
+          Lexend: require('./assets/fonts/Lexend-VariableFont_wght.ttf')
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error('Failed to load fonts:', error);
+      }
     }
-
     loadFonts();
   }, []);
 
-  if (!fontsLoaded) {
-    return null;
+  if (!fontsLoaded || !isApiInitialized) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size='large' color='#ffffff' />
+      </View>
+    );
   }
 
   return (

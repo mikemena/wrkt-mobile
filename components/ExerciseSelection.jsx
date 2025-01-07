@@ -14,11 +14,10 @@ import {
   Modal,
   StyleSheet
 } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
 import { useTheme } from '../src/hooks/useTheme';
@@ -45,6 +44,7 @@ const ExerciseSelection = ({ navigation, route }) => {
   const flatListRef = useRef(null);
 
   // State
+  const { apiUrl, isLoadingConfig } = useConfig();
   const [exercises, setExercises] = useState([]);
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [selectedExercises, setSelectedExercises] = useState([]);
@@ -65,8 +65,6 @@ const ExerciseSelection = ({ navigation, route }) => {
     themeState.accentColor
   );
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   // Fetch exercises function
   const fetchExercises = async (page = 1, shouldAppend = false) => {
     if (!hasMore && page > 1) return;
@@ -84,7 +82,7 @@ const ExerciseSelection = ({ navigation, route }) => {
       });
 
       const response = await fetch(
-        `${API_URL}/api/exercise-catalog?${queryParams}`,
+        `${apiUrl}/api/exercise-catalog?${queryParams}`,
         {
           headers: {
             Accept: 'application/json',

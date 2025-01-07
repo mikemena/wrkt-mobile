@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator, Image, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import {
@@ -10,6 +10,7 @@ import {
 } from '../src/utils/imageCache';
 
 const ExerciseImage = ({ exercise }) => {
+  const { apiUrl, isLoadingConfig } = useConfig();
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const [imageUrl, setImageUrl] = useState(() => {
@@ -24,12 +25,10 @@ const ExerciseImage = ({ exercise }) => {
   );
   const isMounted = useRef(true);
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   const refreshImageUrl = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/api/exercise-catalog/${exercise.id}/image`
+        `${apiUrl}/api/exercise-catalog/${exercise.id}/image`
       );
       const data = await response.json();
 

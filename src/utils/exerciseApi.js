@@ -1,9 +1,22 @@
 import { useState, useEffect } from 'react';
-import Constants from 'expo-constants';
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000;
-const API_URL = Constants.expoConfig.extra.apiUrl;
-const BASE_URL = (API_URL || 'http://localhost:9025') + '/api';
+
+let apiUrl = null;
+
+// Add initialization function
+export const initializeExerciseApi = config => {
+  if (!config.apiUrl) {
+    throw new Error('API URL is required for exercise API initialization');
+  }
+  apiUrl = config.apiUrl + '/api';
+};
+
+const ensureInitialized = () => {
+  if (!apiUrl) {
+    throw new Error('Exercise API service must be initialized before use');
+  }
+};
 
 class ExerciseCache {
   constructor() {
@@ -40,7 +53,7 @@ const exerciseCache = new ExerciseCache();
 // Utility function for making API calls
 export async function fetchExerciseData(endpoint, params = {}) {
   const queryString = new URLSearchParams(params).toString();
-  const url = `${BASE_URL}${endpoint}${queryString ? `?${queryString}` : ''}`;
+  const url = `${apiUrl}${endpoint}${queryString ? `?${queryString}` : ''}`;
 
   // Check cache first
   const cachedData = exerciseCache.getCache(url);

@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator
 } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { useUser } from '../src/context/userContext';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -24,6 +24,7 @@ const ProgressView = () => {
   });
   const [recordData, setRecordData] = useState([]);
   const [error, setError] = useState(null);
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -35,13 +36,11 @@ const ProgressView = () => {
     fetchProgressData();
   }, []);
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   const fetchProgressData = async () => {
     try {
       const [summaryResponse, recordsResponse] = await Promise.all([
-        fetch(`${API_URL}/api/progress/summary/${userId}`),
-        fetch(`${API_URL}/api/progress/records/${userId}`)
+        fetch(`${apiUrl,}/api/progress/summary/${userId}`),
+        fetch(`${apiUrl,}/api/progress/records/${userId}`)
       ]);
 
       if (!summaryResponse.ok || !recordsResponse.ok) {

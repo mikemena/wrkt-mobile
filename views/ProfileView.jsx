@@ -9,7 +9,7 @@ import {
   Switch,
   StyleSheet
 } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
 import { useAuth } from '../src/context/authContext';
@@ -26,6 +26,7 @@ const ProfileView = ({ navigation, route }) => {
   } = route?.params || {};
 
   const { user, signOut } = useAuth();
+  const { apiUrl, isLoadingConfig } = useConfig();
   const [userName, setUserName] = useState(user?.username || '');
   const [email, setEmail] = useState(user?.email || '');
   const [isEditing, setIsEditing] = useState(false);
@@ -60,15 +61,13 @@ const ProfileView = ({ navigation, route }) => {
     setUserDataChanged(true);
   };
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   const handleSave = async () => {
     try {
       const updates = [];
 
       if (userDataChanged) {
         updates.push(
-          fetch(`${API_URL}/api/users/${user.id}`, {
+          fetch(`${apiUrl}/api/users/${user.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -81,7 +80,7 @@ const ProfileView = ({ navigation, route }) => {
 
       if (settingsChanged) {
         updates.push(
-          fetch(`${API_URL}/api/settings/${user.id}`, {
+          fetch(`${apiUrl}/api/settings/${user.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

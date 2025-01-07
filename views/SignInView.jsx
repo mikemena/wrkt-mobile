@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -21,6 +21,7 @@ const SignInView = ({ navigation }) => {
   const [emailError, setEmailError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { signIn } = useAuth();
   const { state: themeState } = useTheme();
@@ -46,8 +47,6 @@ const SignInView = ({ navigation }) => {
     setEmailError(validateEmail(text));
   };
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   const handleSignIn = async () => {
     // Clear any previous general error
     setGeneralError('');
@@ -60,7 +59,7 @@ const SignInView = ({ navigation }) => {
     setError('');
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/signin`, {
+      const response = await fetch(`${apiUrl}/api/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -8,7 +8,7 @@ import * as Crypto from 'expo-crypto';
 import { actionTypes } from '../actions/actionTypes';
 import { workoutReducer } from '../reducers/workoutReducer';
 import { getActiveProgram } from '../services/api';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import { useUser } from '../context/userContext';
 
 // Initial state
@@ -243,9 +243,9 @@ export const WorkoutProvider = ({ children }) => {
           'Sending workout data:',
           JSON.stringify(workoutData, null, 2)
         );
-        const API_URL = Constants.expoConfig.extra.apiUrl;
+        const { apiUrl } = useConfig();
 
-        const response = await fetch(`${API_URL}/api/workout/complete`, {
+        const response = await fetch(`${apiUrl}/api/workout/complete`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',

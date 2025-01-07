@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 
@@ -19,6 +19,7 @@ const ForgotPasswordView = ({ navigation }) => {
   const [generalError, setGeneralError] = useState('');
   const [success, setSuccess] = useState('');
   const [isResetButtonVisible, setIsResetButtonVisible] = useState(true);
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -43,8 +44,6 @@ const ForgotPasswordView = ({ navigation }) => {
     setEmailError(validateEmail(text));
   };
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   const handleResetPassword = async () => {
     // Clear any previous general error
     setGeneralError('');
@@ -61,7 +60,7 @@ const ForgotPasswordView = ({ navigation }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/forgot-password`, {
+      const response = await fetch(`${apiUrl}/api/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

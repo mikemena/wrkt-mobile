@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,6 +21,7 @@ const ResetPasswordView = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -37,8 +38,6 @@ const ResetPasswordView = ({ navigation, route }) => {
       navigation.navigate('SignIn');
     }
   }, [resetToken]);
-
-  const API_URL = Constants.expoConfig.extra.apiUrl;
 
   const handleResetPassword = async () => {
     if (!newPassword || !confirmPassword) {
@@ -61,7 +60,7 @@ const ResetPasswordView = ({ navigation, route }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/reset-password`, {
+      const response = await fetch(`${apiUrl}/api/auth/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

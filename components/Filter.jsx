@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, SafeAreaView, Text } from 'react-native';
-import Constants from 'expo-constants';
+import { useConfig } from '../src/context/configContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
 import PillButton from './PillButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import { useExerciseData } from '../src/hooks/useExerciseData';
 import { colors } from '../src/styles/globalStyles';
 
 const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -30,6 +29,7 @@ const Filter = ({
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
   const [muscleOptions, setMuscleOptions] = useState([]);
   const [equipmentOptions, setEquipmentOptions] = useState([]);
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   useEffect(() => {
     if (filterType === 'exercises') {
@@ -65,11 +65,9 @@ const Filter = ({
     }
   };
 
-  const API_URL = Constants.expoConfig.extra.apiUrl;
-
   const fetchMuscles = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/muscles`);
+      const response = await fetch(`${apiUrl}/api/muscles`);
       const data = await response.json();
       return data.map(muscle => ({
         label: `${muscle.muscle} (${muscle.muscle_group})`,
@@ -83,7 +81,7 @@ const Filter = ({
 
   const fetchEquipment = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/equipment`);
+      const response = await fetch(`${apiUrl}/api/equipment`);
       const data = await response.json();
       return data.map(equipment => ({
         label: equipment.name,
