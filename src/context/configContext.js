@@ -1,8 +1,21 @@
+// src/context/configContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { getEnvVars } from '../utils/env';
+import Constants from 'expo-constants';
+import { initializeApi } from '../services/api';
 
-const ConfigContext = createContext();
+// Create the context
+const ConfigContext = createContext(undefined);
 
+// Custom hook to use config
+export const useConfig = () => {
+  const context = useContext(ConfigContext);
+  if (context === undefined) {
+    throw new Error('useConfig must be used within a ConfigProvider');
+  }
+  return context;
+};
+
+// Provider component
 export const ConfigProvider = ({ children }) => {
   const [config, setConfig] = useState({
     apiUrl: null,
@@ -12,13 +25,28 @@ export const ConfigProvider = ({ children }) => {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        const env = await getEnvVars();
+        // Get apiUrl from Expo constants or environment
+        const apiUrl = Constants.expoConfig?.extra?.apiUrl;
+        console.log('Initial API URL:', apiUrl);
+
+        // Use the environment-specific URL
+        const finalApiUrl =
+          apiUrl ||
+          (process.env.ENVFILE === '.env.production'
+            ? 'https://api.wrkt.fitness'
+            : 'http://192.168.1.229:9025');
+
+        console.log('Final API URL:', finalApiUrl);
+
+        // Set config and initialize API
         setConfig({
-          apiUrl: env.API_URL,
+          apiUrl: finalApiUrl,
           isLoading: false
         });
+
+        initializeApi({ apiUrl: finalApiUrl });
       } catch (error) {
-        console.error('Failed to load configuration:', error);
+        console.error('Configuration error:', error);
         setConfig(prev => ({ ...prev, isLoading: false }));
       }
     };
@@ -26,15 +54,19 @@ export const ConfigProvider = ({ children }) => {
     loadConfig();
   }, []);
 
+  // Provide both the config object and a way to update it
+  const value = {
+    ...config,
+    setConfig
+  };
+
   return (
-    <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
+    <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>
   );
 };
 
-export const useConfig = () => {
-  const context = useContext(ConfigContext);
-  if (context === undefined) {
-    throw new Error('useConfig must be used within a ConfigProvider');
-  }
-  return context;
+// Make sure both are exported
+export default {
+  ConfigProvider,
+  useConfig
 };

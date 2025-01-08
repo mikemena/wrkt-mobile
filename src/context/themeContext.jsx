@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react';
 import { useUser } from '../context/userContext.js';
-import { useConfig } from '../src/context/configContext';
+import { useConfig } from '../context/configContext.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { themeReducer, initialState } from '../reducers/themeReducer';
 

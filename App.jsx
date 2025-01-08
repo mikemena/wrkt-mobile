@@ -12,7 +12,6 @@ import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
 import { ConfigProvider } from './src/context/configContext';
 import { initializeApi } from './src/services/api';
-import { getEnvVars } from './src/utils/env';
 
 // Import your view components
 import ProgramsView from './views/ProgramsView';
@@ -170,20 +169,6 @@ const RootNavigator = () => {
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [isApiInitialized, setIsApiInitialized] = useState(false);
-
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const config = await getEnvVars();
-        initializeApi(config);
-        setIsApiInitialized(true);
-      } catch (error) {
-        console.error('Failed to initialize API:', error);
-      }
-    };
-    init();
-  }, []);
 
   useEffect(() => {
     async function loadFonts() {
@@ -201,7 +186,7 @@ const App = () => {
     loadFonts();
   }, []);
 
-  if (!fontsLoaded || !isApiInitialized) {
+  if (!fontsLoaded) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size='large' color='#ffffff' />

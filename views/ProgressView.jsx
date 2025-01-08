@@ -39,8 +39,8 @@ const ProgressView = () => {
   const fetchProgressData = async () => {
     try {
       const [summaryResponse, recordsResponse] = await Promise.all([
-        fetch(`${apiUrl,}/api/progress/summary/${userId}`),
-        fetch(`${apiUrl,}/api/progress/records/${userId}`)
+        fetch(`${apiUrl}/api/progress/summary/${userId}`),
+        fetch(`${apiUrl}/api/progress/records/${userId}`)
       ]);
 
       if (!summaryResponse.ok || !recordsResponse.ok) {

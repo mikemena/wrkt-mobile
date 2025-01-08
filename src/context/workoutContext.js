@@ -8,7 +8,7 @@ import * as Crypto from 'expo-crypto';
 import { actionTypes } from '../actions/actionTypes';
 import { workoutReducer } from '../reducers/workoutReducer';
 import { getActiveProgram } from '../services/api';
-import { useConfig } from '../src/context/configContext';
+import { useConfig } from '../context/configContext';
 import { useUser } from '../context/userContext';
 
 // Initial state
