@@ -114,7 +114,7 @@ const CurrentProgramView = () => {
 
         // Create new active program
         const payload = {
-          userId: 2,
+          userId: userId,
           programId: program.id,
           startDate: new Date().toISOString().split('T')[0]
         };

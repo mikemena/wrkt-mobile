@@ -1,14 +1,26 @@
 export const IMAGE_CACHE = new Map();
 
 export const cacheImage = (exerciseId, imageUrl) => {
-  if (IMAGE_CACHE.has(exerciseId)) {
+  if (!exerciseId || !imageUrl) {
+    console.warn('[Cache] Invalid exerciseId or imageUrl');
+    return false;
+  }
+
+  if (!IMAGE_CACHE.has(exerciseId)) {
     IMAGE_CACHE.set(exerciseId, imageUrl);
     console.log(`[Cache] Added image for exercise ${exerciseId}`);
     console.log(`[Cache] Current cache size: ${IMAGE_CACHE.size} images`);
+    return true;
   }
+  return false;
 };
 
 export const getCachedImage = exerciseId => {
+  if (!exerciseId) {
+    console.warn('[Cache] Invalid exerciseId');
+    return null;
+  }
+
   const cachedUrl = IMAGE_CACHE.get(exerciseId);
   if (cachedUrl) {
     console.log(`[Cache] HIT: Found cached image for exercise ${exerciseId}`);

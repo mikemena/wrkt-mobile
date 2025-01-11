@@ -3,38 +3,40 @@ import { View, Text, ActivityIndicator, Image, StyleSheet } from 'react-native';
 import { useConfig } from '../src/context/configContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import {
-  IMAGE_CACHE,
-  cacheImage,
-  getCachedImage
-} from '../src/utils/imageCache';
+import { cacheImage, getCachedImage } from '../src/utils/imageCache';
 
 const ExerciseImage = ({ exercise }) => {
-  const { apiUrl, isLoadingConfig } = useConfig();
+  const { apiUrl } = useConfig();
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
-  const [imageUrl, setImageUrl] = useState(() => {
-    const cachedUrl = getCachedImage(exercise.id);
-
-    return cachedUrl || exercise.imageUrl;
-  });
+  const [imageUrl, setImageUrl] = useState(null);
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
     themeState.theme,
     themeState.accentColor
   );
   const isMounted = useRef(true);
+  const retryCount = useRef(0);
+  const MAX_RETRIES = 2;
 
   const refreshImageUrl = async () => {
+    if (retryCount.current >= MAX_RETRIES) {
+      return null;
+    }
+
     try {
       const response = await fetch(
         `${apiUrl}/api/exercise-catalog/${exercise.id}/image`
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
       if (data.imageUrl && isMounted.current) {
         cacheImage(exercise.id, data.imageUrl);
-        setImageUrl(data.imageUrl);
         return data.imageUrl;
       }
       return null;
@@ -45,16 +47,42 @@ const ExerciseImage = ({ exercise }) => {
   };
 
   useEffect(() => {
-    const cachedUrl = IMAGE_CACHE.get(exercise.id);
-    if (cachedUrl) {
-      setImageUrl(cachedUrl);
-      setIsLoading(false);
-    } else if (exercise.imageUrl) {
-    }
-  }, [exercise]);
+    const loadImage = async () => {
+      if (!exercise?.id) return;
+
+      // First try cached image
+      const cachedUrl = getCachedImage(exercise.id);
+      if (cachedUrl) {
+        setImageUrl(cachedUrl);
+        setIsLoading(false);
+        return;
+      }
+
+      // Then try provided URL
+      if (exercise.imageUrl) {
+        setImageUrl(exercise.imageUrl);
+        setIsLoading(true);
+        return;
+      }
+
+      // Finally try refreshing from API
+      const newUrl = await refreshImageUrl();
+      if (newUrl && isMounted.current) {
+        setImageUrl(newUrl);
+        setIsLoading(true);
+      } else {
+        setImageError(true);
+        setIsLoading(false);
+      }
+    };
+
+    loadImage();
+  }, [exercise?.id, exercise?.imageUrl]);
 
   const handleImageError = useCallback(async () => {
     if (!isMounted.current) return;
+
+    retryCount.current += 1;
 
     try {
       const newUrl = await refreshImageUrl();
@@ -73,7 +101,14 @@ const ExerciseImage = ({ exercise }) => {
       setImageError(true);
       setIsLoading(false);
     }
-  }, [exercise, imageUrl]);
+  }, [exercise]);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+      retryCount.current = 0;
+    };
+  }, []);
 
   const handleLoadStart = () => {
     if (isMounted.current) {
@@ -86,6 +121,7 @@ const ExerciseImage = ({ exercise }) => {
     if (isMounted.current) {
       setIsLoading(false);
       setImageError(false);
+      retryCount.current = 0;
     }
   };
 
@@ -108,7 +144,9 @@ const ExerciseImage = ({ exercise }) => {
         <Image
           source={{
             uri: imageUrl,
-            cache: 'default'
+            headers: {
+              'Cache-Control': 'max-age=86400'
+            }
           }}
           style={styles.exerciseImage}
           onLoadStart={handleLoadStart}

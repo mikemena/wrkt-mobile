@@ -73,6 +73,16 @@ const ExerciseSelection = ({ navigation, route }) => {
       setIsLoading(page === 1);
       setIsLoadingMore(page > 1);
 
+      // Log the API URL being called
+      console.log(`Fetching exercises from: ${apiUrl}/api/exercise-catalog`);
+      console.log('Query params:', {
+        page,
+        limit: '20',
+        name: filterValues.exerciseName?.trim() || '',
+        muscle: filterValues.muscle?.trim() || '',
+        equipment: filterValues.equipment?.trim() || ''
+      });
+
       const queryParams = new URLSearchParams({
         page: page.toString(),
         limit: '20',
@@ -91,11 +101,23 @@ const ExerciseSelection = ({ navigation, route }) => {
         }
       );
 
+      console.log('Response details:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error:', {
+          status: response.status,
+          text: errorText
+        });
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const rawData = await response.json();
+      console.log('Raw API response:', rawData);
 
       // Transform the data right after receiving it from the API
       const transformedData = transformResponseData(rawData);

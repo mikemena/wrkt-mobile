@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import * as Font from 'expo-font';
+import Constants from 'expo-constants';
 import Navigation from './components/Navigation';
 import { ThemeProvider } from './src/context/themeContext';
 import { ProgramProvider } from './src/context/programContext';
@@ -11,7 +12,6 @@ import { WorkoutProvider } from './src/context/workoutContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
 import { ConfigProvider } from './src/context/configContext';
-import { initializeApi } from './src/services/api';
 
 // Import your view components
 import ProgramsView from './views/ProgramsView';
@@ -91,8 +91,21 @@ const TabNavigator = () => (
   </Tab.Navigator>
 );
 
+const getPrefixes = () => {
+  const scheme = Constants.expoConfig?.scheme || 'wrkt';
+
+  if (__DEV__) {
+    return [`${scheme}://`, 'http://localhost:8081', 'exp://'];
+  }
+
+  return [
+    `${scheme}://`,
+    `https://${Constants.expoConfig?.hostUri || 'wrkt.fitness'}`
+  ];
+};
+
 const linking = {
-  prefixes: ['wrkt://', 'http://localhost:8081', 'exp://'],
+  prefixes: getPrefixes(),
   config: {
     screens: {
       Auth: {
