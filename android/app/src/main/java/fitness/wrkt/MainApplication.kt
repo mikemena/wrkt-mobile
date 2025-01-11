@@ -1,4 +1,4 @@
-package com.tokyolabs.wrkt
+package fitness.wrkt
 
 import android.app.Application
 import android.content.res.Configuration

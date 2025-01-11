@@ -4,7 +4,7 @@
     "slug": "wrkt",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/weight-plates.png",
+    "icon": "./assets/app-icons/icon_1024.png",
     "scheme": "wrkt",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -15,14 +15,33 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tokyolabs.wrkt"
+      "bundleIdentifier": "fitness.wrkt",
+      "icons": {
+        "app": {
+          "ios": {
+            "120": "./assets/app-icons/icon_120.png",
+            "180": "./assets/app-icons/icon_180.png"
+          },
+          "ipad": {
+            "152": "./assets/app-icons/icon-152.png",
+            "167": "./assets/app-icons/icon-167.png"
+          },
+          "spotlight": {
+            "80": "./assets/app-icons/icon-80.png"
+          },
+          "settings": {
+            "58": "./assets/app-icons/icon-58.png",
+            "87": "./assets/app-icons/icon-87.png"
+          }
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/app-icons/icon_1024.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.tokyolabs.wrkt"
+      "package": "fitness.wrkt"
     },
     "web": {
       "bundler": "metro",

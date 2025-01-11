@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>wrkt</string>
-          <string>com.tokyolabs.wrkt</string>
+          <string>fitness.wrkt</string>
         </array>
       </dict>
     </array>

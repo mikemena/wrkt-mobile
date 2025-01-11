@@ -1,4 +1,4 @@
-package com.tokyolabs.wrkt
+package fitness.wrkt
 
 import android.os.Build
 import android.os.Bundle
