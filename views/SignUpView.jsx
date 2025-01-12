@@ -9,7 +9,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { useConfig } from '../src/context/configContext';
-import { useAuth } from '../src/context/authContext';
+import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { Ionicons } from '@expo/vector-icons';

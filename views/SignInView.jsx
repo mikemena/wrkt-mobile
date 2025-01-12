@@ -56,7 +56,6 @@ const SignInView = ({ navigation }) => {
     }
 
     setLoading(true);
-    setError('');
 
     try {
       const response = await fetch(`${apiUrl}/api/auth/signin`, {
@@ -74,7 +73,7 @@ const SignInView = ({ navigation }) => {
         data = JSON.parse(textResponse);
       } catch (parseError) {
         console.error('Parse error:', parseError);
-        setError('Server error - invalid response format');
+        setGeneralError('Server error - invalid response format');
         return;
       }
 
@@ -85,7 +84,7 @@ const SignInView = ({ navigation }) => {
       await signIn(data.token, data.user);
     } catch (err) {
       console.error('Sign in error:', err);
-      setError(err.message || 'Failed to sign in');
+      setGeneralError(err.message || 'Failed to sign in');
     } finally {
       setLoading(false);
     }
