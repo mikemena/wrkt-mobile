@@ -48,6 +48,7 @@ const SignInView = ({ navigation }) => {
   };
 
   const handleSignIn = async () => {
+    console.log('Attempting signin with url', apiUrl);
     // Clear any previous general error
     setGeneralError('');
     if (!password) {
@@ -58,15 +59,21 @@ const SignInView = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/signin`, {
+      const requestUrl = `${apiUrl}/api/auth/signin`;
+      console.log('Making request to:', requestUrl);
+
+      const response = await fetch(requestUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
         },
         body: JSON.stringify({ email, password })
       });
 
+      console.log('Response status:', response.status);
       const textResponse = await response.text();
+      console.log('Raw response:', textResponse);
 
       let data;
       try {

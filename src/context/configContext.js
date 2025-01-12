@@ -25,20 +25,28 @@ export const ConfigProvider = ({ children }) => {
   useEffect(() => {
     const loadConfig = async () => {
       try {
-        // Get apiUrl from Expo constants or environment
-        const apiUrl = Constants.expoConfig?.extra?.apiUrl;
-        console.log('Initial API URL:', apiUrl);
+        // Force production URL if NODE_ENV is production
+        const isProd =
+          process.env.NODE_ENV === 'production' ||
+          process.env.ENV === 'production' ||
+          process.env.ENVFILE === '.env.production';
 
-        // Use the environment-specific URL
-        const finalApiUrl =
-          apiUrl ||
-          (process.env.ENVFILE === '.env.production'
-            ? 'https://api.wrkt.fitness'
-            : 'http://192.168.1.229:9025');
+        console.log('Process ENV:', {
+          NODE_ENV: process.env.NODE_ENV,
+          ENV: process.env.ENV,
+          ENVFILE: process.env.ENVFILE
+        });
 
-        console.log('Final API URL:', finalApiUrl);
+        // Always use production URL if any production flag is set
+        const finalApiUrl = isProd
+          ? 'https://api.wrkt.fitness'
+          : 'http://192.168.1.229:9025';
 
-        // Set config and initialize API
+        console.log('Final configuration:', {
+          isProd,
+          apiUrl: finalApiUrl
+        });
+
         setConfig({
           apiUrl: finalApiUrl,
           isLoading: false
@@ -50,10 +58,8 @@ export const ConfigProvider = ({ children }) => {
         setConfig(prev => ({ ...prev, isLoading: false }));
       }
     };
-
     loadConfig();
   }, []);
-
   // Provide both the config object and a way to update it
   const value = {
     ...config,
@@ -61,12 +67,8 @@ export const ConfigProvider = ({ children }) => {
   };
 
   return (
-    <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>
+    <ConfigContext.Provider value={{ ...config, setConfig }}>
+      {children}
+    </ConfigContext.Provider>
   );
-};
-
-// Make sure both are exported
-export default {
-  ConfigProvider,
-  useConfig
 };

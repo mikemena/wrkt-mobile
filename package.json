@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start:dev": "ENVFILE=.env.development expo start --dev-client -c",
-    "start:prod": "ENVFILE=.env.production expo start --dev-client -c",
+    "start:prod": "export NODE_ENV=production && export ENV=production && ENVFILE=.env.production expo start --dev-client -c",
     "ios:dev": "ENVFILE=.env.development expo start --ios",
     "ios:prod": "ENVFILE=.env.production expo start --ios",
     "ios:pro:dev": "ENVFILE=.env.development expo start --ios --simulator='iPhone 15 Pro'",
