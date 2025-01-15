@@ -22,3 +22,8 @@ node scripts/validateScreenshots.js ./screenshots
 # Resize screenshots
 node scripts/resizeScreenshots.js ./screenshots
 ```
+
+## Deployment Platforms
+
+wrkt-backend > Railway
+wrkt-docs > Vercel
