@@ -16,6 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "fitness.wrkt",
+      "buildNumber": "1.0.0",
       "icons": {
         "app": {
           "ios": {
