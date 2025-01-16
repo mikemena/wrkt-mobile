@@ -15,8 +15,9 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fitness.wrkt",
-      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.fitness.wrkt",
+      "buildNumber": "1.1.0",
+      "version": "1.0",
       "icons": {
         "app": {
           "ios": {

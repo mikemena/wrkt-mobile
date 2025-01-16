@@ -16,7 +16,12 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "prebuild": "expo prebuild",
+    "prebuild:ios:dev": "ENVFILE=.env.development expo prebuild --platform ios",
+    "prebuild:ios:prod": "ENVFILE=.env.production expo prebuild --platform ios",
+    "build:ios": "expo build:ios",
+    "clear-cache": "expo start --clear"
   },
   "jest": {
     "preset": "jest-expo"
