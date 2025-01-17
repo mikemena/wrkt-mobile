@@ -52,7 +52,7 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "NODE_ENV=development"
+            key = "NODE_ENV=production"
             value = ""
             isEnabled = "YES">
          </EnvironmentVariable>
