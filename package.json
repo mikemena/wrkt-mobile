@@ -3,8 +3,8 @@
   "main": "index.js",
   "version": "1.0.0",
   "scripts": {
-    "start:dev": "ENVFILE=.env.development expo start --dev-client -c",
-    "start:prod": "export NODE_ENV=production && export ENV=production && ENVFILE=.env.production expo start --dev-client -c",
+    "start:dev": "ENVFILE=.env.development expo start --dev-client --scheme WRKT-Development",
+    "start:prod": "export NODE_ENV=production && export ENV=production && ENVFILE=.env.production expo start --dev-client --scheme WRKT-Production",
     "ios:dev": "ENVFILE=.env.development expo start --ios",
     "ios:prod": "ENVFILE=.env.production expo start --ios",
     "ios:pro:dev": "ENVFILE=.env.development expo start --ios --simulator='iPhone 15 Pro'",
@@ -38,6 +38,7 @@
     "expo": "~51.0.38",
     "expo-constants": "~16.0.2",
     "expo-crypto": "~13.0.2",
+    "expo-dev-client": "~4.0.29",
     "expo-file-system": "~17.0.1",
     "expo-font": "~12.0.10",
     "expo-haptics": "^13.0.1",
@@ -64,10 +65,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@expo/metro-config": "^0.19.9",
     "babel-plugin-inline-dotenv": "^1.7.0",
     "dotenv": "^16.4.7",
     "jest": "^29.2.1",
     "jest-expo": "~51.0.3",
+    "metro-config": "^0.81.0",
     "react-test-renderer": "18.2.0"
   },
   "private": true
