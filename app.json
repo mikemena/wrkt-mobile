@@ -17,6 +17,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.wrkt.fitness",
       "buildNumber": "1.1.0",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
       "version": "1.0",
       "icons": {
         "app": {

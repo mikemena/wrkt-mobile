@@ -77,71 +77,152 @@ const SignUpView = ({ navigation }) => {
   };
 
   const handleSignUp = async () => {
+    console.log('========== SIGNUP PROCESS STARTED ==========');
+    console.log('Initial Config State:', {
+      apiUrl,
+      isLoadingConfig,
+      email: email || 'not provided',
+      hasPassword: !!password
+    });
+
     if (isLoadingConfig) {
+      console.log('❌ Config still loading, aborting signup');
       return;
     }
-    // Clear any previous general error
-    setGeneralError('');
 
-    // Validate both fields before submission
+    // Clear previous errors and set loading
+    setGeneralError('');
+    setIsSigningUp(true);
+
+    // Validate fields
     const newEmailError = validateEmail(email);
     const newPasswordError = validatePassword(password);
+    console.log('Validation Results:', {
+      emailError: newEmailError || 'none',
+      passwordError: newPasswordError || 'none'
+    });
 
     setEmailError(newEmailError);
     setPasswordError(newPasswordError);
 
     if (newEmailError || newPasswordError) {
+      console.log('❌ Validation failed, aborting signup');
+      setIsSigningUp(false);
       return;
     }
 
-    setIsSigningUp(true);
-
-    console.log('api URL', apiUrl);
-
     try {
-      console.log('Attempting signup with:', {
+      // Prepare request details
+      const signupUrl = `${apiUrl}/api/auth/signup`;
+      const requestBody = {
+        auth_provider: 'email',
         email,
-        auth_provider: 'email'
+        password
+      };
+
+      console.log('📤 Attempting signup request:', {
+        url: signupUrl,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        bodyKeys: Object.keys(requestBody)
       });
-      const signupResponse = await fetch(`${apiUrl}/api/auth/signup`, {
+
+      // Make signup request
+      const signupResponse = await fetch(signupUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ auth_provider: 'email', email, password })
+        body: JSON.stringify(requestBody)
+      }).catch(error => {
+        console.error('🔴 Fetch Error:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
+        throw error;
       });
 
-      console.log('Response status:', signupResponse.status);
+      console.log('📥 Received Response:', {
+        status: signupResponse.status,
+        ok: signupResponse.ok,
+        statusText: signupResponse.statusText
+      });
 
-      const userData = await signupResponse.json();
+      // Get raw response first
+      const responseText = await signupResponse.text();
+      console.log('Raw Response Text:', responseText);
 
-      console.log('userData', userData);
+      // Parse response
+      let userData;
+      try {
+        userData = JSON.parse(responseText);
+        console.log('✅ Parsed User Data:', {
+          hasToken: !!userData.token,
+          hasUser: !!userData.user,
+          userId: userData.user?.id
+        });
+      } catch (parseError) {
+        console.error('🔴 JSON Parse Error:', {
+          error: parseError.message,
+          responseText
+        });
+        throw new Error('Invalid response format from server');
+      }
 
       if (!signupResponse.ok) {
+        console.error('🔴 Signup Response Not OK:', userData);
         throw new Error(userData.message || 'Sign up failed');
       }
 
-      const settingsResponse = await fetch(
-        `${apiUrl}/api/settings/${userData.user.id}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ theme_mode: 'dark', accent_color: '#D93B56' })
-        }
-      );
+      // Create user settings
+      console.log('📤 Creating user settings...');
+      const settingsUrl = `${apiUrl}/api/settings/${userData.user.id}`;
+      const settingsBody = {
+        theme_mode: 'dark',
+        accent_color: '#D93B56'
+      };
+
+      console.log('Making settings request:', {
+        url: settingsUrl,
+        method: 'POST',
+        body: settingsBody
+      });
+
+      const settingsResponse = await fetch(settingsUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(settingsBody)
+      });
+
+      console.log('Settings Response:', {
+        status: settingsResponse.status,
+        ok: settingsResponse.ok
+      });
 
       if (!settingsResponse.ok) {
-        console.log('Failed to create default settings');
+        console.warn('⚠️ Failed to create default settings:', {
+          status: settingsResponse.status,
+          statusText: settingsResponse.statusText
+        });
       }
 
-      // Auto sign-in after successful registration
+      // Sign in user
+      console.log('🔑 Attempting auto sign-in...');
       await signIn(userData.token, userData.user);
+      console.log('✅ Signup process completed successfully');
     } catch (err) {
+      console.error('🔴 Signup Process Error:', {
+        name: err.name,
+        message: err.message,
+        stack: err.stack
+      });
       setGeneralError(err.message || 'Failed to sign up');
     } finally {
       setIsSigningUp(false);
+      console.log('========== SIGNUP PROCESS ENDED ==========');
     }
   };
 

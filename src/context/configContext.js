@@ -40,7 +40,7 @@ export const ConfigProvider = ({ children }) => {
         // Always use production URL if any production flag is set
         const finalApiUrl = isProd
           ? 'https://api.wrkt.fitness'
-          : 'http://192.168.1.229:9025';
+          : 'http://localhost:9025';
 
         console.log('Final configuration:', {
           isProd,

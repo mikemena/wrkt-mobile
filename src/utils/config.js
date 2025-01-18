@@ -12,7 +12,7 @@ export const getConfig = () => {
     // Provide a development fallback
     config.apiUrl =
       process.env.NODE_ENV === 'development'
-        ? 'http://192.168.1.229:9025'
+        ? 'http://localhost:9025'
         : 'https://api.wrkt.fitness';
   }
 

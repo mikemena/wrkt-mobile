@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>wrkt</string>
+          <string>WRKT</string>
           <string>com.wrkt.fitness</string>
         </array>
       </dict>
@@ -40,9 +40,23 @@
     </array>
     <key>CFBundleVersion</key>
     <string>1.1.0</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
+    <dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>localhost</key>
+        <dict>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+    </dict>
+</dict>
     <dict>
       <key>NSAllowsArbitraryLoads</key>
       <false/>
@@ -53,6 +67,9 @@
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
@@ -61,6 +78,8 @@
       <string>arm64</string>
     </array>
     <key>UIRequiresFullScreen</key>
+    <false/>
+    <key>UIStatusBarHidden</key>
     <false/>
     <key>UIStatusBarStyle</key>
     <string>UIStatusBarStyleDefault</string>

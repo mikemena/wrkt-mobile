@@ -12,6 +12,7 @@ export const colors = {
   offWhite: '#DBD7D5',
   eggShell: '#EAE9E9',
   gray: '#7A7978',
+  babyBlue: '#cadae5',
   background: {
     dark: '#2A2A2A',
     light: '#DBD7D5'
