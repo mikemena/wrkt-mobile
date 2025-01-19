@@ -6,16 +6,9 @@ module.exports = ({ config }) => {
     ? './assets/app-icons/production'
     : './assets/app-icons/development';
 
-  console.log('Environment variables:', {
-    ENVFILE: process.env.ENVFILE,
-    ENV: process.env.ENV,
-    NODE_ENV: process.env.NODE_ENV
-  });
-
   const extraConfig = {
     ...config.extra,
     apiUrl: isProd ? 'https://api.wrkt.fitness' : 'http://localhost:9025',
-    // apiUrl: isProd ? 'https://api.wrkt.fitness' : 'http://192.168.1.229:9025',
     env: isProd ? 'production' : 'development',
     isProd: isProd,
     environment: isProd ? 'production' : 'development'
