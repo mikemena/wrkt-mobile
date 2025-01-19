@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import {
   View,
@@ -13,18 +13,13 @@ import { useConfig } from '../src/context/configContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
 import { useAuth } from '../src/context/authContext';
-
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { globalStyles, colors } from '../src/styles/globalStyles';
 
 const ProfileView = ({ navigation, route }) => {
-  const {
-    initialUserName = '',
-    initialEmail = '',
-    initialDarkMode = false,
-    initialAccentColor = ''
-  } = route?.params || {};
+  const { initialUserName = '', initialEmail = '' } = route?.params || {};
 
+  const { state: themeState, dispatch } = useTheme();
   const { user, signOut } = useAuth();
   const { apiUrl, isLoadingConfig } = useConfig();
   const [userName, setUserName] = useState(user?.username || '');
@@ -32,14 +27,15 @@ const ProfileView = ({ navigation, route }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
   const [isSettingsExpanded, setIsSettingsExpanded] = useState(false);
-  const [darkMode, setDarkMode] = useState(initialDarkMode);
-  const [accentColor, setAccentColor] = useState(initialAccentColor);
+  const [darkMode, setDarkMode] = useState(themeState.theme === 'dark');
+  const [accentColor, setAccentColor] = useState(themeState.accentColor);
   const [userDataChanged, setUserDataChanged] = useState(false);
   const [settingsChanged, setSettingsChanged] = useState(false);
-  const { state, dispatch } = useTheme();
-  const themedStyles = getThemedStyles(state.theme, state.accentColor);
 
-  console.log('Full user object in ProfileView:', user);
+  const themedStyles = getThemedStyles(
+    themeState.theme,
+    themeState.accentColor
+  );
 
   const accentColors = [
     '#F99C57', //orange
@@ -49,6 +45,10 @@ const ProfileView = ({ navigation, route }) => {
     '#3F75DF', //blue
     '#FC63D2' //pink
   ];
+
+  useEffect(() => {
+    setDarkMode(themeState.theme === 'dark');
+  }, [themeState.theme]);
 
   // Update these when respective fields change
   const handleUserNameChange = value => {
@@ -79,6 +79,11 @@ const ProfileView = ({ navigation, route }) => {
       }
 
       if (settingsChanged) {
+        // update context
+        dispatch({ type: 'SET_THEME', payload: darkMode ? 'dark' : 'light' });
+        dispatch({ type: 'SET_ACCENT_COLOR', payload: accentColor });
+
+        //save to server
         updates.push(
           fetch(`${apiUrl}/api/settings/${user.id}`, {
             method: 'PUT',
@@ -122,14 +127,16 @@ const ProfileView = ({ navigation, route }) => {
 
   const handleDarkModeToggle = value => {
     setDarkMode(value);
-    dispatch({ type: 'SET_THEME', payload: value ? 'dark' : 'light' });
     setSettingsChanged(true);
+
+    dispatch({ type: 'SET_THEME', payload: value ? 'dark' : 'light' });
   };
 
   const handleAccentColorChange = newColor => {
     setAccentColor(newColor);
-    dispatch({ type: 'SET_ACCENT_COLOR', payload: newColor });
     setSettingsChanged(true);
+
+    dispatch({ type: 'SET_ACCENT_COLOR', payload: newColor });
   };
 
   const handleSectionToggle = section => {
@@ -346,7 +353,7 @@ const ProfileView = ({ navigation, route }) => {
                     style={[styles.colorOption, { backgroundColor: color }]}
                     onPress={() => handleAccentColorChange(color)}
                   >
-                    {color === state.accentColor && (
+                    {color === themeState.accentColor && (
                       <View>
                         <Ionicons
                           name='checkmark-sharp'
