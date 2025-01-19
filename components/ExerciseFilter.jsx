@@ -84,23 +84,15 @@ const ExerciseFilter = ({
 
   const fetchEquipment = async () => {
     try {
-      const apiUrl = `${apiUrl}/api/equipments`;
-      const response = await fetch(apiUrl);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const text = await response.text();
-
-      const data = JSON.parse(text);
-
-      const mappedData = data.map(equipment => ({
+      const response = await fetch(`${apiUrl}/api/equipments`);
+      console.log('calling eqipment endpoint', response);
+      console.log('fetchEquipment response status:', response.status);
+      const data = await response.json();
+      console.log('equipment data', data);
+      return data.map(equipment => ({
         label: equipment.name,
         value: equipment.name
       }));
-
-      return mappedData;
     } catch (error) {
       console.error('Equipment fetch error:', error);
       return [];
@@ -112,7 +104,7 @@ const ExerciseFilter = ({
       // Load muscles
       let muscles = await getCachedData(CACHE_KEYS.MUSCLES);
 
-      if (!muscles || muscles.length === 0) {
+      if (!muscles || !Array.isArray(muscles) || muscles.length === 0) {
         muscles = await fetchMuscles();
         if (muscles.length > 0) {
           // Only cache if we got data
@@ -127,8 +119,9 @@ const ExerciseFilter = ({
 
       // Load equipment
       let equipment = await getCachedData(CACHE_KEYS.EQUIPMENT);
+      console.log('cached equipment', equipment);
 
-      if (!equipment || equipment.length === 0) {
+      if (!equipment || !Array.isArray(equipment) || equipment.length === 0) {
         equipment = await fetchEquipment();
         if (equipment.length > 0) {
           // Only cache if we got data
