@@ -16,8 +16,9 @@ export const ThemeProvider = ({ children }) => {
       if (userId && apiUrl) {
         try {
           const response = await fetch(`${apiUrl}/api/settings/${userId}`);
-          const settings = await response.json();
 
+          const settings = await response.json();
+          console.log('settings api response', settings);
           dispatch({
             type: 'SET_THEME',
             payload: settings.theme_mode
@@ -33,6 +34,7 @@ export const ThemeProvider = ({ children }) => {
     };
 
     fetchUserSettings();
+    console.log('theme state in themeContext', state);
   }, [userId]);
 
   useEffect(() => {
