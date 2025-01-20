@@ -337,8 +337,8 @@ const StartWorkoutView = ({ route }) => {
     const currentExercise = activeWorkout.exercises[currentExerciseIndex];
     const newSet = {
       id: Crypto.randomUUID(),
-      weight: '0',
-      reps: '0',
+      weight: '',
+      reps: '',
       order: (currentSets.length || 0) + 1
     };
 

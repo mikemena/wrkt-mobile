@@ -194,8 +194,8 @@ const StartWorkoutView = () => {
     setSets(currentSets => {
       const newSet = {
         id: Math.random().toString(36).substr(2, 9),
-        weight: '0',
-        reps: '0',
+        weight: '',
+        reps: '',
         order: currentSets.length + 1
       };
 

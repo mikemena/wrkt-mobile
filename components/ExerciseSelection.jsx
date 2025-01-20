@@ -249,7 +249,7 @@ const ExerciseSelection = ({ navigation, route }) => {
         ...exercise,
         id: Crypto.randomUUID(),
         catalogExerciseId: exercise.id,
-        sets: [{ id: Crypto.randomUUID(), weight: '0', reps: '0', order: 1 }]
+        sets: [{ id: Crypto.randomUUID(), weight: '', reps: '', order: 1 }]
       };
       setSelectedExercises(prev => [...prev, newExercise]);
     } else {
@@ -316,8 +316,8 @@ const ExerciseSelection = ({ navigation, route }) => {
         sets: exercise.sets || [
           {
             id: Crypto.randomUUID(),
-            weight: '0',
-            reps: '0',
+            weight: '',
+            reps: '',
             order: 1
           }
         ]

@@ -53,8 +53,6 @@ const Set = ({ index, set, isLast, onSetChange, onDelete, themedStyles }) => {
   );
 };
 
-// Update the existing styles with new ones for the slide-to-delete functionality
-
 const styles = StyleSheet.create({
   setRow: {
     flexDirection: 'row',
