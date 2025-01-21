@@ -1,10 +1,18 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform } from 'react-native';
 import SwipeableItemDeletion from '../components/SwipeableItemDeletion';
 
-const Set = ({ index, set, isLast, onSetChange, onDelete, themedStyles }) => {
+const Set = ({
+  index,
+  set,
+  isLast,
+  onSetChange,
+  onDelete,
+  themedStyles,
+  onFocus
+}) => {
   return (
-    <View style={styles.setRowWrapper}>
+    <View style={[styles.setRowWrapper, isLast && styles.lastSetWrapper]}>
       <SwipeableItemDeletion
         onDelete={() => onDelete(set.id)}
         isLast={isLast}
@@ -33,7 +41,9 @@ const Set = ({ index, set, isLast, onSetChange, onDelete, themedStyles }) => {
             ]}
             value={set.weight?.toString()}
             onChangeText={value => onSetChange(index, 'weight', value)}
+            onFocus={() => onFocus && onFocus(index, 'weight')}
             keyboardType='numeric'
+            returnKeyType='next'
           />
           <TextInput
             style={[
@@ -45,7 +55,9 @@ const Set = ({ index, set, isLast, onSetChange, onDelete, themedStyles }) => {
             ]}
             value={set.reps?.toString()}
             onChangeText={value => onSetChange(index, 'reps', value)}
+            onFocus={() => onFocus && onFocus(index, 'reps')}
             keyboardType='numeric'
+            returnKeyType='done'
           />
         </View>
       </SwipeableItemDeletion>
@@ -54,13 +66,21 @@ const Set = ({ index, set, isLast, onSetChange, onDelete, themedStyles }) => {
 };
 
 const styles = StyleSheet.create({
+  setRowWrapper: {
+    marginBottom: 2,
+    width: '100%',
+    zIndex: 1
+  },
+  lastSetWrapper: {
+    marginBottom: Platform.OS === 'ios' ? 20 : 10
+  },
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 40
+    height: 40,
+    width: '100%'
   },
-
   setNumber: {
     width: 40,
     fontSize: 16,
@@ -73,7 +93,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     borderRadius: 10,
     textAlign: 'center',
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    paddingVertical: 0 // Remove extra padding that might affect height
   }
 });
 

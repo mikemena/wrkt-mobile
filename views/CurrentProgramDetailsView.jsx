@@ -29,15 +29,6 @@ const CurrentProgramDetailsView = ({ navigation }) => {
 
   const totalWorkouts = workouts.length;
 
-  // useEffect(() => {
-  //   console.log({
-  //     currentWorkoutIndex,
-  //     totalWorkouts,
-  //     isPrevDisabled: currentWorkoutIndex === 0,
-  //     isNextDisabled: currentWorkoutIndex === totalWorkouts - 1
-  //   });
-  // }, [currentWorkoutIndex, totalWorkouts]);
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('state', e => {});
     return unsubscribe;

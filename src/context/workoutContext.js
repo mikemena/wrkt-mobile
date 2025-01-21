@@ -239,10 +239,6 @@ export const WorkoutProvider = ({ children }) => {
           workoutData.programId = state.activeWorkout.programId;
         }
 
-        console.log(
-          'Sending workout data:',
-          JSON.stringify(workoutData, null, 2)
-        );
         const { apiUrl } = useConfig();
 
         const response = await fetch(`${apiUrl}/api/workout/complete`, {
