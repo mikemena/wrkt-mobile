@@ -521,7 +521,7 @@ const StartWorkoutView = ({ route }) => {
                     style={[
                       styles.exerciseContainer,
                       {
-                        height: Math.max(200, 350 - currentSets.length * 20) // Dynamically adjust height
+                        height: Math.max(200, 350 - currentSets.length * 20)
                       },
                       { backgroundColor: themedStyles.secondaryBackgroundColor }
                     ]}
@@ -530,8 +530,11 @@ const StartWorkoutView = ({ route }) => {
                       style={[
                         styles.exerciseImage,
                         {
-                          height: Math.max(150, 300 - currentSets.length * 15), // Dynamically adjust image height
+                          height: Math.max(150, 300 - currentSets.length * 15),
                           opacity: isKeyboardVisible ? 0.1 : 1
+                        },
+                        {
+                          backgroundColor: themedStyles.secondaryBackgroundColor
                         }
                       ]}
                     >
@@ -707,8 +710,8 @@ const StartWorkoutView = ({ route }) => {
                 styles.setControls,
                 { backgroundColor: themeState.primaryBackgroundColor },
                 isKeyboardVisible
-                  ? styles.setControlsKeyboardNotVisible
-                  : styles.setControlsKeyboardVisible
+                  ? styles.setControlsKeyboardVisible
+                  : styles.setControlsKeyboardNotVisible
               ]}
             >
               <View
@@ -750,33 +753,34 @@ const StartWorkoutView = ({ route }) => {
                 style={styles.keyboardAvoidingView}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
               >
-                {currentSets.length === 0 && (
-                  <Text
-                    style={{
-                      color: themedStyles.textColor,
-                      textAlign: 'center',
-                      fontFamily: 'Lexend',
-                      marginTop: 10
-                    }}
-                  >
-                    No Sets
-                  </Text>
-                )}
-                {currentSets.map((set, index) => (
-                  <Set
-                    key={set.id}
-                    index={set.order - 1}
-                    set={set}
-                    isLast={index === currentSets.length - 1}
-                    onSetChange={handleSetChange}
-                    onDelete={handleDeleteSet}
-                    themedStyles={themedStyles}
-                  />
-                ))}
+                <ScrollView
+                  ref={scrollViewRef}
+                  keyboardShouldPersistTaps='handled'
+                >
+                  {currentSets.length === 0 && (
+                    <Text style={styles.noSetsText}>No Sets</Text>
+                  )}
+                  {currentSets.map((set, index) => (
+                    <Set
+                      key={set.id}
+                      index={set.order - 1}
+                      set={set}
+                      isLast={index === currentSets.length - 1}
+                      onSetChange={handleSetChange}
+                      onDelete={handleDeleteSet}
+                      themedStyles={themedStyles}
+                    />
+                  ))}
+                </ScrollView>
               </KeyboardAvoidingView>
               <PillButton
                 label='Add Set'
-                style={styles.addSetButton}
+                style={[
+                  ,
+                  isKeyboardVisible
+                    ? styles.addSetButtonKeyboardVisible
+                    : styles.addSetButtonKeyboardNotVisible
+                ]}
                 icon={
                   <Ionicons
                     name='add-outline'
@@ -930,9 +934,11 @@ const styles = StyleSheet.create({
   exerciseImage: {
     width: '91%',
     height: 312,
-    borderRadius: 10,
+    borderRadius: 11,
     overflow: 'hidden',
-    position: 'relative'
+    position: 'relative',
+    borderWidth: 1,
+    backgroundColor: 'rgb(254, 254, 254)'
   },
   exerciseName: {
     fontSize: 16,
@@ -948,12 +954,13 @@ const styles = StyleSheet.create({
   exerciseGif: {
     width: '100%',
     height: '100%',
-    borderRadius: 10
+    borderRadius: 10,
+    resizeMode: 'contain'
   },
   placeholderImage: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#444',
+
     borderRadius: 10
   },
 
@@ -966,22 +973,24 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     marginTop: 10
   },
+
   setControlsKeyboardNotVisible: {
-    position: 'relative',
-    left: 0,
-    right: 0,
-    bottom: 50,
-    paddingHorizontal: 5,
-    maxHeight: '90%',
-    zIndex: 5,
-    borderWidth: 1, // For debug
-    borderColor: 'red' // For debug
+    flex: 1,
+    paddingHorizontal: 5
   },
+
   setControlsKeyboardVisible: {
     width: '100%',
-    paddingHorizontal: 5,
+    height: '100%',
+    paddingHorizontal: 5
+  },
+  scrollViewConten: {
+    paddingBottom: 20
+  },
+  keyboardAvoidingView: {
     flex: 1
   },
+
   setHeader: {
     marginTop: 50,
     paddingLeft: 5,
@@ -1009,12 +1018,15 @@ const styles = StyleSheet.create({
   setReps: {
     marginRight: 55
   },
-  addSetButton: {
-    marginTop: 6,
+  addSetButtonKeyboardNotVisible: {
+    marginTop: 5,
     marginLeft: 5,
     position: 'relative',
     borderRadius: 20,
     zIndex: 1
+  },
+  addSetButtonKeyboardVisible: {
+    marginBottom: 150
   },
   bottomButtons: {
     flexDirection: 'row',
