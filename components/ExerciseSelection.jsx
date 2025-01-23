@@ -73,16 +73,6 @@ const ExerciseSelection = ({ navigation, route }) => {
       setIsLoading(page === 1);
       setIsLoadingMore(page > 1);
 
-      // Log the API URL being called
-      console.log(`Fetching exercises from: ${apiUrl}/api/exercise-catalog`);
-      console.log('Query params:', {
-        page,
-        limit: '20',
-        name: filterValues.exerciseName?.trim() || '',
-        muscle: filterValues.muscle?.trim() || '',
-        equipment: filterValues.equipment?.trim() || ''
-      });
-
       const queryParams = new URLSearchParams({
         page: page.toString(),
         limit: '20',
@@ -101,12 +91,6 @@ const ExerciseSelection = ({ navigation, route }) => {
         }
       );
 
-      console.log('Response details:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries())
-      });
-
       if (!response.ok) {
         const errorText = await response.text();
         console.error('API Error:', {
@@ -117,7 +101,6 @@ const ExerciseSelection = ({ navigation, route }) => {
       }
 
       const rawData = await response.json();
-      console.log('Raw API response:', rawData);
 
       // Transform the data right after receiving it from the API
       const transformedData = transformResponseData(rawData);
@@ -242,14 +225,11 @@ const ExerciseSelection = ({ navigation, route }) => {
       // Cache image and log result
       const wasAdded = cacheImage(exercise.id, exercise.imageUrl);
 
-      // Debug current cache state
-      debugCache();
-
       const newExercise = {
         ...exercise,
         id: Crypto.randomUUID(),
         catalogExerciseId: exercise.id,
-        sets: [{ id: Crypto.randomUUID(), weight: '0', reps: '0', order: 1 }]
+        sets: [{ id: Crypto.randomUUID(), weight: '', reps: '', order: 1 }]
       };
       setSelectedExercises(prev => [...prev, newExercise]);
     } else {
@@ -316,8 +296,8 @@ const ExerciseSelection = ({ navigation, route }) => {
         sets: exercise.sets || [
           {
             id: Crypto.randomUUID(),
-            weight: '0',
-            reps: '0',
+            weight: '',
+            reps: '',
             order: 1
           }
         ]

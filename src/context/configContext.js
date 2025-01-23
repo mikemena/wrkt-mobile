@@ -31,21 +31,10 @@ export const ConfigProvider = ({ children }) => {
           process.env.ENV === 'production' ||
           process.env.ENVFILE === '.env.production';
 
-        console.log('Process ENV:', {
-          NODE_ENV: process.env.NODE_ENV,
-          ENV: process.env.ENV,
-          ENVFILE: process.env.ENVFILE
-        });
-
         // Always use production URL if any production flag is set
         const finalApiUrl = isProd
           ? 'https://api.wrkt.fitness'
           : 'http://localhost:9025';
-
-        console.log('Final configuration:', {
-          isProd,
-          apiUrl: finalApiUrl
-        });
 
         setConfig({
           apiUrl: finalApiUrl,

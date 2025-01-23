@@ -5,8 +5,6 @@ export const getConfig = () => {
     apiUrl: Constants.expoConfig?.extra?.apiUrl
   };
 
-  console.log('Config loaded:', config); // Debug log
-
   if (!config.apiUrl) {
     console.warn('API URL not found in config');
     // Provide a development fallback
