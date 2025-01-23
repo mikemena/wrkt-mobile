@@ -67,19 +67,16 @@ const Set = ({
 
 const styles = StyleSheet.create({
   setRowWrapper: {
-    marginBottom: 2,
+    marginBottom: 1,
     width: '100%',
     zIndex: 1
   },
-  lastSetWrapper: {
-    marginBottom: Platform.OS === 'ios' ? 20 : 10
-  },
+
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 40,
-    width: '100%'
+    height: 40
   },
   setNumber: {
     width: 40,
@@ -89,12 +86,12 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 35,
-    marginHorizontal: 8,
+    height: 32,
+    marginHorizontal: 15,
     borderRadius: 10,
     textAlign: 'center',
     fontFamily: 'Lexend',
-    paddingVertical: 0 // Remove extra padding that might affect height
+    paddingVertical: 0
   }
 });
 

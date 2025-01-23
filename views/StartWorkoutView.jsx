@@ -106,18 +106,6 @@ const StartWorkoutView = ({ route }) => {
   const currentExercise = activeWorkout.exercises[currentExerciseIndex];
   const currentSets = activeWorkout.exercises[currentExerciseIndex]?.sets || [];
 
-  // useEffect(() => {
-  //   if (currentExercise?.catalogExerciseId) {
-  //     const cachedUrl = getCachedImage(currentExercise.catalogExerciseId);
-  //     console.log(
-  //       `[StartWorkout] Current exercise ${
-  //         currentExercise.catalogExerciseId
-  //       }: ${cachedUrl ? 'using cached image' : 'no cached image'}`
-  //     );
-  //   }
-  // }, [currentExercise]);
-
-  // Add logging for important state changes
   useEffect(() => {
     if (activeWorkout.exercises.length === 0) {
       navigation.goBack();
@@ -485,12 +473,7 @@ const StartWorkoutView = ({ route }) => {
           )}
 
           {/* exercise start */}
-          <SafeAreaView
-            style={[
-              globalStyles.container,
-              { backgroundColor: themedStyles.primaryBackgroundColor }
-            ]}
-          >
+          <SafeAreaView style={[globalStyles.container]}>
             <View style={styles.swipeableContainer}>
               {/* Previous Navigation Button */}
               {!showExerciseInfo &&
@@ -528,45 +511,96 @@ const StartWorkoutView = ({ route }) => {
                 swipeableType='exercise-start'
                 onDelete={() => handleDeleteExercise(currentExercise?.id)}
                 onSwipeChange={setIsSwipeOpen}
+                style={{
+                  backgroundColor: themedStyles.secondaryBackgroundColor
+                }}
               >
                 {!activeWorkout.exercises ||
                 activeWorkout.exercises.length === 0 ? (
                   <View
                     style={[
                       styles.exerciseContainer,
+                      {
+                        height: Math.max(200, 350 - currentSets.length * 20) // Dynamically adjust height
+                      },
                       { backgroundColor: themedStyles.secondaryBackgroundColor }
                     ]}
                   >
-                    <View style={styles.noExerciseContainer}>
-                      <Text
-                        style={[
-                          styles.noExerciseText,
-                          { color: themedStyles.textColor }
-                        ]}
-                      >
-                        No Exercises
-                      </Text>
-                      <TouchableOpacity
-                        style={[
-                          styles.addExerciseButton,
-                          { backgroundColor: themedStyles.accentColor }
-                        ]}
-                        onPress={handleAddExercises}
-                      >
-                        <Text style={styles.addExerciseButtonText}>
-                          ADD EXERCISE
-                        </Text>
-                      </TouchableOpacity>
+                    <View
+                      style={[
+                        styles.exerciseImage,
+                        {
+                          height: Math.max(150, 300 - currentSets.length * 15), // Dynamically adjust image height
+                          opacity: isKeyboardVisible ? 0.1 : 1
+                        }
+                      ]}
+                    >
+                      <View style={imageOverlayStyle} />
+                      {currentExercise?.imageUrl ? (
+                        <Animated.Image
+                          source={{
+                            uri: (() => {
+                              const cachedUrl = getCachedImage(
+                                currentExercise.catalogExerciseId
+                              );
+                              const finalUrl =
+                                cachedUrl || currentExercise.imageUrl;
+
+                              return finalUrl;
+                            })()
+                          }}
+                          style={[
+                            styles.exerciseGif,
+                            { opacity: imageOpacity }
+                          ]}
+                          resizeMode='contain'
+                        />
+                      ) : (
+                        <View style={styles.placeholderImage} />
+                      )}
+                      {!showExerciseInfo && !isSwipeOpen && (
+                        <TouchableOpacity
+                          style={styles.infoButton}
+                          onPress={() => setShowExerciseInfo(true)}
+                        >
+                          <Ionicons
+                            name='information-outline'
+                            size={24}
+                            color={themeState.accentColor}
+                          />
+                        </TouchableOpacity>
+                      )}
+
+                      {showExerciseInfo && (
+                        <View style={infoOverlayStyle}>
+                          <Text
+                            style={[
+                              styles.exerciseName,
+                              { color: themedStyles.textColor }
+                            ]}
+                          >
+                            {currentExercise?.name}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.muscleName,
+                              { color: themedStyles.textColor }
+                            ]}
+                          >
+                            {currentExercise?.muscle}
+                          </Text>
+                        </View>
+                      )}
                     </View>
                   </View>
                 ) : (
-                  <View
-                    style={[
-                      styles.exerciseContainer,
-                      { backgroundColor: themedStyles.secondaryBackgroundColor }
-                    ]}
-                  >
-                    <View style={styles.exerciseImage}>
+                  <View style={[styles.exerciseContainer]}>
+                    <View
+                      style={[
+                        styles.exerciseImage,
+                        { opacity: isKeyboardVisible ? 0.1 : 1 }
+                      ]}
+                    >
                       <View style={imageOverlayStyle} />
                       {currentExercise?.imageUrl ? (
                         <Animated.Image
@@ -671,7 +705,10 @@ const StartWorkoutView = ({ route }) => {
             <View
               style={[
                 styles.setControls,
-                { backgroundColor: themeState.primaryBackgroundColor }
+                { backgroundColor: themeState.primaryBackgroundColor },
+                isKeyboardVisible
+                  ? styles.setControlsKeyboardNotVisible
+                  : styles.setControlsKeyboardVisible
               ]}
             >
               <View
@@ -713,45 +750,29 @@ const StartWorkoutView = ({ route }) => {
                 style={styles.keyboardAvoidingView}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
               >
-                <ScrollView
-                  ref={scrollViewRef}
-                  style={styles.setsScrollView}
-                  contentContainerStyle={styles.setsScrollContent}
-                  keyboardShouldPersistTaps='handled'
-                  showsVerticalScrollIndicator={true}
-                >
-                  {currentSets.length === 0 && (
-                    <Text
-                      style={{
-                        color: themedStyles.textColor,
-                        textAlign: 'center',
-                        fontFamily: 'Lexend',
-                        marginTop: 10
-                      }}
-                    >
-                      No Sets
-                    </Text>
-                  )}
-                  {currentSets.map((set, index) => (
-                    <Set
-                      key={set.id}
-                      index={set.order - 1}
-                      set={set}
-                      isLast={index === currentSets.length - 1}
-                      onSetChange={handleSetChange}
-                      onDelete={handleDeleteSet}
-                      themedStyles={themedStyles}
-                      onFocus={() => {
-                        if (scrollViewRef.current) {
-                          scrollViewRef.current.scrollTo({
-                            y: index * 50,
-                            animated: true
-                          });
-                        }
-                      }}
-                    />
-                  ))}
-                </ScrollView>
+                {currentSets.length === 0 && (
+                  <Text
+                    style={{
+                      color: themedStyles.textColor,
+                      textAlign: 'center',
+                      fontFamily: 'Lexend',
+                      marginTop: 10
+                    }}
+                  >
+                    No Sets
+                  </Text>
+                )}
+                {currentSets.map((set, index) => (
+                  <Set
+                    key={set.id}
+                    index={set.order - 1}
+                    set={set}
+                    isLast={index === currentSets.length - 1}
+                    onSetChange={handleSetChange}
+                    onDelete={handleDeleteSet}
+                    themedStyles={themedStyles}
+                  />
+                ))}
               </KeyboardAvoidingView>
               <PillButton
                 label='Add Set'
@@ -778,7 +799,8 @@ const StartWorkoutView = ({ route }) => {
               styles.bottomButtons,
               isKeyboardVisible && {
                 marginBottom: Platform.OS === 'ios' ? 20 : 0
-              }
+              },
+              { opacity: isKeyboardVisible ? 0 : 1 }
             ]}
           >
             <TouchableOpacity
@@ -867,11 +889,10 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   exerciseContainer: {
-    padding: 10,
-    height: 350,
     display: 'flex',
-    width: '100%',
+    width: '110%',
     alignItems: 'center',
+    alignSelf: 'center',
     borderRadius: 10
   },
   exerciseContent: {
@@ -908,7 +929,7 @@ const styles = StyleSheet.create({
   },
   exerciseImage: {
     width: '91%',
-    height: 330,
+    height: 312,
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative'
@@ -935,39 +956,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#444',
     borderRadius: 10
   },
-  setControls: {
-    position: 'absolute',
-    bottom: 100,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 5,
-    maxHeight: '30%'
-  },
 
   keyboardAvoidingView: {
     flex: 1
   },
 
-  setsScrollView: {
-    maxHeight: 150
-  },
-
-  setsScrollContent: {
-    gap: 2
-  },
   noSetsText: {
     textAlign: 'center',
     fontFamily: 'Lexend',
     marginTop: 10
   },
-
+  setControlsKeyboardNotVisible: {
+    position: 'relative',
+    left: 0,
+    right: 0,
+    bottom: 50,
+    paddingHorizontal: 5,
+    maxHeight: '90%',
+    zIndex: 5,
+    borderWidth: 1, // For debug
+    borderColor: 'red' // For debug
+  },
+  setControlsKeyboardVisible: {
+    width: '100%',
+    paddingHorizontal: 5,
+    flex: 1
+  },
   setHeader: {
+    marginTop: 50,
+    paddingLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 25,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    marginBottom: 2
+    marginBottom: 1
   },
 
   setHeaderText: {
@@ -988,14 +1011,15 @@ const styles = StyleSheet.create({
   },
   addSetButton: {
     marginTop: 6,
-    marginBottom: 6,
     marginLeft: 5,
-    height: 25
+    position: 'relative',
+    borderRadius: 20,
+    zIndex: 1
   },
   bottomButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5
+    paddingTop: 20
   },
   bottomButton: {
     flex: 1,
