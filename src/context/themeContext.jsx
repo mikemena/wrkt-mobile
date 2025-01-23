@@ -18,7 +18,7 @@ export const ThemeProvider = ({ children }) => {
           const response = await fetch(`${apiUrl}/api/settings/${userId}`);
 
           const settings = await response.json();
-          console.log('settings api response', settings);
+
           dispatch({
             type: 'SET_THEME',
             payload: settings.theme_mode
@@ -34,7 +34,6 @@ export const ThemeProvider = ({ children }) => {
     };
 
     fetchUserSettings();
-    console.log('theme state in themeContext', state);
   }, [userId]);
 
   useEffect(() => {
@@ -42,8 +41,6 @@ export const ThemeProvider = ({ children }) => {
       try {
         await AsyncStorage.setItem('theme', state.theme);
         await AsyncStorage.setItem('accentColor', state.accentColor);
-        // Here you would also call your API to save settings to PostgreSQL
-        // await api.saveThemeSettings(state);
       } catch (e) {
         console.error('Failed to save theme settings', e);
       }

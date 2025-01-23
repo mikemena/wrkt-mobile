@@ -85,10 +85,9 @@ const ExerciseFilter = ({
   const fetchEquipment = async () => {
     try {
       const response = await fetch(`${apiUrl}/api/equipments`);
-      console.log('calling eqipment endpoint', response);
-      console.log('fetchEquipment response status:', response.status);
+
       const data = await response.json();
-      console.log('equipment data', data);
+
       return data.map(equipment => ({
         label: equipment.name,
         value: equipment.name
@@ -119,7 +118,6 @@ const ExerciseFilter = ({
 
       // Load equipment
       let equipment = await getCachedData(CACHE_KEYS.EQUIPMENT);
-      console.log('cached equipment', equipment);
 
       if (!equipment || !Array.isArray(equipment) || equipment.length === 0) {
         equipment = await fetchEquipment();
