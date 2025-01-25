@@ -920,7 +920,8 @@ const styles = StyleSheet.create({
   },
 
   bottomNavigationWrapper: {
-    bottom: -150
+    bottom: -35,
+    zIndex: 30
   },
   navigationButton: {
     width: 40,

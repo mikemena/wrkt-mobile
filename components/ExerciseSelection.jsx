@@ -31,8 +31,11 @@ import { cacheImage, debugCache } from '../src/utils/imageCache';
 
 const ExerciseSelection = ({ navigation, route }) => {
   const { addExercise, state: programState } = useContext(ProgramContext);
-  const { addExerciseToWorkout, state: workoutState } =
-    useContext(WorkoutContext);
+  const {
+    addExerciseToWorkout,
+    removeExerciseFromWorkout,
+    state: workoutState
+  } = useContext(WorkoutContext);
 
   const programAction = programState.mode;
   const contextType = route.params?.contextType;
