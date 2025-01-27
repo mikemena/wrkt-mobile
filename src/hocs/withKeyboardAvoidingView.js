@@ -1,55 +1,23 @@
-// withKeyboardAvoidingView.js
-import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { useTheme } from '../hooks/useTheme';
-import { getThemedStyles } from '../utils/themeUtils';
+import React from 'react';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 
 const withKeyboardAvoidingView = WrappedComponent => {
-  return props => {
-    const { state: themeState } = useTheme();
-    const themedStyles = getThemedStyles(themeState.theme);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
-    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-
-    useEffect(() => {
-      const keyboardWillShow = Keyboard.addListener(
-        Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-        e => {
-          setKeyboardHeight(e.endCoordinates.height);
-          setIsKeyboardVisible(true);
-        }
-      );
-
-      const keyboardWillHide = Keyboard.addListener(
-        Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
-        () => {
-          setKeyboardHeight(0);
-          setIsKeyboardVisible(false);
-        }
-      );
-      return () => {
-        keyboardWillShow.remove();
-        keyboardWillHide.remove();
-      };
-    }, []);
-
-    return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-        style={[
-          { flex: 1 },
-          { backgroundColor: themedStyles.primaryBackgroundColor }
-        ]}
-      >
-        <WrappedComponent
-          {...props}
-          keyboardHeight={keyboardHeight}
-          isKeyboardVisible={isKeyboardVisible}
-        />
-      </KeyboardAvoidingView>
-    );
-  };
+  return props => (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })} // Adjust this value as needed
+    >
+      <WrappedComponent {...props} />
+    </KeyboardAvoidingView>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'transparent'
+  }
+});
 
 export default withKeyboardAvoidingView;
