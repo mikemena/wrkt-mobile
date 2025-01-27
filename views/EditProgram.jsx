@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
+import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgramContext } from '../src/context/programContext';
@@ -281,4 +282,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EditProgram;
+export default withKeyboardAvoidingView(EditProgram);

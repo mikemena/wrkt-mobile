@@ -7,6 +7,7 @@ import {
   View,
   ScrollView
 } from 'react-native';
+import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import ProgramForm from '../components/ProgramForm';
@@ -210,4 +211,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CreateProgram;
+export default withKeyboardAvoidingView(CreateProgram);
