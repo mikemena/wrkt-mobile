@@ -16,10 +16,10 @@ import {
   SafeAreaView,
   Animated,
   ScrollView,
-  Alert,
-  KeyboardAvoidingView,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
+import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import * as Haptics from 'expo-haptics';
 import * as Crypto from 'expo-crypto';
 import { useNavigation } from '@react-navigation/native';
@@ -35,7 +35,7 @@ import { getThemedStyles } from '../src/utils/themeUtils';
 import { globalStyles, colors } from '../src/styles/globalStyles';
 import { getCachedImage } from '../src/utils/imageCache';
 
-const StartWorkoutView = ({ route }) => {
+const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   const {
     state: workoutState,
     completeWorkout,
@@ -69,33 +69,7 @@ const StartWorkoutView = ({ route }) => {
 
   const navigation = useNavigation();
 
-  //keyboard handling
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const scrollViewRef = useRef(null);
-
-  // keyboard listeners
-  useEffect(() => {
-    const keyboardWillShow = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
-      e => {
-        setKeyboardHeight(e.endCoordinates.height);
-        setIsKeyboardVisible(true);
-      }
-    );
-
-    const keyboardWillHide = Keyboard.addListener(
-      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
-      () => {
-        setKeyboardHeight(0);
-        setIsKeyboardVisible(false);
-      }
-    );
-    return () => {
-      keyboardWillShow.remove();
-      keyboardWillHide.remove();
-    };
-  }, []);
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -125,6 +99,7 @@ const StartWorkoutView = ({ route }) => {
     let timer;
     if (showExerciseInfo) {
       timer = setTimeout(() => setShowExerciseInfo(false), 2000);
+      // console.log('info icon clicked');
     }
     return () => clearTimeout(timer);
   }, [showExerciseInfo]);
@@ -349,12 +324,18 @@ const StartWorkoutView = ({ route }) => {
   };
 
   const handleNextExercise = () => {
+    console.log('currentExerciseIndex', currentExerciseIndex);
+    console.log(
+      'activeWorkout.exercises.length',
+      activeWorkout.exercises.length
+    );
     if (currentExerciseIndex < activeWorkout.exercises.length - 1) {
       setCurrentExerciseIndex(prev => prev + 1);
     }
   };
 
   const handlePreviousExercise = () => {
+    console.log('currentExerciseIndex', currentExerciseIndex);
     if (currentExerciseIndex > 0) {
       setCurrentExerciseIndex(prev => prev - 1);
     }
@@ -389,284 +370,184 @@ const StartWorkoutView = ({ route }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
-    >
-      <TouchableWithoutFeedback onPress={dismissKeyboard}>
-        <SafeAreaView
-          style={[
-            globalStyles.container,
-            { backgroundColor: themedStyles.primaryBackgroundColor }
-          ]}
-        >
-          <Header pageName='WORKOUT' />
-          <View style={styles.header}>
-            {/* workout title starts here */}
-            <Animated.View>
-              {isEditingTitle ? (
-                <TextInput
-                  ref={inputRef}
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <SafeAreaView
+        style={[
+          globalStyles.container,
+          { backgroundColor: themedStyles.primaryBackgroundColor }
+        ]}
+      >
+        <Header pageName='WORKOUT' />
+        <View style={styles.header}>
+          {/* workout title starts here */}
+          <Animated.View>
+            {isEditingTitle ? (
+              <TextInput
+                ref={inputRef}
+                style={[styles.workoutName, { color: themedStyles.textColor }]}
+                value={workoutTitle}
+                onChangeText={handleEditTitleChange}
+                onBlur={handleTitleSubmit}
+                onSubmitEditing={handleTitleSubmit}
+              />
+            ) : (
+              <TouchableOpacity onPress={handleTitlePress}>
+                <Text
                   style={[
                     styles.workoutName,
                     { color: themedStyles.textColor }
                   ]}
-                  value={workoutTitle}
-                  onChangeText={handleEditTitleChange}
-                  onBlur={handleTitleSubmit}
-                  onSubmitEditing={handleTitleSubmit}
-                />
-              ) : (
-                <TouchableOpacity onPress={handleTitlePress}>
-                  <Text
-                    style={[
-                      styles.workoutName,
-                      { color: themedStyles.textColor }
-                    ]}
-                  >
-                    {workoutTitle}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </Animated.View>
-            {/* workout title ends here */}
-          </View>
-          {activeWorkout.exercises.length > 0 && (
-            <View style={styles.mainControls}>
-              <TouchableOpacity
-                style={[
-                  globalStyles.button,
-                  styles.startButton,
-                  { backgroundColor: themedStyles.accentColor }
-                ]}
-                onPress={isStarted ? stopTimer : startTimer}
-              >
-                <Text style={styles.startButtonText}>
-                  {isStarted ? 'COMPLETE WORKOUT' : 'START WORKOUT'}
+                >
+                  {workoutTitle}
                 </Text>
               </TouchableOpacity>
+            )}
+          </Animated.View>
+          {/* workout title ends here */}
+        </View>
+        {activeWorkout.exercises.length > 0 && (
+          <View style={styles.mainControls}>
+            <TouchableOpacity
+              style={[
+                globalStyles.button,
+                styles.startButton,
+                { backgroundColor: themedStyles.accentColor }
+              ]}
+              onPress={isStarted ? stopTimer : startTimer}
+            >
+              <Text style={styles.startButtonText}>
+                {isStarted ? 'COMPLETE WORKOUT' : 'START WORKOUT'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handlePause}
+              style={[
+                styles.pauseButton,
+                { backgroundColor: themedStyles.accentColor },
+                !isStarted && styles.disabledButton
+              ]}
+              disabled={!isStarted}
+            >
+              <Ionicons
+                name={isPaused ? 'play-outline' : 'pause-outline'}
+                size={24}
+                style={[styles.pauseIcon, !isStarted && styles.disabledIcon]}
+              />
+            </TouchableOpacity>
+            <Text
+              style={[styles.timerDisplay, { color: themedStyles.accentColor }]}
+            >
+              {formatTime(time)}
+            </Text>
+          </View>
+        )}
+
+        {/* exercise start */}
+        <SafeAreaView style={[globalStyles.container]}>
+          <View style={styles.swipeableContainer}>
+            {/* Previous Navigation Button */}
+            {!showExerciseInfo &&
+              !isSwipeOpen &&
+              activeWorkout.exercises.length > 1 &&
+              !isKeyboardVisible && (
+                <View
+                  style={[
+                    styles.navigationWrapper,
+                    styles.topNavigationWrapper
+                  ]}
+                >
+                  <TouchableOpacity
+                    onPress={handlePreviousExercise}
+                    disabled={currentExerciseIndex === 0}
+                    style={[
+                      styles.navigationButton,
+                      currentExerciseIndex === 0 && styles.disabledButton
+                    ]}
+                  >
+                    <Ionicons
+                      name='chevron-up-outline'
+                      size={24}
+                      style={{
+                        color: themeState.accentColor,
+                        opacity: currentExerciseIndex === 0 ? 0.3 : 1
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+
+            {/* Swipeable Content */}
+            <SwipeableItemDeletion
+              ref={swipeableRef}
+              swipeableType='exercise-start'
+              onDelete={() => handleDeleteExercise(currentExercise?.id)}
+              onSwipeChange={setIsSwipeOpen}
+              style={{
+                backgroundColor: themedStyles.secondaryBackgroundColor
+              }}
+            >
+              <View style={[styles.exerciseContainer]}>
+                <View
+                  style={[
+                    styles.exerciseImage,
+                    { opacity: isKeyboardVisible ? 0.1 : 1 }
+                  ]}
+                >
+                  <View style={imageOverlayStyle} />
+                  {currentExercise?.imageUrl ? (
+                    <Animated.Image
+                      source={{
+                        uri:
+                          getCachedImage(currentExercise.catalogExerciseId) ||
+                          currentExercise.imageUrl
+                      }}
+                      style={[styles.exerciseGif, { opacity: imageOpacity }]}
+                      resizeMode='contain'
+                    />
+                  ) : (
+                    <View style={styles.placeholderImage} />
+                  )}
+
+                  {showExerciseInfo && (
+                    <View style={infoOverlayStyle}>
+                      <Text
+                        style={[
+                          styles.exerciseName,
+                          { color: themedStyles.textColor }
+                        ]}
+                      >
+                        {currentExercise?.name}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.muscleName,
+                          { color: themedStyles.textColor }
+                        ]}
+                      >
+                        {currentExercise?.muscle}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </SwipeableItemDeletion>
+            {!isSwipeOpen && (
               <TouchableOpacity
-                onPress={handlePause}
-                style={[
-                  styles.pauseButton,
-                  { backgroundColor: themedStyles.accentColor },
-                  !isStarted && styles.disabledButton
-                ]}
-                disabled={!isStarted}
+                style={styles.infoButton}
+                onPress={() => setShowExerciseInfo(true)}
               >
                 <Ionicons
-                  name={isPaused ? 'play-outline' : 'pause-outline'}
+                  name='information-outline'
                   size={24}
-                  style={[styles.pauseIcon, !isStarted && styles.disabledIcon]}
+                  color={themeState.accentColor}
                 />
               </TouchableOpacity>
-              <Text
-                style={[
-                  styles.timerDisplay,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                {formatTime(time)}
-              </Text>
-            </View>
-          )}
+            )}
 
-          {/* exercise start */}
-          <SafeAreaView style={[globalStyles.container]}>
-            <View style={styles.swipeableContainer}>
-              {/* Previous Navigation Button */}
-              {!showExerciseInfo &&
-                !isSwipeOpen &&
-                activeWorkout.exercises.length > 1 && (
-                  <View
-                    style={[
-                      styles.navigationWrapper,
-                      styles.topNavigationWrapper
-                    ]}
-                  >
-                    <TouchableOpacity
-                      onPress={handlePreviousExercise}
-                      disabled={currentExerciseIndex === 0}
-                      style={[
-                        styles.navigationButton,
-                        currentExerciseIndex === 0 && styles.disabledButton
-                      ]}
-                    >
-                      <Ionicons
-                        name='chevron-up-outline'
-                        size={24}
-                        style={{
-                          color: themeState.accentColor,
-                          opacity: currentExerciseIndex === 0 ? 0.3 : 1
-                        }}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                )}
-
-              {/* Swipeable Content */}
-              <SwipeableItemDeletion
-                ref={swipeableRef}
-                swipeableType='exercise-start'
-                onDelete={() => handleDeleteExercise(currentExercise?.id)}
-                onSwipeChange={setIsSwipeOpen}
-                style={{
-                  backgroundColor: themedStyles.secondaryBackgroundColor
-                }}
-              >
-                {!activeWorkout.exercises ||
-                activeWorkout.exercises.length === 0 ? (
-                  <View
-                    style={[
-                      styles.exerciseContainer,
-                      {
-                        height: Math.max(200, 350 - currentSets.length * 20)
-                      },
-                      { backgroundColor: themedStyles.secondaryBackgroundColor }
-                    ]}
-                  >
-                    <View
-                      style={[
-                        styles.exerciseImage,
-                        {
-                          height: Math.max(150, 300 - currentSets.length * 15),
-                          opacity: isKeyboardVisible ? 0.1 : 1
-                        },
-                        {
-                          backgroundColor: themedStyles.secondaryBackgroundColor
-                        }
-                      ]}
-                    >
-                      <View style={imageOverlayStyle} />
-                      {currentExercise?.imageUrl ? (
-                        <Animated.Image
-                          source={{
-                            uri: (() => {
-                              const cachedUrl = getCachedImage(
-                                currentExercise.catalogExerciseId
-                              );
-                              const finalUrl =
-                                cachedUrl || currentExercise.imageUrl;
-
-                              return finalUrl;
-                            })()
-                          }}
-                          style={[
-                            styles.exerciseGif,
-                            { opacity: imageOpacity }
-                          ]}
-                          resizeMode='contain'
-                        />
-                      ) : (
-                        <View style={styles.placeholderImage} />
-                      )}
-                      {!showExerciseInfo && !isSwipeOpen && (
-                        <TouchableOpacity
-                          style={styles.infoButton}
-                          onPress={() => setShowExerciseInfo(true)}
-                        >
-                          <Ionicons
-                            name='information-outline'
-                            size={24}
-                            color={themeState.accentColor}
-                          />
-                        </TouchableOpacity>
-                      )}
-
-                      {showExerciseInfo && (
-                        <View style={infoOverlayStyle}>
-                          <Text
-                            style={[
-                              styles.exerciseName,
-                              { color: themedStyles.textColor }
-                            ]}
-                          >
-                            {currentExercise?.name}
-                          </Text>
-                          <Text
-                            style={[
-                              styles.muscleName,
-                              { color: themedStyles.textColor }
-                            ]}
-                          >
-                            {currentExercise?.muscle}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  </View>
-                ) : (
-                  <View style={[styles.exerciseContainer]}>
-                    <View
-                      style={[
-                        styles.exerciseImage,
-                        { opacity: isKeyboardVisible ? 0.1 : 1 }
-                      ]}
-                    >
-                      <View style={imageOverlayStyle} />
-                      {currentExercise?.imageUrl ? (
-                        <Animated.Image
-                          source={{
-                            uri: (() => {
-                              const cachedUrl = getCachedImage(
-                                currentExercise.catalogExerciseId
-                              );
-                              const finalUrl =
-                                cachedUrl || currentExercise.imageUrl;
-
-                              return finalUrl;
-                            })()
-                          }}
-                          style={[
-                            styles.exerciseGif,
-                            { opacity: imageOpacity }
-                          ]}
-                          resizeMode='contain'
-                        />
-                      ) : (
-                        <View style={styles.placeholderImage} />
-                      )}
-                      {!showExerciseInfo && !isSwipeOpen && (
-                        <TouchableOpacity
-                          style={styles.infoButton}
-                          onPress={() => setShowExerciseInfo(true)}
-                        >
-                          <Ionicons
-                            name='information-outline'
-                            size={24}
-                            color={themeState.accentColor}
-                          />
-                        </TouchableOpacity>
-                      )}
-
-                      {showExerciseInfo && (
-                        <View style={infoOverlayStyle}>
-                          <Text
-                            style={[
-                              styles.exerciseName,
-                              { color: themedStyles.textColor }
-                            ]}
-                          >
-                            {currentExercise?.name}
-                          </Text>
-                          <Text
-                            style={[
-                              styles.muscleName,
-                              { color: themedStyles.textColor }
-                            ]}
-                          >
-                            {currentExercise?.muscle}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  </View>
-                )}
-              </SwipeableItemDeletion>
-
-              {/* Next Navigation Button */}
-              {activeWorkout.exercises.length > 0 && !isSwipeOpen && (
+            {/* Next Navigation Button */}
+            {activeWorkout.exercises.length > 0 &&
+              !isSwipeOpen &&
+              !isKeyboardVisible && (
                 <View
                   style={[
                     styles.navigationWrapper,
@@ -701,148 +582,138 @@ const StartWorkoutView = ({ route }) => {
                   </TouchableOpacity>
                 </View>
               )}
-            </View>
-          </SafeAreaView>
-          {/* exercise end */}
-          {activeWorkout.exercises?.length > 0 && (
-            <View
-              style={[
-                styles.setControls,
-                { backgroundColor: themeState.primaryBackgroundColor },
-                isKeyboardVisible
-                  ? styles.setControlsKeyboardVisible
-                  : styles.setControlsKeyboardNotVisible
-              ]}
-            >
-              <View
-                style={[
-                  styles.setHeader,
-                  { backgroundColor: themedStyles.secondaryBackgroundColor }
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.setHeaderText,
-                    { color: themedStyles.textColor }
-                  ]}
-                >
-                  Set
-                </Text>
-                <Text
-                  style={[
-                    styles.setHeaderText,
-                    styles.setWeight,
-                    { color: themedStyles.textColor }
-                  ]}
-                >
-                  Weight
-                </Text>
-                <Text
-                  style={[
-                    styles.setHeaderText,
-                    styles.setReps,
-                    { color: themedStyles.textColor }
-                  ]}
-                >
-                  Reps
-                </Text>
-              </View>
-
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={styles.keyboardAvoidingView}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
-              >
-                <ScrollView
-                  ref={scrollViewRef}
-                  keyboardShouldPersistTaps='handled'
-                >
-                  {currentSets.length === 0 && (
-                    <Text style={styles.noSetsText}>No Sets</Text>
-                  )}
-                  {currentSets.map((set, index) => (
-                    <Set
-                      key={set.id}
-                      index={set.order - 1}
-                      set={set}
-                      isLast={index === currentSets.length - 1}
-                      onSetChange={handleSetChange}
-                      onDelete={handleDeleteSet}
-                      themedStyles={themedStyles}
-                    />
-                  ))}
-                </ScrollView>
-              </KeyboardAvoidingView>
-              <PillButton
-                label='Add Set'
-                style={[
-                  ,
-                  isKeyboardVisible
-                    ? styles.addSetButtonKeyboardVisible
-                    : styles.addSetButtonKeyboardNotVisible
-                ]}
-                icon={
-                  <Ionicons
-                    name='add-outline'
-                    size={16}
-                    style={{
-                      color:
-                        themeState.theme === 'dark'
-                          ? themedStyles.accentColor
-                          : colors.eggShell
-                    }}
-                  />
-                }
-                onPress={handleAddSet}
-              />
-            </View>
-          )}
-
-          <View
-            style={[
-              styles.bottomButtons,
-              isKeyboardVisible && {
-                marginBottom: Platform.OS === 'ios' ? 20 : 0
-              },
-              { opacity: isKeyboardVisible ? 0 : 1 }
-            ]}
-          >
-            <TouchableOpacity
-              style={[
-                styles.bottomButton,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
-              onPress={() => handleAddExercises(workoutState.workout_id)}
-            >
-              <Text
-                style={[
-                  styles.bottomButtonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                ADD EXERCISE
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.bottomButton,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
-              onPress={handleCancel}
-            >
-              <Text
-                style={[
-                  styles.bottomButtonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                CANCEL
-              </Text>
-            </TouchableOpacity>
           </View>
         </SafeAreaView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        {/* exercise end */}
+        {activeWorkout.exercises?.length > 0 && (
+          <View
+            style={[
+              styles.setControls,
+              { backgroundColor: themeState.primaryBackgroundColor },
+              isKeyboardVisible
+                ? styles.setControlsKeyboardVisible
+                : styles.setControlsKeyboardNotVisible
+            ]}
+          >
+            <View
+              style={[
+                styles.setHeader,
+                { backgroundColor: themedStyles.secondaryBackgroundColor }
+              ]}
+            >
+              <Text
+                style={[
+                  styles.setHeaderText,
+                  { color: themedStyles.textColor }
+                ]}
+              >
+                Set
+              </Text>
+              <Text
+                style={[
+                  styles.setHeaderText,
+                  styles.setWeight,
+                  { color: themedStyles.textColor }
+                ]}
+              >
+                Weight
+              </Text>
+              <Text
+                style={[
+                  styles.setHeaderText,
+                  styles.setReps,
+                  { color: themedStyles.textColor }
+                ]}
+              >
+                Reps
+              </Text>
+            </View>
+
+            <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps='handled'>
+              {currentSets.length === 0 && (
+                <Text style={styles.noSetsText}>No Sets</Text>
+              )}
+              {currentSets.map((set, index) => (
+                <Set
+                  key={set.id}
+                  index={set.order - 1}
+                  set={set}
+                  isLast={index === currentSets.length - 1}
+                  onSetChange={handleSetChange}
+                  onDelete={handleDeleteSet}
+                  themedStyles={themedStyles}
+                />
+              ))}
+            </ScrollView>
+            <PillButton
+              label='Add Set'
+              style={[
+                ,
+                isKeyboardVisible
+                  ? styles.addSetButtonKeyboardVisible
+                  : styles.addSetButtonKeyboardNotVisible
+              ]}
+              icon={
+                <Ionicons
+                  name='add-outline'
+                  size={16}
+                  style={{
+                    color:
+                      themeState.theme === 'dark'
+                        ? themedStyles.accentColor
+                        : colors.eggShell
+                  }}
+                />
+              }
+              onPress={handleAddSet}
+            />
+          </View>
+        )}
+
+        <View
+          style={[
+            styles.bottomButtons,
+            isKeyboardVisible && {
+              marginBottom: Platform.OS === 'ios' ? 20 : 0
+            },
+            { opacity: isKeyboardVisible ? 0 : 1 }
+          ]}
+        >
+          <TouchableOpacity
+            style={[
+              styles.bottomButton,
+              { backgroundColor: themedStyles.secondaryBackgroundColor }
+            ]}
+            onPress={() => handleAddExercises(workoutState.workout_id)}
+          >
+            <Text
+              style={[
+                styles.bottomButtonText,
+                { color: themedStyles.accentColor }
+              ]}
+            >
+              ADD EXERCISE
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.bottomButton,
+              { backgroundColor: themedStyles.secondaryBackgroundColor }
+            ]}
+            onPress={handleCancel}
+          >
+            <Text
+              style={[
+                styles.bottomButtonText,
+                { color: themedStyles.accentColor }
+              ]}
+            >
+              CANCEL
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -890,7 +761,8 @@ const styles = StyleSheet.create({
   swipeableContainer: {
     flex: 1,
     marginHorizontal: 5,
-    marginBottom: 10
+    marginBottom: 10,
+    zIndex: 997
   },
   exerciseContainer: {
     display: 'flex',
@@ -910,27 +782,26 @@ const styles = StyleSheet.create({
   },
   navigationWrapper: {
     position: 'absolute',
-    left: '50%',
-    transform: [{ translateX: -20 }],
+    width: '100%',
     alignItems: 'center',
-    zIndex: 10
+    zIndex: 998,
+    paddingVertical: 10
   },
   topNavigationWrapper: {
-    top: 12
+    top: 8
   },
 
   bottomNavigationWrapper: {
-    bottom: -35,
-    zIndex: 30
+    bottom: -45
   },
   navigationButton: {
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    borderRadius: 20,
-    zIndex: 20
+    borderRadius: 30,
+    elevation: 3
   },
   exerciseImage: {
     width: '91%',
@@ -1056,10 +927,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 15,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 30,
-    padding: 4,
-    zIndex: 10
+    padding: 10,
+    zIndex: 1000,
+    elevation: 5
   },
   noExerciseContainer: {
     flex: 1,
@@ -1092,4 +964,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default StartWorkoutView;
+export default withKeyboardAvoidingView(StartWorkoutView);
