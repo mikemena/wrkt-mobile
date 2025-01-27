@@ -99,6 +99,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
     let timer;
     if (showExerciseInfo) {
       timer = setTimeout(() => setShowExerciseInfo(false), 2000);
+      // console.log('info icon clicked');
     }
     return () => clearTimeout(timer);
   }, [showExerciseInfo]);
@@ -485,149 +486,63 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
                 backgroundColor: themedStyles.secondaryBackgroundColor
               }}
             >
-              {!activeWorkout.exercises ||
-              activeWorkout.exercises.length === 0 ? (
+              <View style={[styles.exerciseContainer]}>
                 <View
                   style={[
-                    styles.exerciseContainer,
-                    {
-                      height: Math.max(200, 350 - currentSets.length * 20)
-                    },
-                    { backgroundColor: themedStyles.secondaryBackgroundColor }
+                    styles.exerciseImage,
+                    { opacity: isKeyboardVisible ? 0.1 : 1 }
                   ]}
                 >
-                  <View
-                    style={[
-                      styles.exerciseImage,
-                      {
-                        height: Math.max(150, 300 - currentSets.length * 15),
-                        opacity: isKeyboardVisible ? 0.1 : 1
-                      },
-                      {
-                        backgroundColor: themedStyles.secondaryBackgroundColor
-                      }
-                    ]}
-                  >
-                    <View style={imageOverlayStyle} />
-                    {currentExercise?.imageUrl ? (
-                      <Animated.Image
-                        source={{
-                          uri: (() => {
-                            const cachedUrl = getCachedImage(
-                              currentExercise.catalogExerciseId
-                            );
-                            const finalUrl =
-                              cachedUrl || currentExercise.imageUrl;
+                  <View style={imageOverlayStyle} />
+                  {currentExercise?.imageUrl ? (
+                    <Animated.Image
+                      source={{
+                        uri:
+                          getCachedImage(currentExercise.catalogExerciseId) ||
+                          currentExercise.imageUrl
+                      }}
+                      style={[styles.exerciseGif, { opacity: imageOpacity }]}
+                      resizeMode='contain'
+                    />
+                  ) : (
+                    <View style={styles.placeholderImage} />
+                  )}
 
-                            return finalUrl;
-                          })()
-                        }}
-                        style={[styles.exerciseGif, { opacity: imageOpacity }]}
-                        resizeMode='contain'
-                      />
-                    ) : (
-                      <View style={styles.placeholderImage} />
-                    )}
-                    {!showExerciseInfo && !isSwipeOpen && (
-                      <TouchableOpacity
-                        style={styles.infoButton}
-                        onPress={() => setShowExerciseInfo(true)}
+                  {showExerciseInfo && (
+                    <View style={infoOverlayStyle}>
+                      <Text
+                        style={[
+                          styles.exerciseName,
+                          { color: themedStyles.textColor }
+                        ]}
                       >
-                        <Ionicons
-                          name='information-outline'
-                          size={24}
-                          color={themeState.accentColor}
-                        />
-                      </TouchableOpacity>
-                    )}
-
-                    {showExerciseInfo && (
-                      <View style={infoOverlayStyle}>
-                        <Text
-                          style={[
-                            styles.exerciseName,
-                            { color: themedStyles.textColor }
-                          ]}
-                        >
-                          {currentExercise?.name}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.muscleName,
-                            { color: themedStyles.textColor }
-                          ]}
-                        >
-                          {currentExercise?.muscle}
-                        </Text>
-                      </View>
-                    )}
-                  </View>
-                </View>
-              ) : (
-                <View style={[styles.exerciseContainer]}>
-                  <View
-                    style={[
-                      styles.exerciseImage,
-                      { opacity: isKeyboardVisible ? 0.1 : 1 }
-                    ]}
-                  >
-                    <View style={imageOverlayStyle} />
-                    {currentExercise?.imageUrl ? (
-                      <Animated.Image
-                        source={{
-                          uri: (() => {
-                            const cachedUrl = getCachedImage(
-                              currentExercise.catalogExerciseId
-                            );
-                            const finalUrl =
-                              cachedUrl || currentExercise.imageUrl;
-
-                            return finalUrl;
-                          })()
-                        }}
-                        style={[styles.exerciseGif, { opacity: imageOpacity }]}
-                        resizeMode='contain'
-                      />
-                    ) : (
-                      <View style={styles.placeholderImage} />
-                    )}
-                    {!showExerciseInfo && !isSwipeOpen && (
-                      <TouchableOpacity
-                        style={styles.infoButton}
-                        onPress={() => setShowExerciseInfo(true)}
+                        {currentExercise?.name}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.muscleName,
+                          { color: themedStyles.textColor }
+                        ]}
                       >
-                        <Ionicons
-                          name='information-outline'
-                          size={24}
-                          color={themeState.accentColor}
-                        />
-                      </TouchableOpacity>
-                    )}
-
-                    {showExerciseInfo && (
-                      <View style={infoOverlayStyle}>
-                        <Text
-                          style={[
-                            styles.exerciseName,
-                            { color: themedStyles.textColor }
-                          ]}
-                        >
-                          {currentExercise?.name}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.muscleName,
-                            { color: themedStyles.textColor }
-                          ]}
-                        >
-                          {currentExercise?.muscle}
-                        </Text>
-                      </View>
-                    )}
-                  </View>
+                        {currentExercise?.muscle}
+                      </Text>
+                    </View>
+                  )}
                 </View>
-              )}
+              </View>
             </SwipeableItemDeletion>
+            {!isSwipeOpen && (
+              <TouchableOpacity
+                style={styles.infoButton}
+                onPress={() => setShowExerciseInfo(true)}
+              >
+                <Ionicons
+                  name='information-outline'
+                  size={24}
+                  color={themeState.accentColor}
+                />
+              </TouchableOpacity>
+            )}
 
             {/* Next Navigation Button */}
             {activeWorkout.exercises.length > 0 &&
@@ -846,7 +761,8 @@ const styles = StyleSheet.create({
   swipeableContainer: {
     flex: 1,
     marginHorizontal: 5,
-    marginBottom: 10
+    marginBottom: 10,
+    zIndex: 997
   },
   exerciseContainer: {
     display: 'flex',
@@ -868,7 +784,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     alignItems: 'center',
-    zIndex: 999,
+    zIndex: 998,
     paddingVertical: 10
   },
   topNavigationWrapper: {
@@ -1013,8 +929,9 @@ const styles = StyleSheet.create({
     right: 15,
     backgroundColor: 'rgba(0,0,0,0.3)',
     borderRadius: 30,
-    padding: 4,
-    zIndex: 10
+    padding: 10,
+    zIndex: 1000,
+    elevation: 5
   },
   noExerciseContainer: {
     flex: 1,
