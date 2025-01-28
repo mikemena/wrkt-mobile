@@ -25,6 +25,7 @@ const CurrentProgramDetailsView = ({ navigation }) => {
   );
 
   const program = workoutState.activeProgram;
+
   const workouts = program?.workouts || [];
 
   const totalWorkouts = workouts.length;
@@ -47,7 +48,9 @@ const CurrentProgramDetailsView = ({ navigation }) => {
           ...ex,
           name: ex.name,
           equipment: ex.equipment,
-          sets: ex.sets || []
+          sets: ex.sets || [],
+          imageUrl: ex.imageUrl,
+          catalogExerciseId: ex.catalogExerciseId
         })),
         programId: currentWorkout.programId
       };

@@ -41,7 +41,7 @@ const CurrentProgramView = () => {
 
   const programs = programState.programs;
 
-  const activeProgram = workoutState.activeProgram;
+  const activeProgram = workoutState;
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +61,7 @@ const CurrentProgramView = () => {
   // Fetch users programs
   const fetchPrograms = useCallback(async () => {
     try {
-      const data = await getPrograms();
+      const data = await getPrograms(userId);
       setPrograms(data);
     } catch (error) {
       console.error('Error fetching programs:', error);
@@ -71,7 +71,7 @@ const CurrentProgramView = () => {
   // First, ensure we have programs
   useEffect(() => {
     fetchPrograms();
-  }, [fetchPrograms]);
+  }, [fetchPrograms, userId]);
 
   // Define fetchInitialData as a memoized callback
   const fetchInitialData = useCallback(async () => {
@@ -87,7 +87,7 @@ const CurrentProgramView = () => {
 
   useEffect(() => {
     fetchInitialData();
-  }, [fetchInitialData]);
+  }, [fetchInitialData, , userId]);
 
   const handleSetActiveProgram = useCallback(
     async program => {
