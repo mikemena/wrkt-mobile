@@ -61,7 +61,7 @@ const CurrentProgramView = () => {
   // Fetch users programs
   const fetchPrograms = useCallback(async () => {
     try {
-      const data = await getPrograms();
+      const data = await getPrograms(userId);
       setPrograms(data);
     } catch (error) {
       console.error('Error fetching programs:', error);
