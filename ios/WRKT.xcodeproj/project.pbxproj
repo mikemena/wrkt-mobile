@@ -602,7 +602,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C631C0148A541595631621A /* Pods-Development.debug.xcconfig */;
 			buildSettings = {
-				API_BASE_URL = "https://215e-2600-1700-4400-4fa0-a4c7-b132-2b7f-9b52.ngrok-free.app";
+				API_BASE_URL = "https://7ff0-2600-1700-4400-4fa0-91f5-ba46-f601-abb5.ngrok-free.app";
 				APP_ICON_SET = "AppIcon-dev";
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -643,7 +643,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F77B558D68725D566A7B6594 /* Pods-Development.release.xcconfig */;
 			buildSettings = {
-				API_BASE_URL = "https://215e-2600-1700-4400-4fa0-a4c7-b132-2b7f-9b52.ngrok-free.app";
+				API_BASE_URL = "https://7ff0-2600-1700-4400-4fa0-91f5-ba46-f601-abb5.ngrok-free.app";
 				APP_ICON_SET = AppIcon;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -735,10 +735,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -798,10 +795,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
