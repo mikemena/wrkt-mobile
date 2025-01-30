@@ -74,7 +74,8 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
     themeState.theme,
-    themeState.accentColor
+    themeState.accentColor,
+    themeState.textColor
   );
 
   const currentExercise = activeWorkout.exercises[currentExerciseIndex];
@@ -210,76 +211,60 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
 
   const stopTimer = async () => {
     try {
+      // Stop the timer first
       clearInterval(timerRef.current);
-      setIsStarted(false);
-      setIsPaused(false);
 
-      // Validate that we have an active workout
+      // Validate active workout
       if (!activeWorkout) {
         throw new Error('No active workout found');
       }
 
-      // Ensure we're using the most current workout name
-      if (workoutTitle.trim() !== activeWorkout.name) {
-        await updateWorkoutName(workoutTitle.trim());
-      }
+      // Create a local copy of the workout data to avoid hook-related issues
+      const workoutData = {
+        ...activeWorkout,
+        exercises: activeWorkout.exercises
+          .map(exercise => ({
+            ...exercise,
+            sets: (exercise.sets || []).filter(set => {
+              const weight = set.weight;
+              const reps = set.reps;
+              return !isNaN(weight) && !isNaN(reps) && reps > 0;
+            })
+          }))
+          .filter(exercise => exercise.sets.length > 0)
+      };
 
-      // Validate exercises
-      if (!activeWorkout.exercises || !Array.isArray(activeWorkout.exercises)) {
-        throw new Error('No exercises found in workout');
-      }
-
-      if (activeWorkout.exercises.length === 0) {
-        throw new Error('Workout must have at least one exercise');
-      }
-
-      // Validate sets
-      const exercisesWithSets = activeWorkout.exercises
-        .map(exercise => {
-          if (!exercise.sets || !Array.isArray(exercise.sets)) {
-            console.error('Invalid sets for exercise:', exercise.id);
-            return null;
-          }
-
-          const validSets = exercise.sets.filter(set => {
-            const weight = parseInt(set.weight);
-            const reps = parseInt(set.reps);
-            return !isNaN(weight) && !isNaN(reps);
-          });
-
-          return validSets.length > 0
-            ? {
-                ...exercise,
-                sets: validSets
-              }
-            : null;
-        })
-        .filter(Boolean);
-
-      if (exercisesWithSets.length === 0) {
+      // Validate workout data
+      if (!workoutData.exercises || workoutData.exercises.length === 0) {
         throw new Error(
-          'At least one exercise must have valid sets with weight and reps'
+          'Workout must have at least one exercise with valid sets'
         );
       }
 
-      // Calculate duration - ensure it's at least 1 minute
+      // Update states
+      setIsStarted(false);
+      setIsPaused(false);
+
+      // Update workout name if changed
+      if (workoutTitle.trim() !== workoutData.name) {
+        await updateWorkoutName(workoutTitle.trim());
+      }
+
+      // Calculate duration (minimum 1 minute)
       const durationInMinutes = Math.max(1, Math.floor(time / 60));
-      // Complete workout with duration
+
+      // Complete the workout
       await completeWorkout(durationInMinutes);
 
+      // Navigate back
       navigation.goBack();
     } catch (error) {
       console.error('Failed to complete workout:', error);
       Alert.alert(
         'Error',
         error.message ||
-          'Failed to save workout. Please ensure all required fields are filled out.',
-        [
-          {
-            text: 'OK',
-            onPress: () => navigation.goBack()
-          }
-        ]
+          'Failed to save workout. Please ensure all exercises have valid sets with weight and reps.',
+        [{ text: 'OK', onPress: () => navigation.goBack() }]
       );
     }
   };
@@ -445,7 +430,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
         {/* exercise start */}
         <SafeAreaView style={[globalStyles.container]}>
           <View style={styles.swipeableContainer}>
-            {/* Previous Navigation Button */}
+            {/* Navigation buttons and content wrapper */}
             {!showExerciseInfo &&
               !isSwipeOpen &&
               activeWorkout.exercises.length > 1 &&
@@ -762,14 +747,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 5,
     marginBottom: 10,
-    zIndex: 997
+    zIndex: 997,
+    position: 'relative',
+    marginTop: -30
   },
   exerciseContainer: {
-    display: 'flex',
     width: '110%',
     alignItems: 'center',
     alignSelf: 'center',
-    borderRadius: 10
+    borderRadius: 10,
+    paddingVertical: 20
   },
   exerciseContent: {
     flex: 1,
@@ -784,33 +771,35 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     alignItems: 'center',
-    zIndex: 998,
-    paddingVertical: 10
+    zIndex: 998
+    // paddingVertical: 10
   },
   topNavigationWrapper: {
-    top: 8
+    top: 30,
+    paddingTop: 10
   },
 
   bottomNavigationWrapper: {
-    bottom: -45
+    bottom: -50,
+    paddingBottom: 10
   },
   navigationButton: {
     width: 45,
     height: 45,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
     borderRadius: 30,
     elevation: 3
   },
   exerciseImage: {
     width: '91%',
     height: 312,
-    borderRadius: 11,
+    borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
-    borderWidth: 1,
-    backgroundColor: 'rgb(254, 254, 254)'
+    backgroundColor: 'rgb(254, 254, 254)',
+    marginVertical: 10
   },
   exerciseName: {
     fontSize: 16,
@@ -925,14 +914,15 @@ const styles = StyleSheet.create({
   },
   infoButton: {
     position: 'absolute',
-    top: 10,
-    right: 15,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    top: 40,
+    right: 10,
+    backgroundColor: 'rgba(0,0,0,0.1)',
     borderRadius: 30,
     padding: 10,
     zIndex: 1000,
     elevation: 5
   },
+
   noExerciseContainer: {
     flex: 1,
     justifyContent: 'center',
