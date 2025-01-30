@@ -23,6 +23,7 @@ export const WorkoutContext = createContext();
 
 // Create the provider component
 export const WorkoutProvider = ({ children }) => {
+  const { apiUrl } = useConfig();
   const { userId } = useUser();
   const [state, dispatch] = useReducer(workoutReducer, {
     ...initialState,
@@ -239,8 +240,6 @@ export const WorkoutProvider = ({ children }) => {
           workoutData.programId = state.activeWorkout.programId;
         }
 
-        const { apiUrl } = useConfig();
-
         const response = await fetch(`${apiUrl}/api/workout/complete`, {
           method: 'POST',
           headers: {
@@ -272,7 +271,7 @@ export const WorkoutProvider = ({ children }) => {
         throw error;
       }
     },
-    [state.activeWorkout]
+    [state.activeWorkout, apiUrl]
   );
 
   const clearCurrentWorkout = useCallback(() => {
