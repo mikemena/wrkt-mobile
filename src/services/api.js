@@ -1,3 +1,38 @@
+let apiConfig = null;
+
+export const initializeApi = ({ apiUrl }) => {
+  console.log('API URL from api.js', apiUrl);
+  apiConfig = {
+    baseUrl: apiUrl
+  };
+};
+
+const ensureInitialized = () => {
+  if (!apiConfig) {
+    throw new Error('API service must be initialized before use');
+  }
+};
+
+export const api = {
+  get: async endpoint => {
+    ensureInitialized();
+    const response = await fetch(`${apiConfig.baseUrl}${endpoint}`);
+    return response.json();
+  },
+
+  post: async (endpoint, data) => {
+    ensureInitialized();
+    const response = await fetch(`${apiConfig.baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+};
+
 import {
   transformRequestData,
   transformResponseData
@@ -9,26 +44,13 @@ export const setUser = id => {
   userId = id;
 };
 
-let apiUrl = null;
-
-export const initializeApi = config => {
-  if (!config.apiUrl) {
-    throw new Error('API URL is required for initialization');
-  }
-  apiUrl = config.apiUrl;
-};
-
-const ensureInitialized = () => {
-  if (!apiUrl) {
-    throw new Error('API service must be initialized before use');
-  }
-};
-
 export const getPrograms = async userId => {
   ensureInitialized();
   if (!userId) return [];
   try {
-    const response = await fetch(`${apiUrl}/api/users/${userId}/programs`);
+    const response = await fetch(
+      `${apiConfig.baseUrl}/api/users/${userId}/programs`
+    );
     if (response.status === 404) return [];
     if (!response.ok) {
       const errorText = await response.text();
@@ -46,7 +68,9 @@ export const getActiveProgram = async userId => {
   ensureInitialized();
   if (!userId) return null;
   try {
-    const response = await fetch(`${apiUrl}/api/active-program/user/${userId}`);
+    const response = await fetch(
+      `${apiConfig.baseUrl}/api/active-program/user/${userId}`
+    );
     if (response.status === 404) return null;
     if (!response.ok) {
       const errorText = await response.text();
@@ -63,7 +87,9 @@ export const getActiveProgram = async userId => {
 export const getProgram = async programId => {
   ensureInitialized();
   try {
-    const response = await fetch(`${apiUrl}/api/programs/${programId}`);
+    const response = await fetch(
+      `${apiConfig.baseUrl}/api/programs/${programId}`
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -93,7 +119,7 @@ export const createActiveProgram = async programData => {
     programId: programData.programId
   });
 
-  const response = await fetch(`${apiUrl}/api/active-program`, {
+  const response = await fetch(`${apiConfig.baseUrl}/api/active-program`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -113,13 +139,16 @@ export const createActiveProgram = async programData => {
 export const deleteActiveProgram = async userId => {
   ensureInitialized();
   try {
-    const response = await fetch(`${apiUrl}/api/active-program/${userId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
+    const response = await fetch(
+      `${apiConfig.baseUrl}/api/active-program/${userId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        }
       }
-    });
+    );
 
     // First check if the response is ok
     if (!response.ok) {
@@ -147,7 +176,7 @@ export const createProgram = async programData => {
     // Transform to snake_case for backend
     const backendData = transformRequestData(programData);
 
-    const response = await fetch(`${apiUrl}/api/programs`, {
+    const response = await fetch(`${apiConfig.baseUrl}/api/programs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -176,14 +205,17 @@ export const updateProgram = async programData => {
     // Transform to snake_case for backend
     const backendData = transformRequestData(programData);
 
-    const response = await fetch(`${apiUrl}/api/programs/${programData.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify(backendData)
-    });
+    const response = await fetch(
+      `${apiConfig.baseUrl}/api/programs/${programData.id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(backendData)
+      }
+    );
 
     // Handle non-200 responses
     if (!response.ok) {
@@ -213,13 +245,16 @@ export const deleteProgram = async programId => {
       throw new Error('Program ID is required for deletion');
     }
 
-    const response = await fetch(`${apiUrl}/api/programs/${programId}`, {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+    const response = await fetch(
+      `${apiConfig.baseUrl}/api/programs/${programId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       }
-    });
+    );
 
     if (!response.ok) {
       const errorText = await response.text();

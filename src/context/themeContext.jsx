@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react';
 import { useUser } from '../context/userContext.js';
-import { useConfig } from '../context/configContext.js';
+import { config } from '../utils/config.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { themeReducer, initialState } from '../reducers/themeReducer';
 
@@ -8,14 +8,15 @@ export const ThemeContext = createContext(undefined);
 
 export const ThemeProvider = ({ children }) => {
   const { userId } = useUser();
-  const { apiUrl } = useConfig();
   const [state, dispatch] = useReducer(themeReducer, initialState);
 
   useEffect(() => {
     const fetchUserSettings = async () => {
-      if (userId && apiUrl) {
+      if (userId) {
         try {
-          const response = await fetch(`${apiUrl}/api/settings/${userId}`);
+          const response = await fetch(
+            `${config.apiUrl}/api/settings/${userId}`
+          );
 
           const settings = await response.json();
 

@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 
@@ -19,7 +19,6 @@ const ForgotPasswordView = ({ navigation }) => {
   const [generalError, setGeneralError] = useState('');
   const [success, setSuccess] = useState('');
   const [isResetButtonVisible, setIsResetButtonVisible] = useState(true);
-  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -60,13 +59,16 @@ const ForgotPasswordView = ({ navigation }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email })
-      });
+      const response = await fetch(
+        `${config.apiUrl}/api/auth/forgot-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        }
+      );
 
       const data = await response.json();
 

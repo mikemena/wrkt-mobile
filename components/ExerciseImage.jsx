@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator, Image, StyleSheet } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { cacheImage, getCachedImage } from '../src/utils/imageCache';
 
 const ExerciseImage = ({ exercise }) => {
-  const { apiUrl } = useConfig();
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
@@ -26,7 +25,7 @@ const ExerciseImage = ({ exercise }) => {
 
     try {
       const response = await fetch(
-        `${apiUrl}/api/exercise-catalog/${exercise.id}/image`
+        `${config.apiUrl}/api/exercise-catalog/${exercise.id}/image`
       );
 
       if (!response.ok) {

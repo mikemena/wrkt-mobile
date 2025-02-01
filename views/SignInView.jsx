@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -21,7 +21,6 @@ const SignInView = ({ navigation }) => {
   const [emailError, setEmailError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { signIn } = useAuth();
   const { state: themeState } = useTheme();
@@ -48,7 +47,7 @@ const SignInView = ({ navigation }) => {
   };
 
   const handleSignIn = async () => {
-    console.log('Attempting signin with url', apiUrl);
+    console.log('Attempting signin with url', config.apiUrl);
     // Clear any previous general error
     setGeneralError('');
     if (!password) {
@@ -59,7 +58,7 @@ const SignInView = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const requestUrl = `${apiUrl}/api/auth/signin`;
+      const requestUrl = `${config.apiUrl}/api/auth/signin`;
       console.log('Making request to:', requestUrl);
 
       const response = await fetch(requestUrl, {

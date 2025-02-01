@@ -8,7 +8,7 @@ import * as Crypto from 'expo-crypto';
 import { actionTypes } from '../actions/actionTypes';
 import { workoutReducer } from '../reducers/workoutReducer';
 import { getActiveProgram } from '../services/api';
-import { useConfig } from '../context/configContext';
+import { config } from '../utils/config.js';
 import { useUser } from '../context/userContext';
 
 // Initial state
@@ -23,7 +23,6 @@ export const WorkoutContext = createContext();
 
 // Create the provider component
 export const WorkoutProvider = ({ children }) => {
-  const { apiUrl } = useConfig();
   const { userId } = useUser();
   const [state, dispatch] = useReducer(workoutReducer, {
     ...initialState,
@@ -240,7 +239,7 @@ export const WorkoutProvider = ({ children }) => {
           workoutData.programId = state.activeWorkout.programId;
         }
 
-        const response = await fetch(`${apiUrl}/api/workout/complete`, {
+        const response = await fetch(`${config.apiUrl}/api/workout/complete`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -271,7 +270,7 @@ export const WorkoutProvider = ({ children }) => {
         throw error;
       }
     },
-    [state.activeWorkout, apiUrl]
+    [state.activeWorkout, config.apiUrl]
   );
 
   const clearCurrentWorkout = useCallback(() => {

@@ -1,17 +1,15 @@
 module.exports = ({ config }) => {
-  const isProd =
-    process.env.ENV === 'production' || process.env.NODE_ENV === 'production';
-
+  const isProd = process.env.ENV === 'production';
   const iconDir = isProd
     ? './assets/app-icons/production'
     : './assets/app-icons/development';
 
   const extraConfig = {
     ...config.extra,
-    apiUrl: isProd ? 'https://api.wrkt.fitness' : 'http://localhost:9025',
-    env: isProd ? 'production' : 'development',
+    apiUrl: process.env.API_URL,
+    env: process.env.ENV,
     isProd: isProd,
-    environment: isProd ? 'production' : 'development'
+    environment: process.env.ENV
   };
 
   const updatedConfig = {

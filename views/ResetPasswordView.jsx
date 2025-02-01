@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,7 +21,6 @@ const ResetPasswordView = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -60,7 +59,7 @@ const ResetPasswordView = ({ navigation, route }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/reset-password`, {
+      const response = await fetch(`${config.apiUrl}/api/auth/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
