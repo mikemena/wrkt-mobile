@@ -9,7 +9,7 @@ import {
   Switch,
   StyleSheet
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
 import { useAuth } from '../src/context/authContext';
@@ -21,7 +21,6 @@ const ProfileView = ({ navigation, route }) => {
 
   const { state: themeState, dispatch } = useTheme();
   const { user, signOut } = useAuth();
-  const { apiUrl, isLoadingConfig } = useConfig();
   const [userName, setUserName] = useState(user?.username || '');
   const [email, setEmail] = useState(user?.email || '');
   const [isEditing, setIsEditing] = useState(false);
@@ -67,7 +66,7 @@ const ProfileView = ({ navigation, route }) => {
 
       if (userDataChanged) {
         updates.push(
-          fetch(`${apiUrl}/api/users/${user.id}`, {
+          fetch(`${config.apiUrl}/api/users/${user.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -85,7 +84,7 @@ const ProfileView = ({ navigation, route }) => {
 
         //save to server
         updates.push(
-          fetch(`${apiUrl}/api/settings/${user.id}`, {
+          fetch(`${config.apiUrl}/api/settings/${user.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

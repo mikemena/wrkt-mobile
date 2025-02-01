@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { initializeApi } from './src/services/api';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,7 +12,6 @@ import { ProgramProvider } from './src/context/programContext';
 import { WorkoutProvider } from './src/context/workoutContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
-import { ConfigProvider } from './src/context/configContext';
 
 // Import your view components
 import ProgramsView from './views/ProgramsView';
@@ -36,6 +36,8 @@ const ProgramsStack = createStackNavigator();
 const WorkoutStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+
+console.log('API URL from App.jsx', process.env.API_URL);
 
 const ProgramsStackScreen = () => (
   <ProgramsStack.Navigator screenOptions={{ headerShown: false }}>
@@ -196,6 +198,10 @@ const App = () => {
         console.error('Failed to load fonts:', error);
       }
     }
+    const apiUrl = process.env.API_URL;
+    console.log('API URL from App.jsx', apiUrl);
+    initializeApi({ apiUrl });
+
     loadFonts();
   }, []);
 
@@ -208,23 +214,21 @@ const App = () => {
   }
 
   return (
-    <ConfigProvider>
-      <AuthProvider>
-        <UserProvider>
-          <ProgramProvider>
-            <WorkoutProvider>
-              <ThemeProvider>
-                <View style={styles.container}>
-                  <NavigationContainer linking={linking}>
-                    <RootNavigator />
-                  </NavigationContainer>
-                </View>
-              </ThemeProvider>
-            </WorkoutProvider>
-          </ProgramProvider>
-        </UserProvider>
-      </AuthProvider>
-    </ConfigProvider>
+    <AuthProvider>
+      <UserProvider>
+        <ProgramProvider>
+          <WorkoutProvider>
+            <ThemeProvider>
+              <View style={styles.container}>
+                <NavigationContainer linking={linking}>
+                  <RootNavigator />
+                </NavigationContainer>
+              </View>
+            </ThemeProvider>
+          </WorkoutProvider>
+        </ProgramProvider>
+      </UserProvider>
+    </AuthProvider>
   );
 };
 

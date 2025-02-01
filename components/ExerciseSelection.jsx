@@ -14,7 +14,7 @@ import {
   Modal,
   StyleSheet
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
@@ -47,7 +47,6 @@ const ExerciseSelection = ({ navigation, route }) => {
   const flatListRef = useRef(null);
 
   // State
-  const { apiUrl, isLoadingConfig } = useConfig();
   const [exercises, setExercises] = useState([]);
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [selectedExercises, setSelectedExercises] = useState([]);
@@ -85,7 +84,7 @@ const ExerciseSelection = ({ navigation, route }) => {
       });
 
       const response = await fetch(
-        `${apiUrl}/api/exercise-catalog?${queryParams}`,
+        `${config.apiUrl}/api/exercise-catalog?${queryParams}`,
         {
           headers: {
             Accept: 'application/json',

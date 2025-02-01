@@ -7,7 +7,7 @@ import {
   Text,
   TouchableWithoutFeedback
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
 import PillButton from './PillButton';
@@ -34,7 +34,6 @@ const ExerciseFilter = ({
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
   const [muscleOptions, setMuscleOptions] = useState([]);
   const [equipmentOptions, setEquipmentOptions] = useState([]);
-  const { apiUrl, isLoadingConfig } = useConfig();
 
   useEffect(() => {
     loadCatalogData();
@@ -70,7 +69,7 @@ const ExerciseFilter = ({
 
   const fetchMuscles = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api/muscles`);
+      const response = await fetch(`${config.apiUrl}/api/muscles`);
       const data = await response.json();
       return data.map(muscle => ({
         label: `${muscle.muscle} (${muscle.muscle_group})`,
@@ -84,7 +83,7 @@ const ExerciseFilter = ({
 
   const fetchEquipment = async () => {
     try {
-      const response = await fetch(`${apiUrl}/api/equipments`);
+      const response = await fetch(`${config.apiUrl}/api/equipments`);
 
       const data = await response.json();
 

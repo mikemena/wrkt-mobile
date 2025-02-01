@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ActivityIndicator
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -22,7 +22,6 @@ const SignUpView = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { signIn } = useAuth();
   const { state: themeState } = useTheme();
@@ -113,7 +112,7 @@ const SignUpView = ({ navigation }) => {
 
     try {
       // Prepare request details
-      const signupUrl = `${apiUrl}/api/auth/signup`;
+      const signupUrl = `${config.apiUrl}/api/auth/signup`;
       const requestBody = {
         auth_provider: 'email',
         email,
@@ -177,7 +176,7 @@ const SignUpView = ({ navigation }) => {
 
       // Create user settings
       console.log('📤 Creating user settings...');
-      const settingsUrl = `${apiUrl}/api/settings/${userData.user.id}`;
+      const settingsUrl = `${config.apiUrl}/api/settings/${userData.user.id}`;
       const settingsBody = {
         theme_mode: 'dark',
         accent_color: '#D93B56'
@@ -244,7 +243,7 @@ const SignUpView = ({ navigation }) => {
 
       if (authData) {
         // Send to your backend
-        const response = await fetch(`${apiUrl}/api/auth/social`, {
+        const response = await fetch(`${config.apiUrl}/api/auth/social`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
