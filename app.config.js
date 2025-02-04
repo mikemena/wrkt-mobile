@@ -1,3 +1,15 @@
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
+
+const envFile = process.env.ENVFILE || '.env.development';
+console.log(`Using environment file: ${envFile}`);
+if (fs.existsSync(path.resolve(__dirname, envFile))) {
+  dotenv.config({ path: envFile });
+} else {
+  console.warn(`Environment file ${envFile} not found!`);
+}
+
 module.exports = ({ config }) => {
   const isProd = process.env.ENV === 'production';
   const iconDir = isProd

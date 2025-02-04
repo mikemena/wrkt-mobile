@@ -99,7 +99,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
     // Handle auto-hide timer
     let timer;
     if (showExerciseInfo) {
-      timer = setTimeout(() => setShowExerciseInfo(false), 2000);
+      timer = setTimeout(() => setShowExerciseInfo(false), 3000);
       // console.log('info icon clicked');
     }
     return () => clearTimeout(timer);
@@ -172,13 +172,12 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   const infoOverlayStyle = {
     position: 'absolute',
     width: '100%',
-    bottom: 230,
+    bottom: 180,
     top: 0,
     left: 0,
     right: 0,
     backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
     padding: 10,
-    // marginLeft: 16,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10
   };
@@ -616,7 +615,11 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
 
             <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps='handled'>
               {currentSets.length === 0 && (
-                <Text style={styles.noSetsText}>No Sets</Text>
+                <Text
+                  style={[styles.noSetsText, { color: themedStyles.textColor }]}
+                >
+                  No Sets
+                </Text>
               )}
               {currentSets.map((set, index) => (
                 <Set
@@ -704,7 +707,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
 
 const styles = StyleSheet.create({
   header: {
-    paddingBottom: 5,
+    paddingBottom: 1,
     alignItems: 'center'
   },
   workoutName: {
@@ -746,17 +749,18 @@ const styles = StyleSheet.create({
   swipeableContainer: {
     flex: 1,
     marginHorizontal: 5,
-    marginBottom: 10,
+    marginBottom: '5%',
     zIndex: 997,
     position: 'relative',
-    marginTop: -30
+    marginTop: '2%',
+    height: '45%'
   },
   exerciseContainer: {
     width: '110%',
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: 10,
-    paddingVertical: 20
+    paddingVertical: '1%'
   },
   exerciseContent: {
     flex: 1,
@@ -772,16 +776,16 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     zIndex: 998
-    // paddingVertical: 10
+    // paddingVertical: '5%'
   },
   topNavigationWrapper: {
-    top: 30,
-    paddingTop: 10
+    top: '3%',
+    paddingTop: '2%'
   },
 
   bottomNavigationWrapper: {
-    bottom: -50,
-    paddingBottom: 10
+    bottom: '-2%',
+    paddingBottom: '3%'
   },
   navigationButton: {
     width: 45,
@@ -794,12 +798,11 @@ const styles = StyleSheet.create({
   },
   exerciseImage: {
     width: '91%',
-    height: 312,
+    aspectRatio: 1.5,
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: 'rgb(254, 254, 254)',
-    marginVertical: 10
+    backgroundColor: 'rgb(254, 254, 254)'
   },
   exerciseName: {
     fontSize: 16,
@@ -832,6 +835,7 @@ const styles = StyleSheet.create({
   noSetsText: {
     textAlign: 'center',
     fontFamily: 'Lexend',
+    fontSize: 16,
     marginTop: 10
   },
 
@@ -853,7 +857,6 @@ const styles = StyleSheet.create({
   },
 
   setHeader: {
-    marginTop: 50,
     paddingLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -914,8 +917,8 @@ const styles = StyleSheet.create({
   },
   infoButton: {
     position: 'absolute',
-    top: 40,
-    right: 10,
+    top: '5%',
+    right: '3%',
     backgroundColor: 'rgba(0,0,0,0.1)',
     borderRadius: 30,
     padding: 10,

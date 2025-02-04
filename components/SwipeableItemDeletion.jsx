@@ -190,7 +190,8 @@ const SwipeableItemDeletion = forwardRef(
 
 const styles = StyleSheet.create({
   deleteActionContainer: {
-    width: 80
+    width: 80,
+    paddingVertical: '1%'
   },
   deleteActionContainerSpacing: {
     marginTop: 1
