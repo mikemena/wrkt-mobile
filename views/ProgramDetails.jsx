@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { ProgramContext } from '../src/context/programContext';
+import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -170,38 +171,16 @@ const ProgramDetails = () => {
           {program.workouts.map(renderWorkout)}
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            <ParallelogramButton
+              label='EDIT'
+              style={[{ width: 150, alignItems: 'center' }]}
               onPress={handleEditProgram}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                EDIT
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            />
+            <ParallelogramButton
+              label='DELETE'
+              style={[{ width: 150, alignItems: 'center' }]}
               onPress={() => handleDeleteProgram(program.id)}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                DELETE
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         </ScrollView>
       </View>
@@ -217,7 +196,6 @@ const styles = StyleSheet.create({
   },
   programItem: {
     padding: 12,
-    borderRadius: 10,
     marginBottom: 10
   },
   programTitle: {
@@ -245,14 +223,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20
-  },
-  button: {
-    flex: 1,
-    padding: 15,
-    borderRadius: 30,
-    alignItems: 'center',
-    marginHorizontal: 5
+    marginTop: 10,
+    marginHorizontal: 20
   },
   workoutContainer: {
     paddingBottom: 5
@@ -261,8 +233,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    borderRadius: 10
+    padding: 10
   },
   headerContent: {
     flex: 1,
@@ -288,9 +259,7 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   workoutContent: {
-    padding: 16,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    padding: 16
   },
   exerciseItem: {
     marginBottom: 10

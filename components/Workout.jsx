@@ -71,15 +71,7 @@ const Workout = ({
 
   const headerStyle = [
     styles.workoutHeader,
-    { backgroundColor: themedStyles.secondaryBackgroundColor },
-    isExpanded
-      ? {
-          borderTopLeftRadius: 10
-        }
-      : {
-          borderTopLeftRadius: 10,
-          borderBottomLeftRadius: 10
-        }
+    { backgroundColor: themedStyles.secondaryBackgroundColor }
   ];
 
   const handleTitlePress = useCallback(() => {
@@ -273,8 +265,6 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   expandedContent: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
     overflow: 'hidden'
   }
 });

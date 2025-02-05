@@ -22,7 +22,7 @@ import { getPrograms } from '../src/services/api';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import Header from '../components/Header';
 import { globalStyles, colors } from '../src/styles/globalStyles';
-import PillButton from '../components/PillButton';
+import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import ProgramFilter from '../components/ProgramFilter';
 
@@ -192,17 +192,14 @@ const ProgramsView = () => {
       <Header pageName='Programs' />
       <View style={globalStyles.container}>
         {programList.programs.length > 0 && (
-          <PillButton
+          <ParallelogramButton
             label='Filter'
             icon={
               <Ionicons
                 name='options-outline'
                 size={16}
                 style={{
-                  color:
-                    themeState.theme === 'dark'
-                      ? themedStyles.accentColor
-                      : colors.eggShell
+                  color: themedStyles.accentColor
                 }}
               />
             }
@@ -249,20 +246,12 @@ const ProgramsView = () => {
             </Text>
           </View>
         )}
-        <View
-          style={[globalStyles.centeredButtonContainer, styles.btnContainer]}
-        >
-          <TouchableOpacity
-            style={[
-              globalStyles.button,
-              { backgroundColor: themedStyles.accentColor }
-            ]}
+        <View style={[styles.btnContainer]}>
+          <ParallelogramButton
+            label='CREATE PROGRAM'
+            style={[{ width: 300, alignItems: 'center' }]}
             onPress={handleCreateProgram}
-          >
-            <Text style={[globalStyles.buttonText, { color: colors.black }]}>
-              CREATE PROGRAM
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -284,7 +273,6 @@ const styles = StyleSheet.create({
 
   programItem: {
     padding: 16,
-    borderRadius: 10,
     marginBottom: 10
   },
   programTitle: {
@@ -325,6 +313,10 @@ const styles = StyleSheet.create({
     marginBottom: 24
   },
   btnContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 15
   }
 });

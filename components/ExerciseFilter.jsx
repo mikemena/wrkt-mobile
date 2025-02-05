@@ -10,7 +10,7 @@ import {
 import { config } from '../src/utils/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
-import PillButton from './PillButton';
+import ParallelogramButton from './ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -151,7 +151,7 @@ const ExerciseFilter = ({
           >
             <View style={styles.container}>
               <View style={styles.header}>
-                <PillButton
+                <ParallelogramButton
                   label='Close'
                   icon={
                     <Ionicons
@@ -171,7 +171,7 @@ const ExerciseFilter = ({
                       : `${totalMatches} Matches`}
                   </Text>
                 </View>
-                <PillButton
+                <ParallelogramButton
                   label='Clear'
                   icon={
                     <Ionicons

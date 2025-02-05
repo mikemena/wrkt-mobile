@@ -87,7 +87,6 @@ const ProgressView = () => {
               {
                 height: 20,
                 width: 30,
-                borderRadius: 15,
                 backgroundColor: themedStyles.accentColor,
                 opacity: 0.3
               }
@@ -116,7 +115,6 @@ const ProgressView = () => {
             {
               height,
               width: 30,
-              borderRadius: 15,
               backgroundColor: themedStyles.accentColor
             }
           ]}
@@ -291,7 +289,6 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   card: {
-    borderRadius: 10,
     marginHorizontal: 10,
     marginTop: 10,
     padding: 15
@@ -330,8 +327,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend'
   },
   bar: {
-    width: 30,
-    borderRadius: 15
+    width: 30
   },
   dayLabel: {
     marginTop: 5,

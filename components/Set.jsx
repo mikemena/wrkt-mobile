@@ -1,30 +1,19 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, Platform } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import SwipeableItemDeletion from '../components/SwipeableItemDeletion';
 
-const Set = ({
-  index,
-  set,
-  isLast,
-  onSetChange,
-  onDelete,
-  themedStyles,
-  onFocus
-}) => {
+const Set = ({ index, set, onSetChange, onDelete, themedStyles, onFocus }) => {
   return (
-    <View style={[styles.setRowWrapper, isLast && styles.lastSetWrapper]}>
+    <View style={[styles.setRowWrapper]}>
       <SwipeableItemDeletion
         onDelete={() => onDelete(set.id)}
-        isLast={isLast}
         swipeableType='set'
       >
         <View
           style={[
             styles.setRow,
             {
-              backgroundColor: themedStyles.secondaryBackgroundColor,
-              borderBottomLeftRadius: isLast ? 10 : 0,
-              borderBottomRightRadius: isLast ? 10 : 0
+              backgroundColor: themedStyles.secondaryBackgroundColor
             }
           ]}
         >
@@ -88,7 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 32,
     marginHorizontal: 15,
-    borderRadius: 10,
     textAlign: 'center',
     fontFamily: 'Lexend',
     paddingVertical: 0
