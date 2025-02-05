@@ -25,7 +25,7 @@ import * as Crypto from 'expo-crypto';
 import { useNavigation } from '@react-navigation/native';
 import { WorkoutContext } from '../src/context/workoutContext';
 import { ProgramContext } from '../src/context/programContext';
-import PillButton from '../components/PillButton';
+import ParallelogramButton from '../components/ParallelogramButton';
 import SwipeableItemDeletion from '../components/SwipeableItemDeletion';
 import Header from '../components/Header';
 import Set from '../components/Set';
@@ -165,8 +165,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
     right: 0,
     bottom: 0,
     backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
-    zIndex: 1,
-    borderRadius: 10
+    zIndex: 1
   };
 
   const infoOverlayStyle = {
@@ -177,9 +176,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
     left: 0,
     right: 0,
     backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
-    padding: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    padding: 10
   };
 
   const handleCancel = () => navigation.goBack();
@@ -633,26 +630,14 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
                 />
               ))}
             </ScrollView>
-            <PillButton
+            <ParallelogramButton
               label='Add Set'
               style={[
-                ,
+                { marginLeft: 35 },
                 isKeyboardVisible
                   ? styles.addSetButtonKeyboardVisible
                   : styles.addSetButtonKeyboardNotVisible
               ]}
-              icon={
-                <Ionicons
-                  name='add-outline'
-                  size={16}
-                  style={{
-                    color:
-                      themeState.theme === 'dark'
-                        ? themedStyles.accentColor
-                        : colors.eggShell
-                  }}
-                />
-              }
               onPress={handleAddSet}
             />
           </View>
@@ -667,38 +652,16 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
             { opacity: isKeyboardVisible ? 0 : 1 }
           ]}
         >
-          <TouchableOpacity
-            style={[
-              styles.bottomButton,
-              { backgroundColor: themedStyles.secondaryBackgroundColor }
-            ]}
+          <ParallelogramButton
+            label='ADD EXERCISE'
+            style={[{ width: 150, alignItems: 'center', marginLeft: 25 }]}
             onPress={() => handleAddExercises(workoutState.workout_id)}
-          >
-            <Text
-              style={[
-                styles.bottomButtonText,
-                { color: themedStyles.accentColor }
-              ]}
-            >
-              ADD EXERCISE
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.bottomButton,
-              { backgroundColor: themedStyles.secondaryBackgroundColor }
-            ]}
+          />
+          <ParallelogramButton
+            label='CANCEL'
+            style={[{ width: 150, alignItems: 'center', marginRight: 25 }]}
             onPress={handleCancel}
-          >
-            <Text
-              style={[
-                styles.bottomButtonText,
-                { color: themedStyles.accentColor }
-              ]}
-            >
-              CANCEL
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -799,7 +762,7 @@ const styles = StyleSheet.create({
   exerciseImage: {
     width: '91%',
     aspectRatio: 1.5,
-    borderRadius: 10,
+
     overflow: 'hidden',
     position: 'relative',
     backgroundColor: 'rgb(254, 254, 254)'
@@ -818,14 +781,12 @@ const styles = StyleSheet.create({
   exerciseGif: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+
     resizeMode: 'contain'
   },
   placeholderImage: {
     width: '100%',
-    height: '100%',
-
-    borderRadius: 10
+    height: '100%'
   },
 
   keyboardAvoidingView: {
@@ -837,6 +798,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: 16,
     marginTop: 10
+  },
+
+  setControls: {
+    paddingTop: 10
   },
 
   setControlsKeyboardNotVisible: {
@@ -861,8 +826,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 25,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
     marginBottom: 1
   },
 
@@ -884,9 +847,8 @@ const styles = StyleSheet.create({
   },
   addSetButtonKeyboardNotVisible: {
     marginTop: 5,
-    marginLeft: 5,
+    marginLeft: 25,
     position: 'relative',
-    borderRadius: 20,
     zIndex: 1
   },
   addSetButtonKeyboardVisible: {
@@ -897,14 +859,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 20
   },
-  bottomButton: {
-    flex: 1,
-    height: 35,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 10
-  },
+
   bottomButtonText: {
     fontSize: 14,
     fontFamily: 'Lexend'

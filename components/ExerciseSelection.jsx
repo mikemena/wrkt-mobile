@@ -24,7 +24,7 @@ import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { transformResponseData } from '../src/utils/apiTransformers';
 import { globalStyles, colors } from '../src/styles/globalStyles';
-import PillButton from './PillButton';
+import ParallelogramButton from './ParallelogramButton';
 import ExerciseFilter from './ExerciseFilter';
 import ExerciseImage from './ExerciseImage';
 import { cacheImage, debugCache } from '../src/utils/imageCache';
@@ -423,7 +423,7 @@ const ExerciseSelection = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.filterRow}>
-          <PillButton
+          <ParallelogramButton
             label='Filter'
             icon={
               <Ionicons

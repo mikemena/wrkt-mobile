@@ -10,6 +10,7 @@ import {
   StyleSheet
 } from 'react-native';
 import { config } from '../src/utils/config';
+import ParallelogramButton from '../components/ParallelogramButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
 import { useAuth } from '../src/context/authContext';
@@ -370,75 +371,34 @@ const ProfileView = ({ navigation, route }) => {
 
         {!isEditing ? (
           <View style={globalStyles.centeredButtonContainer}>
-            <TouchableOpacity
-              style={[
-                globalStyles.button,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            <ParallelogramButton
+              label='EDIT'
+              style={[{ width: 300, alignItems: 'center' }]}
               onPress={() => setIsEditing(true)}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                EDIT
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         ) : (
           <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[
-                globalStyles.button,
-                styles.saveButton,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            <ParallelogramButton
+              label='SAVE'
+              style={[{ width: 150, alignItems: 'center' }]}
               onPress={handleSave}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                SAVE
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                globalStyles.button,
-                styles.cancelButton,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            />
+            <ParallelogramButton
+              label='CANCEL'
+              style={[{ width: 150, alignItems: 'center' }]}
               onPress={handleCancel}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                CANCEL
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         )}
       </View>
       <View style={[globalStyles.section]}>
         <View style={globalStyles.centeredButtonContainer}>
-          <TouchableOpacity
-            style={[
-              globalStyles.button,
-              { backgroundColor: themedStyles.accentColor }
-            ]}
+          <ParallelogramButton
+            label='SIGN OUT'
+            style={[{ width: 300, alignItems: 'center' }]}
             onPress={handleSignOut}
-          >
-            <Text style={[globalStyles.buttonText, { color: colors.black }]}>
-              SIGN OUT
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -479,7 +439,8 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20
+    marginTop: 10,
+    marginHorizontal: 20
   },
   saveButton: {
     flex: 1,

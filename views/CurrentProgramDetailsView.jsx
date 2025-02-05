@@ -8,6 +8,7 @@ import {
   SafeAreaView
 } from 'react-native';
 import { WorkoutContext } from '../src/context/workoutContext';
+import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -126,15 +127,6 @@ const CurrentProgramDetailsView = ({ navigation }) => {
               size={24}
             />
           </TouchableOpacity>
-          <View style={styles.progressBar}>
-            <View
-              style={[
-                styles.progressFill,
-                { width: `${currentWorkout.progress}%` }
-              ]}
-            />
-            <Text style={styles.progressText}>{currentWorkout.progress}%</Text>
-          </View>
         </View>
 
         <View
@@ -268,19 +260,11 @@ const CurrentProgramDetailsView = ({ navigation }) => {
           </View>
         </View>
         <View style={globalStyles.centeredButtonContainer}>
-          <TouchableOpacity
-            style={[
-              globalStyles.button,
-              {
-                backgroundColor: themedStyles.accentColor
-              }
-            ]}
+          <ParallelogramButton
+            label='GO TO WORKOUT'
+            style={[{ width: 300, alignItems: 'center' }]}
             onPress={handleStartWorkout}
-          >
-            <Text style={[globalStyles.buttonText, { color: colors.black }]}>
-              GO TO WORKOUT
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -293,7 +277,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
     fontWeight: 'semibold',
-    marginBottom: 10
+    marginBottom: 10,
+    textAlign: 'center'
   },
   progressContainer: {
     flexDirection: 'row',
@@ -305,33 +290,12 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: 5
   },
-  progressBar: {
-    flex: 1,
-    height: 35,
-    backgroundColor: '#444',
-    borderRadius: 8,
-    position: 'relative',
-    overflow: 'hidden'
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.accent,
-    borderRadius: 10
-  },
-  progressText: {
-    fontFamily: 'Lexend',
-    position: 'absolute',
-    right: 10,
-    color: 'white',
-    lineHeight: 35
-  },
   workoutInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
     marginHorizontal: 5,
-    borderRadius: 10,
     padding: 10
   },
   navArrow: {
@@ -349,7 +313,6 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 10,
     marginHorizontal: 5,
-    borderRadius: 10,
     padding: 10
   },
   sectionTitle: {
@@ -376,7 +339,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
     marginHorizontal: 5,
-    borderRadius: 10,
     padding: 10
   },
   infoItem: {

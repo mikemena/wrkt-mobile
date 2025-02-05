@@ -27,7 +27,7 @@ import {
   createActiveProgram,
   deleteActiveProgram
 } from '../src/services/api';
-import PillButton from '../components/PillButton';
+import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import ProgramFilter from '../components/ProgramFilter';
 import { useUser } from '../src/context/userContext';
@@ -294,17 +294,14 @@ const CurrentProgramView = () => {
             />
           </TouchableOpacity>
           {programs?.length > 0 && (
-            <PillButton
+            <ParallelogramButton
               label='Filter'
               icon={
                 <Ionicons
                   name='options-outline'
                   size={16}
                   style={{
-                    color:
-                      themeState.theme === 'dark'
-                        ? themedStyles.accentColor
-                        : colors.eggShell
+                    color: themedStyles.accentColor
                   }}
                 />
               }
@@ -388,7 +385,6 @@ const styles = StyleSheet.create({
 
   programItem: {
     padding: 16,
-    borderRadius: 10,
     marginBottom: 10
   },
   programTitle: {
