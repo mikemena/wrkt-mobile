@@ -108,6 +108,7 @@ const CreateProgram = () => {
         </View>
 
         {/* Add Workout button */}
+
         <ParallelogramButton
           label='Add Workout'
           icon={
@@ -156,25 +157,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
     marginHorizontal: 20
-  },
-  addButton: {
-    backgroundColor: '#4CAF50',
-    padding: 12,
-    borderRadius: 4,
-    alignItems: 'center',
-    marginBottom: 10
-  },
-  addButtonText: {
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  saveButton: {
-    flex: 1,
-    marginRight: 10
-  },
-  cancelButton: {
-    flex: 1,
-    marginLeft: 10
   }
 });
 

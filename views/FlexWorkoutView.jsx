@@ -98,14 +98,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20
-  },
-  addButton: {
-    flex: 1,
-    marginRight: 10
-  },
-  cancelButton: {
-    flex: 1,
-    marginLeft: 10
   }
 });
 
