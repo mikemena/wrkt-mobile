@@ -24,7 +24,7 @@ import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { transformResponseData } from '../src/utils/apiTransformers';
 import { globalStyles, colors } from '../src/styles/globalStyles';
-import ParallelogramButton from './ParallelogramButton';
+import SecondaryButton from './SecondaryButton';
 import ExerciseFilter from './ExerciseFilter';
 import ExerciseImage from './ExerciseImage';
 import { cacheImage, debugCache } from '../src/utils/imageCache';
@@ -423,19 +423,9 @@ const ExerciseSelection = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.filterRow}>
-          <ParallelogramButton
+          <SecondaryButton
             label='Filter'
-            icon={
-              <Ionicons
-                name='options-outline'
-                size={16}
-                color={
-                  themeState.theme === 'dark'
-                    ? themedStyles.accentColor
-                    : colors.eggShell
-                }
-              />
-            }
+            iconName='options-outline'
             onPress={() => setIsFilterVisible(true)}
           />
         </View>
@@ -498,8 +488,7 @@ const styles = StyleSheet.create({
   exerciseItem: {
     flexDirection: 'row',
     paddingBottom: 1,
-    borderBottomWidth: 1,
-    borderRadius: 10
+    borderBottomWidth: 1
   },
   selectedExercise: {
     borderStyle: 'solid',

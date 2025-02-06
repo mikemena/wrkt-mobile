@@ -10,7 +10,7 @@ import {
 import { ProgramContext } from '../src/context/programContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { globalStyles, colors } from '../src/styles/globalStyles';
+import { globalStyles } from '../src/styles/globalStyles';
 import { useTheme } from '../src/hooks/useTheme';
 import { toUpperCase } from '../src/utils/stringUtils';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -134,7 +134,8 @@ const ProgramForm = ({ program, isExpanded, onToggleExpand }) => {
                 {
                   backgroundColor: themedStyles.secondaryBackgroundColor,
                   color: themedStyles.textColor
-                }
+                },
+                styles.programNameInput
               ]}
               value={formValues.name}
               onChangeText={text => handleChange('name', text)}
@@ -228,10 +229,14 @@ const styles = StyleSheet.create({
   },
   durationInput: {
     flex: 1,
-    marginRight: 8
+    marginRight: 8,
+    borderRadius: 5
   },
   durationUnitInput: {
     flex: 1
+  },
+  programNameInput: {
+    borderRadius: 5
   }
 });
 

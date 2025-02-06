@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    borderRadius: 5,
     transform: [{ skewX: '-12deg' }]
   },
   parallelogramTop: {
@@ -138,7 +139,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
+    borderRadius: 5
   },
   contentContainer: {
     flexDirection: 'row',

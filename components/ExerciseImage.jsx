@@ -166,8 +166,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     backgroundColor: '#2A2A2A',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
     overflow: 'hidden'
   },
   loadingIndicator: {
@@ -186,9 +184,7 @@ const styles = StyleSheet.create({
   },
   exerciseImage: {
     width: '100%',
-    height: '100%',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10
+    height: '100%'
   }
 });
 

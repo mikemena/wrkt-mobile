@@ -26,6 +26,7 @@ import { useNavigation } from '@react-navigation/native';
 import { WorkoutContext } from '../src/context/workoutContext';
 import { ProgramContext } from '../src/context/programContext';
 import ParallelogramButton from '../components/ParallelogramButton';
+import SecondaryButton from '../components/SecondaryButton';
 import SwipeableItemDeletion from '../components/SwipeableItemDeletion';
 import Header from '../components/Header';
 import Set from '../components/Set';
@@ -463,9 +464,12 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
               swipeableType='exercise-start'
               onDelete={() => handleDeleteExercise(currentExercise?.id)}
               onSwipeChange={setIsSwipeOpen}
-              style={{
-                backgroundColor: themedStyles.secondaryBackgroundColor
-              }}
+              style={[
+                {
+                  backgroundColor: themedStyles.secondaryBackgroundColor,
+                  paddingTop: 10
+                }
+              ]}
             >
               <View style={[styles.exerciseContainer]}>
                 <View
@@ -630,14 +634,9 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
                 />
               ))}
             </ScrollView>
-            <ParallelogramButton
+            <SecondaryButton
               label='Add Set'
-              style={[
-                { marginLeft: 35 },
-                isKeyboardVisible
-                  ? styles.addSetButtonKeyboardVisible
-                  : styles.addSetButtonKeyboardNotVisible
-              ]}
+              iconName='add-outline'
               onPress={handleAddSet}
             />
           </View>
@@ -716,14 +715,14 @@ const styles = StyleSheet.create({
     zIndex: 997,
     position: 'relative',
     marginTop: '2%',
-    height: '45%'
+    height: '45%',
+    justifyContent: 'center'
   },
   exerciseContainer: {
     width: '110%',
     alignItems: 'center',
     alignSelf: 'center',
-    borderRadius: 10,
-    paddingVertical: '1%'
+    borderRadius: 10
   },
   exerciseContent: {
     flex: 1,
@@ -762,10 +761,10 @@ const styles = StyleSheet.create({
   exerciseImage: {
     width: '91%',
     aspectRatio: 1.5,
-
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: 'rgb(254, 254, 254)'
+    backgroundColor: 'rgb(254, 254, 254)',
+    borderRadius: 5
   },
   exerciseName: {
     fontSize: 16,
@@ -826,7 +825,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 25,
-    marginBottom: 1
+    marginBottom: 1,
+    borderRadius: 5
   },
 
   setHeaderText: {

@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
   },
   programItem: {
     padding: 12,
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 5
   },
   programTitle: {
     fontFamily: 'Lexend',

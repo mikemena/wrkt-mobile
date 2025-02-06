@@ -240,7 +240,8 @@ const Workout = ({
 const styles = StyleSheet.create({
   containerWrapper: {
     overflow: 'hidden',
-    marginBottom: 5
+    marginBottom: 5,
+    borderRadius: 5
   },
   workoutContainer: {
     zIndex: 1
