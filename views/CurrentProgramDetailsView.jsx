@@ -296,7 +296,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
     marginHorizontal: 5,
-    padding: 10
+    padding: 10,
+    borderRadius: 5
   },
   navArrow: {
     fontSize: 24,
@@ -313,7 +314,8 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 10,
     marginHorizontal: 5,
-    padding: 10
+    padding: 10,
+    borderRadius: 5
   },
   sectionTitle: {
     fontFamily: 'Lexend',
@@ -339,7 +341,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
     marginHorizontal: 5,
-    padding: 10
+    padding: 10,
+    borderRadius: 5
   },
   infoItem: {
     flex: 1,

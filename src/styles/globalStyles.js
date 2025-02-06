@@ -52,7 +52,8 @@ export const globalStyles = StyleSheet.create({
   },
   section: {
     marginBottom: 20,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: 5
   },
   sectionContent: {
     padding: 10,
@@ -75,7 +76,8 @@ export const globalStyles = StyleSheet.create({
     marginBottom: spacing.medium,
     height: 50,
     paddingHorizontal: 15,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 5
   },
   centeredButtonContainer: {
     width: '100%',

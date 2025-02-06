@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, Text, View, ScrollView } from 'react-native';
 import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import ProgramForm from '../components/ProgramForm';
 import Workout from '../components/Workout';
 import ParallelogramButton from '../components/ParallelogramButton';
+import SecondaryButton from '../components/SecondaryButton';
 import { ProgramContext } from '../src/context/programContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import { globalStyles, colors } from '../src/styles/globalStyles';
+import { globalStyles } from '../src/styles/globalStyles';
 import Header from '../components/Header';
 import useExpandedItems from '../src/hooks/useExpandedItems';
 
@@ -88,7 +88,6 @@ const CreateProgram = () => {
             onToggleExpand={toggleProgramForm}
           />
         </View>
-
         {/* Workouts section */}
         <View style={styles.workoutsContainer}>
           {workouts && workouts.length > 0 ? (
@@ -106,23 +105,12 @@ const CreateProgram = () => {
             </Text>
           )}
         </View>
-
         {/* Add Workout button */}
-
-        <ParallelogramButton
+        <SecondaryButton
           label='Add Workout'
-          icon={
-            <Ionicons
-              name='add-outline'
-              size={16}
-              style={{
-                color: themedStyles.accentColor
-              }}
-            />
-          }
+          iconName='add-outline'
           onPress={handleAddWorkout}
         />
-
         {/* Save and Cancel buttons */}
         <View style={styles.buttonRow}>
           <ParallelogramButton
@@ -148,6 +136,9 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: 5
+  },
+  formContainer: {
+    marginBottom: 0
   },
   workoutsContainer: {
     marginBottom: 10

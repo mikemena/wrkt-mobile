@@ -408,16 +408,12 @@ const ProfileView = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
-    borderStyle: 'solid',
-    borderColor: colors.red
+    padding: 5
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
-    borderStyle: 'solid',
-    borderColor: colors.red
+    marginBottom: 15
   },
   settingLabel: {
     fontFamily: 'Lexend',

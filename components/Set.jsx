@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 40
+    height: 40,
+    borderRadius: 5
   },
   setNumber: {
     width: 40,
@@ -79,7 +80,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     textAlign: 'center',
     fontFamily: 'Lexend',
-    paddingVertical: 0
+    paddingVertical: 0,
+    borderRadius: 5
   }
 });
 

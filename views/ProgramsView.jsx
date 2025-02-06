@@ -21,8 +21,9 @@ import { useTheme } from '../src/hooks/useTheme';
 import { getPrograms } from '../src/services/api';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import Header from '../components/Header';
-import { globalStyles, colors } from '../src/styles/globalStyles';
+import { globalStyles } from '../src/styles/globalStyles';
 import ParallelogramButton from '../components/ParallelogramButton';
+import SecondaryButton from '../components/SecondaryButton';
 import { Ionicons } from '@expo/vector-icons';
 import ProgramFilter from '../components/ProgramFilter';
 
@@ -192,17 +193,9 @@ const ProgramsView = () => {
       <Header pageName='Programs' />
       <View style={globalStyles.container}>
         {programList.programs.length > 0 && (
-          <ParallelogramButton
+          <SecondaryButton
             label='Filter'
-            icon={
-              <Ionicons
-                name='options-outline'
-                size={16}
-                style={{
-                  color: themedStyles.accentColor
-                }}
-              />
-            }
+            iconName={'options-outline'}
             onPress={() => {
               setIsFilterVisible(!isFilterVisible);
             }}
@@ -273,7 +266,8 @@ const styles = StyleSheet.create({
 
   programItem: {
     padding: 16,
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 5
   },
   programTitle: {
     fontFamily: 'Lexend',

@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
   pickerButton: {
     height: 50,
     paddingHorizontal: 15,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 5
   },
   pickerButtonText: {
     fontSize: 16

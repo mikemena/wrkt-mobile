@@ -291,7 +291,8 @@ const styles = StyleSheet.create({
   card: {
     marginHorizontal: 10,
     marginTop: 10,
-    padding: 15
+    padding: 15,
+    borderRadius: 5
   },
   cardHeader: {
     flexDirection: 'row',
@@ -327,7 +328,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend'
   },
   bar: {
-    width: 30
+    width: 30,
+    borderTopEndRadius: 5,
+    borderTopStartRadius: 5
   },
   dayLabel: {
     marginTop: 5,

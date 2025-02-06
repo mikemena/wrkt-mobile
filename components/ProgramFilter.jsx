@@ -8,11 +8,9 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import CustomPicker from './CustomPicker';
-import ParallelogramButton from './ParallelogramButton';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import SecondaryButton from './SecondaryButton';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import { colors } from '../src/styles/globalStyles';
 
 const ProgramFilter = ({
   isVisible,
@@ -73,15 +71,9 @@ const ProgramFilter = ({
             <View style={styles.container}>
               {/* Header with match count */}
               <View style={styles.header}>
-                <ParallelogramButton
+                <SecondaryButton
                   label='Close'
-                  icon={
-                    <Ionicons
-                      name='close-outline'
-                      size={16}
-                      color={themedStyles.accentColor}
-                    />
-                  }
+                  iconName='close-outline'
                   onPress={onClose}
                 />
                 <Text style={{ color: themedStyles.accentColor }}>
@@ -91,15 +83,9 @@ const ProgramFilter = ({
                     ? '1 Program'
                     : `${totalMatches} Programs`}
                 </Text>
-                <ParallelogramButton
+                <SecondaryButton
                   label='Clear'
-                  icon={
-                    <Ionicons
-                      name='refresh-outline'
-                      size={16}
-                      color={themedStyles.accentColor}
-                    />
-                  }
+                  iconName='refresh-outline'
                   onPress={onClearFilters}
                 />
               </View>
@@ -218,7 +204,8 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     paddingHorizontal: 15,
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    borderRadius: 5
   },
   pickerRow: {
     flexDirection: 'row',

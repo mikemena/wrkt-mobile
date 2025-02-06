@@ -126,7 +126,9 @@ const styles = StyleSheet.create({
   deleteAction: {
     flex: 1,
     backgroundColor: colors.red,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderTopEndRadius: 5,
+    borderBottomEndRadius: 5
   },
   deleteActionContent: {
     flex: 1,
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   gradient: {
-    opacity: 1
+    opacity: 0.9
   }
 });
 
