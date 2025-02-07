@@ -10,6 +10,7 @@ import {
 import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -96,15 +97,7 @@ const ResetPasswordView = ({ navigation, route }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <View style={styles.header}>
-        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
-          POW
-        </Text>
-        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
-          NEW PASSWORD
-        </Text>
-      </View>
-
+      <Header pageName='NEW PASSWORD' />
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Create new password
@@ -189,12 +182,14 @@ const ResetPasswordView = ({ navigation, route }) => {
             {success}
           </Text>
         ) : null}
-        <ParallelogramButton
-          style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
-          label='RESET PASSWORD'
-          onPress={handleResetPassword}
-          disabled={loading}
-        />
+        <View style={styles.buttonContainer}>
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center' }]}
+            label='RESET PASSWORD'
+            onPress={handleResetPassword}
+            disabled={loading}
+          />
+        </View>
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.navigate('SignIn')}
@@ -220,14 +215,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20
   },
-  logo: {
-    fontSize: 36,
-    fontFamily: 'Tiny5'
-  },
-  headerText: {
-    fontSize: 16,
-    fontFamily: 'Lexend'
-  },
   content: {
     flex: 1,
     padding: 20
@@ -249,6 +236,10 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginBottom: 15
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   passwordInput: {
     flex: 1,

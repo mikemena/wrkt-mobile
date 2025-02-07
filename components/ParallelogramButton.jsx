@@ -120,7 +120,6 @@ const ParallelogramButton = ({
 const styles = StyleSheet.create({
   buttonContainer: {
     height: 40,
-    alignSelf: 'flex-start',
     justifyContent: 'center',
     marginVertical: 10,
     marginHorizontal: 10

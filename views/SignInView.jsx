@@ -11,6 +11,7 @@ import { config } from '../src/utils/config';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -113,15 +114,7 @@ const SignInView = ({ navigation }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <View style={styles.header}>
-        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
-          POW
-        </Text>
-        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
-          SIGN IN
-        </Text>
-      </View>
-
+      <Header pageName='SIGN IN' />
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign in to your account
@@ -249,12 +242,14 @@ const SignInView = ({ navigation }) => {
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <ParallelogramButton
-          style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
-          label='CONTINUE'
-          onPress={handleSignIn}
-          disabled={loading}
-        />
+        <View style={styles.buttonContainer}>
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center' }]}
+            label='CONTINUE'
+            onPress={handleSignIn}
+            disabled={loading}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -269,14 +264,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20
-  },
-  logo: {
-    fontSize: 36,
-    fontFamily: 'Tiny5'
-  },
-  headerText: {
-    fontSize: 16,
-    fontFamily: 'Lexend'
   },
   content: {
     flex: 1,
@@ -352,6 +339,10 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 5,
     marginBottom: 15
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   passwordInput: {
     flex: 1,

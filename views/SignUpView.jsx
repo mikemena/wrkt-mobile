@@ -11,6 +11,7 @@ import { config } from '../src/utils/config';
 import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -272,15 +273,7 @@ const SignUpView = ({ navigation }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <View style={styles.header}>
-        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
-          POW
-        </Text>
-        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
-          SIGN UP
-        </Text>
-      </View>
-
+      <Header pageName='SIGN UP' />
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign up
@@ -407,12 +400,14 @@ const SignUpView = ({ navigation }) => {
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
         ) : null}
-        <ParallelogramButton
-          style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
-          label='CONTINUE'
-          onPress={handleSignUp}
-          disabled={loading}
-        />
+        <View style={styles.buttonContainer}>
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center' }]}
+            label='CONTINUE'
+            onPress={handleSignUp}
+            disabled={loading}
+          />
+        </View>
 
         <TouchableOpacity
           style={styles.switchAuthButton}
@@ -439,14 +434,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20
-  },
-  logo: {
-    fontSize: 36,
-    fontFamily: 'Tiny5'
-  },
-  headerText: {
-    fontSize: 16,
-    fontFamily: 'Lexend'
   },
   content: {
     flex: 1,
@@ -522,6 +509,10 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 5,
     marginBottom: 15
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   passwordInput: {
     flex: 1,
