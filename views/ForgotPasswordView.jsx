@@ -5,12 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
-  ActivityIndicator
+  SafeAreaView
 } from 'react-native';
 import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 
 const ForgotPasswordView = ({ navigation }) => {
@@ -94,15 +94,7 @@ const ForgotPasswordView = ({ navigation }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <View style={styles.header}>
-        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
-          POW
-        </Text>
-        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
-          RESET PASSWORD
-        </Text>
-      </View>
-
+      <Header pageName='RESET PASSWORD' />
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Reset your password
@@ -139,12 +131,14 @@ const ForgotPasswordView = ({ navigation }) => {
         ) : null}
 
         {isResetButtonVisible ? (
-          <ParallelogramButton
-            style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
-            label='RESET PASSWORD'
-            onPress={handleResetPassword}
-            disabled={loading}
-          />
+          <View style={styles.buttonContainer}>
+            <ParallelogramButton
+              style={[{ width: 300, alignItems: 'center' }]}
+              label='RESET PASSWORD'
+              onPress={handleResetPassword}
+              disabled={loading}
+            />
+          </View>
         ) : null}
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
@@ -175,14 +169,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20
   },
-  logo: {
-    fontSize: 36,
-    fontFamily: 'Tiny5'
-  },
-  headerText: {
-    fontSize: 16,
-    fontFamily: 'Lexend'
-  },
   content: {
     flex: 1,
     padding: 20
@@ -205,6 +191,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
     fontFamily: 'Lexend'
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   errorText: {
     color: '#D93B56',
