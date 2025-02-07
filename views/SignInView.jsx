@@ -5,13 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
-  ActivityIndicator
+  SafeAreaView
 } from 'react-native';
 import { config } from '../src/utils/config';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
 const SignInView = ({ navigation }) => {
@@ -249,22 +249,12 @@ const SignInView = ({ navigation }) => {
             Forgot password?
           </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.signInButton,
-            { opacity: loading ? 0.7 : 1 },
-            { backgroundColor: themedStyles.accentColor }
-          ]}
+        <ParallelogramButton
+          style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
+          label='CONTINUE'
           onPress={handleSignIn}
           disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color='#000' />
-          ) : (
-            <Text style={styles.signInButtonText}>CONTINUE</Text>
-          )}
-        </TouchableOpacity>
+        />
       </View>
     </SafeAreaView>
   );
@@ -302,7 +292,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 15,
-    borderRadius: 25,
+    borderRadius: 5,
     marginBottom: 15
   },
   socialButtonText: {
@@ -328,7 +318,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 25,
+    borderRadius: 5,
     paddingHorizontal: 20,
     marginBottom: 15,
     fontSize: 16,
@@ -338,19 +328,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 15,
     fontSize: 14,
-    fontFamily: 'Lexend'
-  },
-  signInButton: {
-    backgroundColor: '#A5FF32',
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20
-  },
-  signInButtonText: {
-    color: '#2A2A2A',
-    fontSize: 16,
     fontFamily: 'Lexend'
   },
   errorText: {
@@ -373,7 +350,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 50,
-    borderRadius: 25,
+    borderRadius: 5,
     marginBottom: 15
   },
   passwordInput: {

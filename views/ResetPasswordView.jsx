@@ -5,12 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
-  ActivityIndicator
+  SafeAreaView
 } from 'react-native';
 import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
 const ResetPasswordView = ({ navigation, route }) => {
@@ -189,23 +189,12 @@ const ResetPasswordView = ({ navigation, route }) => {
             {success}
           </Text>
         ) : null}
-
-        <TouchableOpacity
-          style={[
-            styles.resetButton,
-            { opacity: loading ? 0.7 : 1 },
-            { backgroundColor: themedStyles.accentColor }
-          ]}
+        <ParallelogramButton
+          style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
+          label='RESET PASSWORD'
           onPress={handleResetPassword}
           disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color='#000' />
-          ) : (
-            <Text style={styles.resetButtonText}>RESET PASSWORD</Text>
-          )}
-        </TouchableOpacity>
-
+        />
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.navigate('SignIn')}
@@ -271,18 +260,6 @@ const styles = StyleSheet.create({
   eyeIcon: {
     padding: 10,
     marginRight: 10
-  },
-  resetButton: {
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20
-  },
-  resetButtonText: {
-    color: '#000',
-    fontSize: 16,
-    fontFamily: 'Lexend'
   },
   errorText: {
     color: '#ff4444',
