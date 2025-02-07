@@ -249,12 +249,14 @@ const SignInView = ({ navigation }) => {
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <ParallelogramButton
-          style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
-          label='CONTINUE'
-          onPress={handleSignIn}
-          disabled={loading}
-        />
+        <View style={styles.buttonContainer}>
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center' }]}
+            label='CONTINUE'
+            onPress={handleSignIn}
+            disabled={loading}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -352,6 +354,10 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 5,
     marginBottom: 15
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   passwordInput: {
     flex: 1,

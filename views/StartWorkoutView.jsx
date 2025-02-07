@@ -807,10 +807,6 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
 
-  setControls: {
-    paddingTop: 10
-  },
-
   setControlsKeyboardNotVisible: {
     flex: 1,
     paddingHorizontal: 5
