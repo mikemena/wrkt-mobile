@@ -124,8 +124,24 @@ const ExerciseImage = ({ exercise }) => {
     }
   };
 
+  const imageOverlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
+    zIndex: 1
+  };
+
   return (
-    <View style={styles.imageContainer}>
+    <View
+      style={[
+        styles.imageContainer,
+        { backgroundColor: themedStyles.secondaryBackgroundColor }
+      ]}
+    >
+      <View style={imageOverlayStyle} />
       {isLoading && !imageError && (
         <ActivityIndicator
           style={styles.loadingIndicator}
@@ -165,8 +181,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
-    backgroundColor: '#2A2A2A',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: 5
   },
   loadingIndicator: {
     position: 'absolute'
@@ -184,7 +200,8 @@ const styles = StyleSheet.create({
   },
   exerciseImage: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    borderRadius: 5
   }
 });
 

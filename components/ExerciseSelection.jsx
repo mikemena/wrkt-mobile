@@ -27,7 +27,7 @@ import { globalStyles, colors } from '../src/styles/globalStyles';
 import SecondaryButton from './SecondaryButton';
 import ExerciseFilter from './ExerciseFilter';
 import ExerciseImage from './ExerciseImage';
-import { cacheImage, debugCache } from '../src/utils/imageCache';
+import { cacheImage } from '../src/utils/imageCache';
 
 const ExerciseSelection = ({ navigation, route }) => {
   const { addExercise, state: programState } = useContext(ProgramContext);
@@ -490,18 +490,18 @@ const styles = StyleSheet.create({
     paddingBottom: 1,
     borderBottomWidth: 1
   },
-  selectedExercise: {
-    borderStyle: 'solid',
-    borderWidth: 1,
-    backgroundColor: colors.voltGreen + '20'
-  },
-  exerciseImage: {
-    width: 90,
-    height: 90,
-    marginRight: 10,
-    borderEndStartRadius: 10,
-    borderTopStartRadius: 10
-  },
+  // selectedExercise: {
+  //   borderStyle: 'solid',
+  //   borderWidth: 1,
+  //   backgroundColor: colors.voltGreen + '20'
+  // },
+  // exerciseImage: {
+  //   width: 90,
+  //   height: 90,
+  //   marginRight: 10,
+  //   borderEndStartRadius: 5,
+  //   borderTopStartRadius: 5
+  // },
   exerciseDetails: { flex: 1 },
   exerciseName: {
     fontFamily: 'Lexend',

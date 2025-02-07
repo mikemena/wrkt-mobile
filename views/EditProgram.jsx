@@ -13,6 +13,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgramContext } from '../src/context/programContext';
 import ProgramForm from '../components/ProgramForm';
+import SecondaryButton from '../components/SecondaryButton';
 import ParallelogramButton from '../components/ParallelogramButton';
 import Workout from '../components/Workout';
 import { useTheme } from '../src/hooks/useTheme';
@@ -184,20 +185,9 @@ const EditProgram = () => {
             )}
           </View>
           {/* Add Workout button */}
-          <ParallelogramButton
+          <SecondaryButton
             label='Add Workout'
-            icon={
-              <Ionicons
-                name='add-outline'
-                size={16}
-                style={{
-                  color:
-                    themeState.theme === 'dark'
-                      ? themedStyles.accentColor
-                      : colors.eggShell
-                }}
-              />
-            }
+            iconName='add-outline'
             onPress={handleAddWorkout}
           />
           {/* Save and Cancel buttons */}

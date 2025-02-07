@@ -391,13 +391,17 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
           <View style={styles.mainControls}>
             <TouchableOpacity
               style={[
-                globalStyles.button,
                 styles.startButton,
-                { backgroundColor: themedStyles.accentColor }
+                { backgroundColor: themedStyles.secondaryBackgroundColor }
               ]}
               onPress={isStarted ? stopTimer : startTimer}
             >
-              <Text style={styles.startButtonText}>
+              <Text
+                style={[
+                  styles.startButtonText,
+                  { color: themedStyles.textColor }
+                ]}
+              >
                 {isStarted ? 'COMPLETE WORKOUT' : 'START WORKOUT'}
               </Text>
             </TouchableOpacity>
@@ -682,17 +686,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 10,
-    marginVertical: 5
+    marginVertical: 5,
+    marginBottom: 15
   },
   startButton: {
-    width: 190,
+    width: 180,
     height: 35,
-    padding: 9
+    padding: 10,
+    borderRadius: 5
   },
   startButtonText: {
     color: colors.flatBlack,
     fontSize: 14,
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    textAlign: 'center'
   },
   pauseButton: {
     width: 40,
@@ -702,7 +709,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   pauseIcon: {
-    color: colors.flatBlack
+    color: colors.flatBlack,
+    marginLeft: 2
   },
   timerDisplay: {
     fontSize: 26,
