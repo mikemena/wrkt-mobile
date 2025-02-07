@@ -11,6 +11,7 @@ import {
 import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import ParallelogramButton from '../components/ParallelogramButton';
 
 const ForgotPasswordView = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -138,21 +139,12 @@ const ForgotPasswordView = ({ navigation }) => {
         ) : null}
 
         {isResetButtonVisible ? (
-          <TouchableOpacity
-            style={[
-              styles.resetButton,
-              { opacity: loading ? 0.7 : 1 },
-              { backgroundColor: themedStyles.accentColor }
-            ]}
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center', marginLeft: 25 }]}
+            label='RESET PASSWORD'
             onPress={handleResetPassword}
             disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color='#000' />
-            ) : (
-              <Text style={styles.resetButtonText}>RESET PASSWORD</Text>
-            )}
-          </TouchableOpacity>
+          />
         ) : null}
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
@@ -208,21 +200,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 25,
+    borderRadius: 5,
     paddingHorizontal: 20,
     marginBottom: 15,
-    fontSize: 16,
-    fontFamily: 'Lexend'
-  },
-  resetButton: {
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20
-  },
-  resetButtonText: {
-    color: '#2A2A2A',
     fontSize: 16,
     fontFamily: 'Lexend'
   },
