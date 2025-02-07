@@ -19,6 +19,8 @@
     "prebuild": "expo prebuild",
     "prebuild:ios:dev": "ENVFILE=.env.development expo prebuild --platform ios",
     "prebuild:ios:prod": "ENVFILE=.env.production expo prebuild --platform ios",
+    "build:ios:dev": "ENVFILE=.env.development expo build:ios",
+    "build:ios:prod": "ENVFILE=.env.production expo build:ios",
     "build:ios": "expo build:ios",
     "clear-cache": "expo start --clear",
     "start": "expo start --dev-client"
