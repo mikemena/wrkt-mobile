@@ -13,6 +13,7 @@ import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Footer from '../components/Footer';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -457,48 +458,6 @@ const SignUpView = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      {verificationSent && (
-        <View
-          style={[
-            styles.verificationContainer,
-            {
-              backgroundColor: themedStyles.secondaryBackgroundColor
-            }
-          ]}
-        >
-          <Text
-            style={[styles.verificationText, { color: themedStyles.textColor }]}
-          >
-            Please check your email to verify your account. You have limited
-            access until verification is complete.
-          </Text>
-          {resendSuccess ? (
-            <Text
-              style={[styles.successText, { color: themedStyles.accentColor }]}
-            >
-              Verification email sent successfully!
-            </Text>
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.resendButton,
-                isResending && styles.resendButtonDisabled
-              ]}
-              onPress={() => handleResendVerification(email)}
-              disabled={isResending}
-            >
-              <Text
-                style={[
-                  styles.resendButtonText,
-                  isResending && styles.resendButtonTextDisabled
-                ]}
-              >
-                {isResending ? 'Sending...' : 'Resend Verification Email'}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
       <Footer />
     </SafeAreaView>
   );
