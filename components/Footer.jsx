@@ -27,6 +27,9 @@ const Footer = () => {
       </Text>
       <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e5a1f5fa (added env to footer)
         `Env: {appEnv}`
       </Text>
       <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
