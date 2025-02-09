@@ -23,7 +23,7 @@ const Footer = () => {
         v{appVersion}
       </Text>
       <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
-        {appEnv}
+        `Env: {appEnv}`
       </Text>
       <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
         {apiUrl}
