@@ -5,15 +5,16 @@ import {
   SafeAreaView,
   View,
   ScrollView,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
+import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { ProgramContext } from '../src/context/programContext';
 import ProgramForm from '../components/ProgramForm';
-import PillButton from '../components/PillButton';
+import SecondaryButton from '../components/SecondaryButton';
+import ParallelogramButton from '../components/ParallelogramButton';
 import Workout from '../components/Workout';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -184,58 +185,23 @@ const EditProgram = () => {
             )}
           </View>
           {/* Add Workout button */}
-          <PillButton
+          <SecondaryButton
             label='Add Workout'
-            icon={
-              <Ionicons
-                name='add-outline'
-                size={16}
-                style={{
-                  color:
-                    themeState.theme === 'dark'
-                      ? themedStyles.accentColor
-                      : colors.eggShell
-                }}
-              />
-            }
+            iconName='add-outline'
             onPress={handleAddWorkout}
           />
           {/* Save and Cancel buttons */}
           <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[
-                globalStyles.button,
-                styles.saveButton,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            <ParallelogramButton
+              label='SAVE'
+              style={[{ width: 120, alignItems: 'center' }]}
               onPress={handleUpdateProgram}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                SAVE
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                globalStyles.button,
-                styles.cancelButton,
-                { backgroundColor: themedStyles.secondaryBackgroundColor }
-              ]}
+            />
+            <ParallelogramButton
+              label='CANCEL'
+              style={[{ width: 120, alignItems: 'center' }]}
               onPress={handleCancel}
-            >
-              <Text
-                style={[
-                  globalStyles.buttonText,
-                  { color: themedStyles.accentColor }
-                ]}
-              >
-                CANCEL
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -251,34 +217,16 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 5
   },
-  formContainer: { borderRadius: 10 },
+
   workoutsContainer: {
     marginBottom: 10
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20
-  },
-  addButton: {
-    backgroundColor: '#4CAF50',
-    padding: 12,
-    borderRadius: 4,
-    alignItems: 'center',
-    marginBottom: 16
-  },
-  addButtonText: {
-    color: 'white',
-    fontWeight: 'bold'
-  },
-  saveButton: {
-    flex: 1,
-    marginRight: 10
-  },
-  cancelButton: {
-    flex: 1,
-    marginLeft: 10
+    marginTop: 10,
+    marginHorizontal: 20
   }
 });
 
-export default EditProgram;
+export default withKeyboardAvoidingView(EditProgram);

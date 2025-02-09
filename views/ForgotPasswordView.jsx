@@ -5,12 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
-  ActivityIndicator
+  SafeAreaView
 } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import Header from '../components/Header';
+import ParallelogramButton from '../components/ParallelogramButton';
 
 const ForgotPasswordView = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,6 @@ const ForgotPasswordView = ({ navigation }) => {
   const [generalError, setGeneralError] = useState('');
   const [success, setSuccess] = useState('');
   const [isResetButtonVisible, setIsResetButtonVisible] = useState(true);
-  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -60,13 +60,16 @@ const ForgotPasswordView = ({ navigation }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${apiUrl}/api/auth/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email })
-      });
+      const response = await fetch(
+        `${config.apiUrl}/api/auth/forgot-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        }
+      );
 
       const data = await response.json();
 
@@ -91,15 +94,7 @@ const ForgotPasswordView = ({ navigation }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <View style={styles.header}>
-        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
-          POW
-        </Text>
-        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
-          RESET PASSWORD
-        </Text>
-      </View>
-
+      <Header pageName='RESET PASSWORD' />
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Reset your password
@@ -136,21 +131,14 @@ const ForgotPasswordView = ({ navigation }) => {
         ) : null}
 
         {isResetButtonVisible ? (
-          <TouchableOpacity
-            style={[
-              styles.resetButton,
-              { opacity: loading ? 0.7 : 1 },
-              { backgroundColor: themedStyles.accentColor }
-            ]}
-            onPress={handleResetPassword}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color='#000' />
-            ) : (
-              <Text style={styles.resetButtonText}>RESET PASSWORD</Text>
-            )}
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <ParallelogramButton
+              style={[{ width: 300, alignItems: 'center' }]}
+              label='RESET PASSWORD'
+              onPress={handleResetPassword}
+              disabled={loading}
+            />
+          </View>
         ) : null}
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
@@ -181,14 +169,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20
   },
-  logo: {
-    fontSize: 36,
-    fontFamily: 'Tiny5'
-  },
-  headerText: {
-    fontSize: 16,
-    fontFamily: 'Lexend'
-  },
   content: {
     flex: 1,
     padding: 20
@@ -206,23 +186,15 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 25,
+    borderRadius: 5,
     paddingHorizontal: 20,
     marginBottom: 15,
     fontSize: 16,
     fontFamily: 'Lexend'
   },
-  resetButton: {
-    height: 50,
-    borderRadius: 25,
+  buttonContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20
-  },
-  resetButtonText: {
-    color: '#2A2A2A',
-    fontSize: 16,
-    fontFamily: 'Lexend'
+    alignItems: 'center'
   },
   errorText: {
     color: '#D93B56',

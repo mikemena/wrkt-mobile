@@ -23,12 +23,6 @@ const SwipeableItemDeletion = forwardRef(
     const [isOpen, setIsOpen] = useState(false);
     const swipeableRef = useRef(null);
 
-    // Create an animated value for border radius
-    const animatedTopRightRadius = useRef(new Animated.Value(0)).current;
-    const animatedBottomRightRadius = useRef(
-      new Animated.Value(isLast && swipeableType === 'set' ? 10 : 0)
-    ).current;
-
     const { state: themeState } = useTheme();
     const themedStyles = getThemedStyles(
       themeState.theme,
@@ -90,77 +84,17 @@ const SwipeableItemDeletion = forwardRef(
     const onSwipeableWillOpen = () => {
       setIsOpen(true);
       onSwipeChange?.(true);
-      Animated.parallel([
-        Animated.timing(animatedTopRightRadius, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: false
-        }),
-        Animated.timing(animatedBottomRightRadius, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: false
-        })
-      ]).start();
     };
 
     const onSwipeableWillClose = () => {
       setIsOpen(false);
       onSwipeChange?.(false);
-      Animated.parallel([
-        Animated.timing(animatedTopRightRadius, {
-          toValue: 10,
-          duration: 200,
-          useNativeDriver: false
-        }),
-        Animated.timing(animatedBottomRightRadius, {
-          toValue: 10,
-          duration: 200,
-          useNativeDriver: false
-        })
-      ]).start();
-    };
-
-    const getBorderRadius = () => {
-      if (swipeableType === 'workout') {
-        return {
-          borderTopRightRadius: isOpen ? 0 : 10,
-          borderBottomRightRadius: isOpen ? 0 : 10,
-          overflow: 'hidden'
-        };
-      }
-      if (swipeableType === 'exercise') {
-        return {
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: isOpen ? 0 : isLast ? 10 : 0,
-          overflow: 'hidden'
-        };
-      }
-      if (swipeableType === 'exercise-start') {
-        return {
-          borderTopRightRadius: isOpen ? 0 : 10,
-          borderBottomRightRadius: isOpen ? 0 : 10,
-          overflow: 'hidden'
-        };
-      }
-      // default case
-      return {
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: isOpen ? 0 : isLast ? 10 : 0,
-        overflow: 'hidden'
-      };
     };
 
     // If not enabled, just render children directly
     if (!enabled) {
       return (
-        <Animated.View
-          style={[
-            styles.contentContainer,
-            children.props.style,
-            getBorderRadius()
-          ]}
-        >
+        <Animated.View style={[styles.contentContainer, children.props.style]}>
           {children.props.children}
         </Animated.View>
       );
@@ -174,13 +108,7 @@ const SwipeableItemDeletion = forwardRef(
         onSwipeableWillClose={onSwipeableWillClose}
         overshootRight={false}
       >
-        <Animated.View
-          style={[
-            styles.contentContainer,
-            children.props.style,
-            getBorderRadius()
-          ]}
-        >
+        <Animated.View style={[styles.contentContainer, children.props.style]}>
           {children.props.children}
         </Animated.View>
       </Swipeable>
@@ -198,9 +126,9 @@ const styles = StyleSheet.create({
   deleteAction: {
     flex: 1,
     backgroundColor: colors.red,
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderTopEndRadius: 5,
+    borderBottomEndRadius: 5
   },
   deleteActionContent: {
     flex: 1,
@@ -209,9 +137,7 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   gradient: {
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
-    opacity: 1
+    opacity: 0.9
   }
 });
 

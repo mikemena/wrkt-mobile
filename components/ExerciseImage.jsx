@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator, Image, StyleSheet } from 'react-native';
-import { useConfig } from '../src/context/configContext';
+import { config } from '../src/utils/config';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { cacheImage, getCachedImage } from '../src/utils/imageCache';
 
 const ExerciseImage = ({ exercise }) => {
-  const { apiUrl } = useConfig();
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
@@ -26,7 +25,7 @@ const ExerciseImage = ({ exercise }) => {
 
     try {
       const response = await fetch(
-        `${apiUrl}/api/exercise-catalog/${exercise.id}/image`
+        `${config.apiUrl}/api/exercise-catalog/${exercise.id}/image`
       );
 
       if (!response.ok) {
@@ -125,8 +124,24 @@ const ExerciseImage = ({ exercise }) => {
     }
   };
 
+  const imageOverlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
+    zIndex: 1
+  };
+
   return (
-    <View style={styles.imageContainer}>
+    <View
+      style={[
+        styles.imageContainer,
+        { backgroundColor: themedStyles.secondaryBackgroundColor }
+      ]}
+    >
+      <View style={imageOverlayStyle} />
       {isLoading && !imageError && (
         <ActivityIndicator
           style={styles.loadingIndicator}
@@ -166,10 +181,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
-    backgroundColor: '#2A2A2A',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: 5
   },
   loadingIndicator: {
     position: 'absolute'
@@ -188,8 +201,7 @@ const styles = StyleSheet.create({
   exerciseImage: {
     width: '100%',
     height: '100%',
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10
+    borderRadius: 5
   }
 });
 

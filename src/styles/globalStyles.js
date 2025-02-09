@@ -52,14 +52,12 @@ export const globalStyles = StyleSheet.create({
   },
   section: {
     marginBottom: 20,
-    borderRadius: 10,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: 5
   },
   sectionContent: {
     padding: 10,
-    marginBottom: 20,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10
+    marginBottom: 20
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -75,29 +73,19 @@ export const globalStyles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: typography.fontSizes.medium,
     padding: spacing.medium,
-    borderRadius: 10,
     marginBottom: spacing.medium,
     height: 50,
     paddingHorizontal: 15,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 5
   },
   centeredButtonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '100%',
-    paddingVertical: 5
-  },
-  button: {
-    width: '75%',
-    padding: 15,
-    borderRadius: 30,
+    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center'
   },
-  buttonText: {
-    fontFamily: 'Lexend',
-    fontSize: 14,
-    textAlign: 'center'
-  },
+
   label: {
     fontFamily: 'Lexend',
     fontSize: 16,
@@ -112,6 +100,7 @@ export const globalStyles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 30,
+    backgroundColor: 'rgba(255, 255, 255, 0)',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 0.5,
@@ -124,6 +113,6 @@ export const globalStyles = StyleSheet.create({
     alignSelf: 'flex-end'
   },
   icon: {
-    fontSize: 18
+    fontSize: 20
   }
 });

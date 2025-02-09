@@ -8,11 +8,9 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import CustomPicker from './CustomPicker';
-import PillButton from './PillButton';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import SecondaryButton from './SecondaryButton';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import { colors } from '../src/styles/globalStyles';
 
 const ProgramFilter = ({
   isVisible,
@@ -73,15 +71,9 @@ const ProgramFilter = ({
             <View style={styles.container}>
               {/* Header with match count */}
               <View style={styles.header}>
-                <PillButton
+                <SecondaryButton
                   label='Close'
-                  icon={
-                    <Ionicons
-                      name='close-outline'
-                      size={16}
-                      color={colors.eggShell}
-                    />
-                  }
+                  iconName='close-outline'
                   onPress={onClose}
                 />
                 <Text style={{ color: themedStyles.accentColor }}>
@@ -91,15 +83,9 @@ const ProgramFilter = ({
                     ? '1 Program'
                     : `${totalMatches} Programs`}
                 </Text>
-                <PillButton
+                <SecondaryButton
                   label='Clear'
-                  icon={
-                    <Ionicons
-                      name='refresh-outline'
-                      size={16}
-                      color={colors.eggShell}
-                    />
-                  }
+                  iconName='refresh-outline'
                   onPress={onClearFilters}
                 />
               </View>
@@ -190,21 +176,16 @@ const ProgramFilter = ({
 
 const styles = StyleSheet.create({
   overlay: {
-    // This ensures the overlay covers the full screen
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    // Semi-transparent background
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    // Center filter vertically if needed
     justifyContent: 'flex-start',
     paddingTop: 100
   },
   safeArea: {
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     overflow: 'hidden'
   },
   container: {
@@ -222,9 +203,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 30,
     paddingHorizontal: 15,
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    borderRadius: 5
   },
   pickerRow: {
     flexDirection: 'row',
