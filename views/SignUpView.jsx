@@ -12,6 +12,7 @@ import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -421,6 +422,7 @@ const SignUpView = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      <Footer />
     </SafeAreaView>
   );
 };
