@@ -98,9 +98,10 @@ const styles = StyleSheet.create({
   },
   pickerButton: {
     height: 50,
+    borderRadius: 10,
     paddingHorizontal: 15,
     justifyContent: 'center',
-    borderRadius: 5
+    borderRadius: 30
   },
   pickerButtonText: {
     fontSize: 16
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     padding: 20,
+    borderRadius: 10,
     width: '80%',
     maxHeight: '75%'
   },

@@ -44,11 +44,14 @@ export const AuthProvider = ({ children }) => {
       if (!userData || !userData.id) {
         throw new Error('Invalid user data');
       }
+      console.log('Received user data in signIn:', userData);
 
       const normalizedUserData = {
         ...userData,
         id: Number(userData.id)
       };
+
+      console.log('Normalized user data in AuthContext:', normalizedUserData);
 
       await AsyncStorage.setItem('userToken', token);
       await AsyncStorage.setItem(

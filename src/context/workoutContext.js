@@ -8,7 +8,7 @@ import * as Crypto from 'expo-crypto';
 import { actionTypes } from '../actions/actionTypes';
 import { workoutReducer } from '../reducers/workoutReducer';
 import { getActiveProgram } from '../services/api';
-import { config } from '../utils/config.js';
+import { useConfig } from '../context/configContext';
 import { useUser } from '../context/userContext';
 
 // Initial state
@@ -239,7 +239,13 @@ export const WorkoutProvider = ({ children }) => {
           workoutData.programId = state.activeWorkout.programId;
         }
 
-        const response = await fetch(`${config.apiUrl}/api/workout/complete`, {
+        console.log(
+          'Sending workout data:',
+          JSON.stringify(workoutData, null, 2)
+        );
+        const { apiUrl } = useConfig();
+
+        const response = await fetch(`${apiUrl}/api/workout/complete`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -270,7 +276,7 @@ export const WorkoutProvider = ({ children }) => {
         throw error;
       }
     },
-    [state.activeWorkout, config.apiUrl]
+    [state.activeWorkout]
   );
 
   const clearCurrentWorkout = useCallback(() => {

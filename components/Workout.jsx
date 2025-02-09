@@ -71,7 +71,15 @@ const Workout = ({
 
   const headerStyle = [
     styles.workoutHeader,
-    { backgroundColor: themedStyles.secondaryBackgroundColor }
+    { backgroundColor: themedStyles.secondaryBackgroundColor },
+    isExpanded
+      ? {
+          borderTopLeftRadius: 10
+        }
+      : {
+          borderTopLeftRadius: 10,
+          borderBottomLeftRadius: 10
+        }
   ];
 
   const handleTitlePress = useCallback(() => {
@@ -240,8 +248,7 @@ const Workout = ({
 const styles = StyleSheet.create({
   containerWrapper: {
     overflow: 'hidden',
-    marginBottom: 5,
-    borderRadius: 5
+    marginBottom: 5
   },
   workoutContainer: {
     zIndex: 1
@@ -266,6 +273,8 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   expandedContent: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     overflow: 'hidden'
   }
 });

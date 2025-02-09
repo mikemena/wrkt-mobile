@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react';
 import { useUser } from '../context/userContext.js';
-import { config } from '../utils/config.js';
+import { useConfig } from '../context/configContext.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { themeReducer, initialState } from '../reducers/themeReducer';
 
@@ -8,16 +8,14 @@ export const ThemeContext = createContext(undefined);
 
 export const ThemeProvider = ({ children }) => {
   const { userId } = useUser();
+  const { apiUrl } = useConfig();
   const [state, dispatch] = useReducer(themeReducer, initialState);
 
   useEffect(() => {
     const fetchUserSettings = async () => {
-      if (userId) {
+      if (userId && apiUrl) {
         try {
-          const response = await fetch(
-            `${config.apiUrl}/api/settings/${userId}`
-          );
-
+          const response = await fetch(`${apiUrl}/api/settings/${userId}`);
           const settings = await response.json();
 
           dispatch({
@@ -42,6 +40,8 @@ export const ThemeProvider = ({ children }) => {
       try {
         await AsyncStorage.setItem('theme', state.theme);
         await AsyncStorage.setItem('accentColor', state.accentColor);
+        // Here you would also call your API to save settings to PostgreSQL
+        // await api.saveThemeSettings(state);
       } catch (e) {
         console.error('Failed to save theme settings', e);
       }
