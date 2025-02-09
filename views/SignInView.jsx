@@ -90,7 +90,7 @@ const SignInView = ({ navigation }) => {
 
       await signIn(data.token, data.user);
     } catch (err) {
-      console.error('Sign in error:', err);
+      console.error('Full error object:', JSON.stringify(err, null, 2));
       setGeneralError(err.message || 'Failed to sign in');
     } finally {
       setLoading(false);
