@@ -27,7 +27,7 @@ import {
   createActiveProgram,
   deleteActiveProgram
 } from '../src/services/api';
-import SecondaryButton from '../components/SecondaryButton';
+import PillButton from '../components/PillButton';
 import { Ionicons } from '@expo/vector-icons';
 import ProgramFilter from '../components/ProgramFilter';
 import { useUser } from '../src/context/userContext';
@@ -41,7 +41,7 @@ const CurrentProgramView = () => {
 
   const programs = programState.programs;
 
-  const activeProgram = workoutState;
+  const activeProgram = workoutState.activeProgram;
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +61,7 @@ const CurrentProgramView = () => {
   // Fetch users programs
   const fetchPrograms = useCallback(async () => {
     try {
-      const data = await getPrograms(userId);
+      const data = await getPrograms();
       setPrograms(data);
     } catch (error) {
       console.error('Error fetching programs:', error);
@@ -71,7 +71,7 @@ const CurrentProgramView = () => {
   // First, ensure we have programs
   useEffect(() => {
     fetchPrograms();
-  }, [fetchPrograms, userId]);
+  }, [fetchPrograms]);
 
   // Define fetchInitialData as a memoized callback
   const fetchInitialData = useCallback(async () => {
@@ -87,7 +87,7 @@ const CurrentProgramView = () => {
 
   useEffect(() => {
     fetchInitialData();
-  }, [fetchInitialData, , userId]);
+  }, [fetchInitialData]);
 
   const handleSetActiveProgram = useCallback(
     async program => {
@@ -294,9 +294,20 @@ const CurrentProgramView = () => {
             />
           </TouchableOpacity>
           {programs?.length > 0 && (
-            <SecondaryButton
+            <PillButton
               label='Filter'
-              iconName='options-outline'
+              icon={
+                <Ionicons
+                  name='options-outline'
+                  size={16}
+                  style={{
+                    color:
+                      themeState.theme === 'dark'
+                        ? themedStyles.accentColor
+                        : colors.eggShell
+                  }}
+                />
+              }
               onPress={() => {
                 setIsFilterVisible(!isFilterVisible);
               }}
@@ -377,8 +388,8 @@ const styles = StyleSheet.create({
 
   programItem: {
     padding: 16,
-    marginBottom: 10,
-    borderRadius: 5
+    borderRadius: 10,
+    marginBottom: 10
   },
   programTitle: {
     fontFamily: 'Lexend',

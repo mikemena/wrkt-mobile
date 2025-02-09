@@ -7,10 +7,10 @@ import {
   Text,
   TouchableWithoutFeedback
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { useConfig } from '../src/context/configContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
-import ParallelogramButton from './ParallelogramButton';
+import PillButton from './PillButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -34,6 +34,7 @@ const ExerciseFilter = ({
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
   const [muscleOptions, setMuscleOptions] = useState([]);
   const [equipmentOptions, setEquipmentOptions] = useState([]);
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   useEffect(() => {
     loadCatalogData();
@@ -69,7 +70,7 @@ const ExerciseFilter = ({
 
   const fetchMuscles = async () => {
     try {
-      const response = await fetch(`${config.apiUrl}/api/muscles`);
+      const response = await fetch(`${apiUrl}/api/muscles`);
       const data = await response.json();
       return data.map(muscle => ({
         label: `${muscle.muscle} (${muscle.muscle_group})`,
@@ -83,14 +84,23 @@ const ExerciseFilter = ({
 
   const fetchEquipment = async () => {
     try {
-      const response = await fetch(`${config.apiUrl}/api/equipments`);
+      const apiUrl = `${apiUrl}/api/equipments`;
+      const response = await fetch(apiUrl);
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      return data.map(equipment => ({
+      const text = await response.text();
+
+      const data = JSON.parse(text);
+
+      const mappedData = data.map(equipment => ({
         label: equipment.name,
         value: equipment.name
       }));
+
+      return mappedData;
     } catch (error) {
       console.error('Equipment fetch error:', error);
       return [];
@@ -102,7 +112,7 @@ const ExerciseFilter = ({
       // Load muscles
       let muscles = await getCachedData(CACHE_KEYS.MUSCLES);
 
-      if (!muscles || !Array.isArray(muscles) || muscles.length === 0) {
+      if (!muscles || muscles.length === 0) {
         muscles = await fetchMuscles();
         if (muscles.length > 0) {
           // Only cache if we got data
@@ -118,7 +128,7 @@ const ExerciseFilter = ({
       // Load equipment
       let equipment = await getCachedData(CACHE_KEYS.EQUIPMENT);
 
-      if (!equipment || !Array.isArray(equipment) || equipment.length === 0) {
+      if (!equipment || equipment.length === 0) {
         equipment = await fetchEquipment();
         if (equipment.length > 0) {
           // Only cache if we got data
@@ -151,7 +161,7 @@ const ExerciseFilter = ({
           >
             <View style={styles.container}>
               <View style={styles.header}>
-                <ParallelogramButton
+                <PillButton
                   label='Close'
                   icon={
                     <Ionicons
@@ -171,7 +181,7 @@ const ExerciseFilter = ({
                       : `${totalMatches} Matches`}
                   </Text>
                 </View>
-                <ParallelogramButton
+                <PillButton
                   label='Clear'
                   icon={
                     <Ionicons

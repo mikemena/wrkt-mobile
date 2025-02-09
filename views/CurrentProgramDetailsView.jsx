@@ -8,7 +8,6 @@ import {
   SafeAreaView
 } from 'react-native';
 import { WorkoutContext } from '../src/context/workoutContext';
-import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -26,10 +25,18 @@ const CurrentProgramDetailsView = ({ navigation }) => {
   );
 
   const program = workoutState.activeProgram;
-
   const workouts = program?.workouts || [];
 
   const totalWorkouts = workouts.length;
+
+  // useEffect(() => {
+  //   console.log({
+  //     currentWorkoutIndex,
+  //     totalWorkouts,
+  //     isPrevDisabled: currentWorkoutIndex === 0,
+  //     isNextDisabled: currentWorkoutIndex === totalWorkouts - 1
+  //   });
+  // }, [currentWorkoutIndex, totalWorkouts]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('state', e => {});
@@ -49,9 +56,7 @@ const CurrentProgramDetailsView = ({ navigation }) => {
           ...ex,
           name: ex.name,
           equipment: ex.equipment,
-          sets: ex.sets || [],
-          imageUrl: ex.imageUrl,
-          catalogExerciseId: ex.catalogExerciseId
+          sets: ex.sets || []
         })),
         programId: currentWorkout.programId
       };
@@ -127,6 +132,15 @@ const CurrentProgramDetailsView = ({ navigation }) => {
               size={24}
             />
           </TouchableOpacity>
+          <View style={styles.progressBar}>
+            <View
+              style={[
+                styles.progressFill,
+                { width: `${currentWorkout.progress}%` }
+              ]}
+            />
+            <Text style={styles.progressText}>{currentWorkout.progress}%</Text>
+          </View>
         </View>
 
         <View
@@ -260,11 +274,19 @@ const CurrentProgramDetailsView = ({ navigation }) => {
           </View>
         </View>
         <View style={globalStyles.centeredButtonContainer}>
-          <ParallelogramButton
-            label='GO TO WORKOUT'
-            style={[{ width: 300, alignItems: 'center' }]}
+          <TouchableOpacity
+            style={[
+              globalStyles.button,
+              {
+                backgroundColor: themedStyles.accentColor
+              }
+            ]}
             onPress={handleStartWorkout}
-          />
+          >
+            <Text style={[globalStyles.buttonText, { color: colors.black }]}>
+              GO TO WORKOUT
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -277,8 +299,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
     fontWeight: 'semibold',
-    marginBottom: 10,
-    textAlign: 'center'
+    marginBottom: 10
   },
   progressContainer: {
     flexDirection: 'row',
@@ -290,14 +311,34 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: 5
   },
+  progressBar: {
+    flex: 1,
+    height: 35,
+    backgroundColor: '#444',
+    borderRadius: 8,
+    position: 'relative',
+    overflow: 'hidden'
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.accent,
+    borderRadius: 10
+  },
+  progressText: {
+    fontFamily: 'Lexend',
+    position: 'absolute',
+    right: 10,
+    color: 'white',
+    lineHeight: 35
+  },
   workoutInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
     marginHorizontal: 5,
-    padding: 10,
-    borderRadius: 5
+    borderRadius: 10,
+    padding: 10
   },
   navArrow: {
     fontSize: 24,
@@ -314,8 +355,8 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 10,
     marginHorizontal: 5,
-    padding: 10,
-    borderRadius: 5
+    borderRadius: 10,
+    padding: 10
   },
   sectionTitle: {
     fontFamily: 'Lexend',
@@ -341,8 +382,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
     marginHorizontal: 5,
-    padding: 10,
-    borderRadius: 5
+    borderRadius: 10,
+    padding: 10
   },
   infoItem: {
     flex: 1,

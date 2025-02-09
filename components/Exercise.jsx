@@ -179,7 +179,7 @@ const Exercise = ({
           >
             <Ionicons
               name={'trash-outline'}
-              style={[globalStyles.icon, { color: themedStyles.accentColor }]}
+              style={[globalStyles.icon, { color: themedStyles.textColor }]}
               size={24}
             />
           </TouchableOpacity>
@@ -274,7 +274,7 @@ const Exercise = ({
             >
               <Ionicons
                 name={'add-outline'}
-                style={[globalStyles.icon, { color: themedStyles.accentColor }]}
+                style={[globalStyles.icon, { color: themedStyles.textColor }]}
                 size={24}
               />
             </TouchableOpacity>
@@ -344,6 +344,7 @@ const styles = StyleSheet.create({
     height: 40,
     textAlign: 'center',
     marginHorizontal: 5,
+    borderRadius: 10,
     maxWidth: 80
   },
   deleteButton: {
@@ -371,7 +372,9 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     marginTop: 1,
     backgroundColor: colors.red,
-    zIndex: 0
+    zIndex: 0,
+    borderBottomRightRadius: 5,
+    borderTopRightRadius: 5
   },
   deleteText: {
     color: colors.offWhite,

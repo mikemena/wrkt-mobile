@@ -5,13 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView
+  SafeAreaView,
+  ActivityIndicator
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { useConfig } from '../src/context/configContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import Header from '../components/Header';
-import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
 const ResetPasswordView = ({ navigation, route }) => {
@@ -22,6 +21,7 @@ const ResetPasswordView = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -60,7 +60,7 @@ const ResetPasswordView = ({ navigation, route }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${config.apiUrl}/api/auth/reset-password`, {
+      const response = await fetch(`${apiUrl}/api/auth/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -97,7 +97,15 @@ const ResetPasswordView = ({ navigation, route }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <Header pageName='NEW PASSWORD' />
+      <View style={styles.header}>
+        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
+          POW
+        </Text>
+        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
+          NEW PASSWORD
+        </Text>
+      </View>
+
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Create new password
@@ -182,14 +190,23 @@ const ResetPasswordView = ({ navigation, route }) => {
             {success}
           </Text>
         ) : null}
-        <View style={styles.buttonContainer}>
-          <ParallelogramButton
-            style={[{ width: 300, alignItems: 'center' }]}
-            label='RESET PASSWORD'
-            onPress={handleResetPassword}
-            disabled={loading}
-          />
-        </View>
+
+        <TouchableOpacity
+          style={[
+            styles.resetButton,
+            { opacity: loading ? 0.7 : 1 },
+            { backgroundColor: themedStyles.accentColor }
+          ]}
+          onPress={handleResetPassword}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color='#000' />
+          ) : (
+            <Text style={styles.resetButtonText}>RESET PASSWORD</Text>
+          )}
+        </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.navigate('SignIn')}
@@ -215,6 +232,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20
   },
+  logo: {
+    fontSize: 36,
+    fontFamily: 'Tiny5'
+  },
+  headerText: {
+    fontSize: 16,
+    fontFamily: 'Lexend'
+  },
   content: {
     flex: 1,
     padding: 20
@@ -237,10 +262,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginBottom: 15
   },
-  buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   passwordInput: {
     flex: 1,
     height: '100%',
@@ -251,6 +272,18 @@ const styles = StyleSheet.create({
   eyeIcon: {
     padding: 10,
     marginRight: 10
+  },
+  resetButton: {
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  resetButtonText: {
+    color: '#000',
+    fontSize: 16,
+    fontFamily: 'Lexend'
   },
   errorText: {
     color: '#ff4444',

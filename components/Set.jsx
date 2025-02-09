@@ -2,18 +2,21 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import SwipeableItemDeletion from '../components/SwipeableItemDeletion';
 
-const Set = ({ index, set, onSetChange, onDelete, themedStyles, onFocus }) => {
+const Set = ({ index, set, isLast, onSetChange, onDelete, themedStyles }) => {
   return (
-    <View style={[styles.setRowWrapper]}>
+    <View style={styles.setRowWrapper}>
       <SwipeableItemDeletion
         onDelete={() => onDelete(set.id)}
+        isLast={isLast}
         swipeableType='set'
       >
         <View
           style={[
             styles.setRow,
             {
-              backgroundColor: themedStyles.secondaryBackgroundColor
+              backgroundColor: themedStyles.secondaryBackgroundColor,
+              borderBottomLeftRadius: isLast ? 10 : 0,
+              borderBottomRightRadius: isLast ? 10 : 0
             }
           ]}
         >
@@ -30,9 +33,7 @@ const Set = ({ index, set, onSetChange, onDelete, themedStyles, onFocus }) => {
             ]}
             value={set.weight?.toString()}
             onChangeText={value => onSetChange(index, 'weight', value)}
-            onFocus={() => onFocus && onFocus(index, 'weight')}
             keyboardType='numeric'
-            returnKeyType='next'
           />
           <TextInput
             style={[
@@ -44,9 +45,7 @@ const Set = ({ index, set, onSetChange, onDelete, themedStyles, onFocus }) => {
             ]}
             value={set.reps?.toString()}
             onChangeText={value => onSetChange(index, 'reps', value)}
-            onFocus={() => onFocus && onFocus(index, 'reps')}
             keyboardType='numeric'
-            returnKeyType='done'
           />
         </View>
       </SwipeableItemDeletion>
@@ -54,20 +53,16 @@ const Set = ({ index, set, onSetChange, onDelete, themedStyles, onFocus }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  setRowWrapper: {
-    marginBottom: 1,
-    width: '100%',
-    zIndex: 1
-  },
+// Update the existing styles with new ones for the slide-to-delete functionality
 
+const styles = StyleSheet.create({
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 40,
-    borderRadius: 5
+    height: 40
   },
+
   setNumber: {
     width: 40,
     fontSize: 16,
@@ -76,12 +71,11 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 32,
-    marginHorizontal: 15,
+    height: 35,
+    marginHorizontal: 8,
+    borderRadius: 10,
     textAlign: 'center',
-    fontFamily: 'Lexend',
-    paddingVertical: 0,
-    borderRadius: 5
+    fontFamily: 'Lexend'
   }
 });
 

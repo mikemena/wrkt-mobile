@@ -19,7 +19,7 @@ export const DURATION_TYPES = [
 ];
 
 export const GOAL_TYPES = [
-  { id: 1, value: 'strength', label: 'Strength' },
+  { id: 1, value: 'strenght', label: 'Strength' },
   { id: 2, value: 'endurance', label: 'Endurance' },
   { id: 3, value: 'hypertrophy', label: 'Hypertrophy' },
   { id: 4, value: 'weight loss', label: 'Weight Loss' }

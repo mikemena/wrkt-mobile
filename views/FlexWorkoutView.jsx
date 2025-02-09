@@ -7,7 +7,6 @@ import {
   View,
   ScrollView
 } from 'react-native';
-import ParallelogramButton from '../components/ParallelogramButton';
 import { useNavigation } from '@react-navigation/native';
 import { WorkoutContext } from '../src/context/workoutContext';
 import { useTheme } from '../src/hooks/useTheme';
@@ -62,16 +61,40 @@ const FlexWorkout = () => {
           </Text>
         </View>
         <View style={styles.buttonRow}>
-          <ParallelogramButton
-            label='ADD EXERCISE'
-            style={[{ width: 150, alignItems: 'center' }]}
+          <TouchableOpacity
+            style={[
+              globalStyles.button,
+              styles.addButton,
+              { backgroundColor: themedStyles.secondaryBackgroundColor }
+            ]}
             onPress={handleAddExercise}
-          />
-          <ParallelogramButton
-            label='CANCEL'
-            style={[{ width: 150, alignItems: 'center' }]}
+          >
+            <Text
+              style={[
+                globalStyles.buttonText,
+                { color: themedStyles.accentColor }
+              ]}
+            >
+              ADD EXERCISE
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              globalStyles.button,
+              styles.cancelButton,
+              { backgroundColor: themedStyles.secondaryBackgroundColor }
+            ]}
             onPress={handleCancel}
-          />
+          >
+            <Text
+              style={[
+                globalStyles.buttonText,
+                { color: themedStyles.accentColor }
+              ]}
+            >
+              CANCEL
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -98,6 +121,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20
+  },
+  addButton: {
+    flex: 1,
+    marginRight: 10
+  },
+  cancelButton: {
+    flex: 1,
+    marginLeft: 10
   }
 });
 

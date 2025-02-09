@@ -1,27 +1,24 @@
-import fs from 'fs';
-import path from 'path';
-import dotenv from 'dotenv';
-
-const envFile = process.env.ENVFILE || '.env.development';
-console.log(`Using environment file: ${envFile}`);
-if (fs.existsSync(path.resolve(__dirname, envFile))) {
-  dotenv.config({ path: envFile });
-} else {
-  console.warn(`Environment file ${envFile} not found!`);
-}
-
 module.exports = ({ config }) => {
-  const isProd = process.env.ENV === 'production';
+  const isProd =
+    process.env.ENV === 'production' || process.env.NODE_ENV === 'production';
+
   const iconDir = isProd
     ? './assets/app-icons/production'
     : './assets/app-icons/development';
 
+  console.log('Environment variables:', {
+    ENVFILE: process.env.ENVFILE,
+    ENV: process.env.ENV,
+    NODE_ENV: process.env.NODE_ENV
+  });
+
   const extraConfig = {
     ...config.extra,
-    apiUrl: process.env.API_URL,
-    env: process.env.ENV,
+    apiUrl: isProd ? 'https://api.wrkt.fitness' : 'http://localhost:9025',
+    // apiUrl: isProd ? 'https://api.wrkt.fitness' : 'http://192.168.1.229:9025',
+    env: isProd ? 'production' : 'development',
     isProd: isProd,
-    environment: process.env.ENV
+    environment: isProd ? 'production' : 'development'
   };
 
   const updatedConfig = {

@@ -32,32 +32,29 @@ const WorkoutView = () => {
 
   const activeProgram = workoutState.activeProgram;
 
+  // When component mounts, fetch active program details
   useEffect(() => {
     const loadActiveProgram = async () => {
       try {
         await fetchActiveProgram();
       } catch (error) {
         console.error('Error loading active program:', error);
+        // You might want to show an error message to the user here
       }
     };
 
     loadActiveProgram();
-  }, []);
+  }, []); // Empty dependency array means this runs once when component mounts
 
   const handleProgramWorkoutPress = async () => {
-    console.log(
-      'handleProgramWorkoutPress called, activeProgram:',
-      activeProgram
-    );
+    // Let's log the current state to understand what we're working with
 
     if (activeProgram) {
-      console.log('Attempting to navigate to CurrentProgramDetails');
-      await fetchActiveProgram();
+      fetchActiveProgram();
       navigation.navigate('CurrentProgramDetails');
     } else {
-      console.log('Attempting to navigate to CurrentProgram');
-      await clearWorkoutDetails();
-      await clearCurrentWorkout();
+      clearWorkoutDetails();
+      clearCurrentWorkout();
       navigation.navigate('CurrentProgram');
     }
   };

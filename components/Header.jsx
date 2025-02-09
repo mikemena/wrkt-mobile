@@ -18,7 +18,6 @@ const Header = ({ pageName }) => {
       <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
         WRKT
       </Text>
-
       <Text style={[styles.pageName]}>{pageName.toUpperCase()}</Text>
     </View>
   );
@@ -41,10 +40,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Teko',
     fontSize: 24,
     color: colors.gray
-  },
-  appVersion: {
-    fontFamily: 'Teko',
-    fontSize: 20
   }
 });
 

@@ -5,15 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView
+  SafeAreaView,
+  ActivityIndicator
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { useConfig } from '../src/context/configContext';
 import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
 const SignUpView = ({ navigation }) => {
@@ -24,6 +22,7 @@ const SignUpView = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { apiUrl, isLoadingConfig } = useConfig();
 
   const { signIn } = useAuth();
   const { state: themeState } = useTheme();
@@ -114,7 +113,7 @@ const SignUpView = ({ navigation }) => {
 
     try {
       // Prepare request details
-      const signupUrl = `${config.apiUrl}/api/auth/signup`;
+      const signupUrl = `${apiUrl}/api/auth/signup`;
       const requestBody = {
         auth_provider: 'email',
         email,
@@ -178,7 +177,7 @@ const SignUpView = ({ navigation }) => {
 
       // Create user settings
       console.log('📤 Creating user settings...');
-      const settingsUrl = `${config.apiUrl}/api/settings/${userData.user.id}`;
+      const settingsUrl = `${apiUrl}/api/settings/${userData.user.id}`;
       const settingsBody = {
         theme_mode: 'dark',
         accent_color: '#D93B56'
@@ -245,7 +244,7 @@ const SignUpView = ({ navigation }) => {
 
       if (authData) {
         // Send to your backend
-        const response = await fetch(`${config.apiUrl}/api/auth/social`, {
+        const response = await fetch(`${apiUrl}/api/auth/social`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -274,7 +273,15 @@ const SignUpView = ({ navigation }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <Header pageName='SIGN UP' />
+      <View style={styles.header}>
+        <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
+          POW
+        </Text>
+        <Text style={[styles.headerText, { color: themedStyles.textColor }]}>
+          SIGN UP
+        </Text>
+      </View>
+
       <View style={styles.content}>
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign up
@@ -401,14 +408,22 @@ const SignUpView = ({ navigation }) => {
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
         ) : null}
-        <View style={styles.buttonContainer}>
-          <ParallelogramButton
-            style={[{ width: 300, alignItems: 'center' }]}
-            label='CONTINUE'
-            onPress={handleSignUp}
-            disabled={loading}
-          />
-        </View>
+
+        <TouchableOpacity
+          style={[
+            styles.signInButton,
+            { opacity: loading ? 0.7 : 1 },
+            { backgroundColor: themedStyles.accentColor }
+          ]}
+          onPress={handleSignUp}
+          disabled={loading}
+        >
+          {isSigningUp ? (
+            <ActivityIndicator color='#000' />
+          ) : (
+            <Text style={styles.signInButtonText}>CONTINUE</Text>
+          )}
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.switchAuthButton}
@@ -422,7 +437,6 @@ const SignUpView = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <Footer />
     </SafeAreaView>
   );
 };
@@ -436,6 +450,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20
+  },
+  logo: {
+    fontSize: 36,
+    fontFamily: 'Tiny5'
+  },
+  headerText: {
+    fontSize: 16,
+    fontFamily: 'Lexend'
   },
   content: {
     flex: 1,
@@ -451,7 +473,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 25,
     marginBottom: 15
   },
   socialButtonText: {
@@ -477,7 +499,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 5,
+    borderRadius: 25,
     paddingHorizontal: 20,
     marginBottom: 15,
     fontSize: 16,
@@ -487,6 +509,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 15,
     fontSize: 14,
+    fontFamily: 'Lexend'
+  },
+  signInButton: {
+    backgroundColor: '#A5FF32',
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  signInButtonText: {
+    color: '#2A2A2A',
+    fontSize: 16,
     fontFamily: 'Lexend'
   },
   errorText: {
@@ -509,12 +544,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 50,
-    borderRadius: 5,
+    borderRadius: 25,
     marginBottom: 15
-  },
-  buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   passwordInput: {
     flex: 1,
