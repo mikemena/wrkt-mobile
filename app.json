@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wrkt.fitness",
-      "buildNumber": "1.1.7",
+      "buildNumber": "1.1.16",
       "config": {
         "usesNonExemptEncryption": false
       },

@@ -1,7 +1,7 @@
 {
   "cli": {
     "version": ">= 12.6.2",
-    "appVersionSource": "remote"
+    "appVersionSource": "local"
   },
   "build": {
     "development": {
@@ -13,27 +13,35 @@
       "env": {
         "ENVFILE": ".env.development",
         "ENV": "development",
+        "API_URL": "https://wrkt-backend-development.up.railway.app"
+      }
+    },
+    "testflight": {
+      "autoIncrement": true,
+      "distribution": "store",
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "env": {
+        "ENVFILE": ".env.development",
+        "ENV": "development",
         "API_URL": "${process.env.API_URL}"
       }
     },
     "production": {
       "autoIncrement": true,
+      "distribution": "store",
+      "ios": {
+        "buildConfiguration": "Release"
+      },
       "env": {
         "ENVFILE": ".env.production",
         "ENV": "production",
-        "API_URL": "${process.env.API_URL}"
+        "API_URL": "https://api.wrkt.fitness"
       }
     }
   },
   "submit": {
-    "submit": {
-      "production": {
-        "ios": {
-          "appleId": "${process.env.APPLE_ID}",
-          "ascAppId": "${process.env.ASC_APP_ID}",
-          "appleTeamId": "${process.env.APPLE_TEAM_ID}"
-        }
-      }
-    }
+    "production": {}
   }
 }
