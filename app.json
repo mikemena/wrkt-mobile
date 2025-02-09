@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wrkt.fitness",
-      "buildNumber": "1.1.16",
+      "buildNumber": "1.1.17",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -74,9 +74,6 @@
       "environment": "development",
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "f0dc0016-48ae-486a-a0b5-27c29072b61a"
       }
     }
   }

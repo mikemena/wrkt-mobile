@@ -29,7 +29,7 @@ module.exports = ({ config }) => {
 
   console.log('Final extra config:', extraConfig);
 
-  const updatedConfig = {
+  return {
     ...config,
     icon: `${iconDir}/icon_1024.png`,
     ios: {
@@ -63,6 +63,4 @@ module.exports = ({ config }) => {
     },
     extra: extraConfig
   };
-
-  return updatedConfig;
 };

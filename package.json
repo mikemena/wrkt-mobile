@@ -16,8 +16,10 @@
     "android:prod": "ENVFILE=.env.production expo run:android",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "build:ios:dev": "ENVFILE=.env.development eas build -p ios --profile development && eas submit -p ios",
-    "build:ios:prod": "ENVFILE=.env.production eas build -p ios --profile production && eas submit -p ios",
+    "build:ios:dev": "ENVFILE=.env.development expo build:ios -t archive",
+    "build:ios:prod": "ENVFILE=.env.production expo build:ios -t archive",
+    "build:android:dev": "ENVFILE=.env.development expo build:android -t apk",
+    "build:android:prod": "ENVFILE=.env.production expo build:android -t apk",
     "clear-cache": "expo start --clear",
     "start": "expo start --dev-client"
   },
