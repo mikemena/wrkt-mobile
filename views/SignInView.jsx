@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
@@ -48,7 +48,6 @@ const SignInView = ({ navigation }) => {
   };
 
   const handleSignIn = async () => {
-    console.log('Attempting signin with url', config.apiUrl);
     // Clear any previous general error
     setGeneralError('');
     if (!password) {
@@ -59,38 +58,16 @@ const SignInView = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const requestUrl = `${config.apiUrl}/api/auth/signin`;
-      console.log('Making request to:', requestUrl);
+      console.log('Attempting signin...');
 
-      const response = await fetch(requestUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+      const data = await api.post('/api/auth/signin', {
+        email,
+        password
       });
-
-      console.log('Response status:', response.status);
-      const textResponse = await response.text();
-      console.log('Raw response:', textResponse);
-
-      let data;
-      try {
-        data = JSON.parse(textResponse);
-      } catch (parseError) {
-        console.error('Parse error:', parseError);
-        setGeneralError('Server error - invalid response format');
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Sign in failed');
-      }
 
       await signIn(data.token, data.user);
     } catch (err) {
-      console.error('Full error object:', JSON.stringify(err, null, 2));
+      console.error('Sign in error:', err);
       setGeneralError(err.message || 'Failed to sign in');
     } finally {
       setLoading(false);

@@ -1,4 +1,8 @@
-import { createProgram as apiCreateProgram } from './api';
+import {
+  createProgram as apiCreateProgram,
+  updateProgram as apiUpdateProgram,
+  deleteProgram as apiDeleteProgram
+} from './api';
 
 export const programService = {
   async createProgram(programData) {
@@ -82,7 +86,7 @@ export const programService = {
         }))
       };
 
-      const response = await apiService.updateProgram(validatedData);
+      const response = await apiUpdateProgram(validatedData);
       // If we get a success response, return a properly structured response
       if (response.success) {
         return {
@@ -114,7 +118,7 @@ export const programService = {
         );
       }
 
-      const response = await apiService.deleteProgram(parsedId);
+      const response = await apiDeleteProgram(parsedId);
       return response;
     } catch (error) {
       // Enhanced error logging

@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import Header from '../components/Header';
@@ -49,7 +49,6 @@ const ForgotPasswordView = ({ navigation }) => {
     setGeneralError('');
 
     const newEmailError = validateEmail(email);
-
     setEmailError(newEmailError);
 
     if (newEmailError) {
@@ -60,22 +59,7 @@ const ForgotPasswordView = ({ navigation }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(
-        `${config.apiUrl}/api/auth/forgot-password`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email })
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to request password reset');
-      }
+      const data = await api.post('/api/auth/forgot-password', { email });
 
       setSuccess(data.message);
       setIsResetButtonVisible(false);
