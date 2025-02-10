@@ -1,12 +1,14 @@
 # Release v1.1.7
 
+## Press Cmd + Shift + V to open the preview in a new tab
+
 ## Bugs
 
-- [ ] Running app in test flight still pointing to production enviornment backend
-- [ ] Saving while editing a program is not working
+- [x] Running app in test flight still pointing to production enviornment backend
+- [x] Saving while editing a program is not working
 - [ ] Exercise image in StartWorkoutView does not always render
 - [ ] The ProgressView is not showing activity just completed (maybe not -its now showing)
-- [ ] Update wrkt document website with updated screenshots of new app design
+- [x] Update wrkt document website with updated screenshots of new app design
 
 ## Improvements
 

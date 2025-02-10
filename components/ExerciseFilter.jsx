@@ -7,7 +7,7 @@ import {
   Text,
   TouchableWithoutFeedback
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
 import ParallelogramButton from './ParallelogramButton';
@@ -69,8 +69,7 @@ const ExerciseFilter = ({
 
   const fetchMuscles = async () => {
     try {
-      const response = await fetch(`${config.apiUrl}/api/muscles`);
-      const data = await response.json();
+      const data = await api.get('/api/muscles');
       return data.map(muscle => ({
         label: `${muscle.muscle} (${muscle.muscle_group})`,
         value: muscle.muscle
@@ -83,10 +82,7 @@ const ExerciseFilter = ({
 
   const fetchEquipment = async () => {
     try {
-      const response = await fetch(`${config.apiUrl}/api/equipments`);
-
-      const data = await response.json();
-
+      const data = await api.get('/api/equipments');
       return data.map(equipment => ({
         label: equipment.name,
         value: equipment.name

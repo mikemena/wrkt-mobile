@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ActivityIndicator, Image, StyleSheet } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { cacheImage, getCachedImage } from '../src/utils/imageCache';
@@ -24,15 +24,7 @@ const ExerciseImage = ({ exercise }) => {
     }
 
     try {
-      const response = await fetch(
-        `${config.apiUrl}/api/exercise-catalog/${exercise.id}/image`
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = await api.get(`/api/exercise-catalog/${exercise.id}/image`);
 
       if (data.imageUrl && isMounted.current) {
         cacheImage(exercise.id, data.imageUrl);

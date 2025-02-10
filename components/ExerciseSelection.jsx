@@ -14,7 +14,7 @@ import {
   Modal,
   StyleSheet
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
@@ -83,29 +83,10 @@ const ExerciseSelection = ({ navigation, route }) => {
         equipment: filterValues.equipment?.trim() || ''
       });
 
-      const response = await fetch(
-        `${config.apiUrl}/api/exercise-catalog?${queryParams}`,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('API Error:', {
-          status: response.status,
-          text: errorText
-        });
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const rawData = await response.json();
+      const response = await api.get(`/api/exercise-catalog?${queryParams}`);
 
       // Transform the data right after receiving it from the API
-      const transformedData = transformResponseData(rawData);
+      const transformedData = transformResponseData(response);
 
       // Reset data when applying new filters
       if (!shouldAppend) {
