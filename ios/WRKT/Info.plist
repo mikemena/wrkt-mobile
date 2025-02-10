@@ -48,11 +48,25 @@
     <dict>
       <key>NSAllowsArbitraryLoads</key>
       <false/>
-      <key>NSAllowsLocalNetworking</key>
-      <true/>
+      <key>NSExceptionDomains</key>
+      <dict>
+        <key>wrkt-backend-development.up.railway.app</key>
+        <dict>
+          <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+          <false/>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+          <key>NSTemporaryExceptionMinimumTLSVersion</key>
+          <string>TLSv1.2</string>
+          <key>NSTemporaryExceptionRequiresForwardSecrecy</key>
+          <true/>
+        </dict>
+      </dict>
     </dict>
     <key>NSUserActivityTypes</key>
     <array>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
+      <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

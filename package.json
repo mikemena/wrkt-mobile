@@ -16,10 +16,9 @@
     "android:prod": "ENVFILE=.env.production expo run:android",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "build:ios:dev": "ENVFILE=.env.development expo build:ios -t archive",
-    "build:ios:prod": "ENVFILE=.env.production expo build:ios -t archive",
-    "build:android:dev": "ENVFILE=.env.development expo build:android -t apk",
-    "build:android:prod": "ENVFILE=.env.production expo build:android -t apk",
+    "build:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS'",
+    "build:ios:prod": "ENVFILE=.env.production npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS'",
+    "release:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS' && xcrun altool --upload-app --type ios --file ios/build/Build/Products/Release-iphoneos/WRKT.ipa --username \"$APPLE_ID\" --password \"$ASC_APP_SPECIFIC_PASSWORD\"",
     "clear-cache": "expo start --clear",
     "start": "expo start --dev-client"
   },
