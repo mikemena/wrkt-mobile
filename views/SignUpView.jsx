@@ -24,8 +24,9 @@ const SignUpView = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
 
-  const { signIn } = useAuth();
+  const { signIn, onResend } = useAuth();
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
     themeState.theme,
@@ -77,6 +78,27 @@ const SignUpView = ({ navigation }) => {
     setPasswordError(validatePassword(text));
   };
 
+  const handleVerifyEmail = async token => {
+    try {
+      const response = await api.post('/api/auth/verify-email', { token });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to verify email'
+      );
+    }
+  };
+
+  const handleResendVerification = async email => {
+    try {
+      await api.post('/api/auth/resend-verification', { email });
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to resend verification'
+      );
+    }
+  };
+
   const handleSignUp = async () => {
     console.log('========== SIGNUP PROCESS STARTED ==========');
 
@@ -108,6 +130,12 @@ const SignUpView = ({ navigation }) => {
         email,
         password
       });
+
+      // Sign in with limited access
+      await signIn(userData.token, userData.user);
+
+      // Show verification sent message
+      setVerificationSent(true);
 
       console.log('✅ Parsed User Data:', {
         hasToken: !!userData.token,
@@ -314,7 +342,7 @@ const SignUpView = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <ParallelogramButton
             style={[{ width: 300, alignItems: 'center' }]}
-            label='CONTINUE'
+            label='SIGN UP'
             onPress={handleSignUp}
             disabled={loading}
           />
@@ -332,6 +360,22 @@ const SignUpView = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      {verificationSent && (
+        <View style={styles.verificationContainer}>
+          <Text style={styles.verificationText}>
+            Please check your email to verify your account. You have limited
+            access until verification is complete.
+          </Text>
+          <TouchableOpacity
+            style={styles.resendButton}
+            onPress={() => handleResendVerification(email)}
+          >
+            <Text style={styles.resendButtonText}>
+              Resend Verification Email
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <Footer />
     </SafeAreaView>
   );
@@ -436,6 +480,26 @@ const styles = StyleSheet.create({
   eyeIcon: {
     padding: 10,
     marginRight: 10
+  },
+  verificationContainer: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8
+  },
+  verificationText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  resendButton: {
+    padding: 10
+  },
+  resendButtonText: {
+    color: '#D93B56',
+    textAlign: 'center',
+    fontSize: 14
   }
 });
 
