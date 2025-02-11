@@ -211,7 +211,14 @@ const SignInView = ({ navigation }) => {
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
         ) : null}
-
+        <View style={styles.buttonContainer}>
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center' }]}
+            label='SIGN IN'
+            onPress={handleSignIn}
+            disabled={loading}
+          />
+        </View>
         <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
           <Text
             style={[styles.forgotPassword, { color: themedStyles.textColor }]}
@@ -219,15 +226,20 @@ const SignInView = ({ navigation }) => {
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <View style={styles.buttonContainer}>
-          <ParallelogramButton
-            style={[{ width: 300, alignItems: 'center' }]}
-            label='CONTINUE'
-            onPress={handleSignIn}
-            disabled={loading}
-          />
+        <View style={styles.signUpContainer}>
+          <Text style={[styles.signUpText, { color: themedStyles.textColor }]}>
+            Don't have an account?{' '}
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text
+              style={[styles.signUpLink, { color: themedStyles.accentColor }]}
+            >
+              Sign up
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.buttonContainer}></View>
     </SafeAreaView>
   );
 };
@@ -331,6 +343,21 @@ const styles = StyleSheet.create({
   eyeIcon: {
     padding: 10,
     marginRight: 10
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  signUpText: {
+    fontSize: 14,
+    fontFamily: 'Lexend'
+  },
+  signUpLink: {
+    fontSize: 14,
+    fontFamily: 'Lexend',
+    fontWeight: '600'
   }
 });
 

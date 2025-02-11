@@ -129,7 +129,7 @@ const linking = {
 const AuthNavigator = () => (
   <AuthStack.Navigator
     screenOptions={{ headerShown: false, gestureEnabled: false }}
-    initialRouteName='SignUp'
+    initialRouteName='SignIn'
   >
     <AuthStack.Screen
       name='SignUp'

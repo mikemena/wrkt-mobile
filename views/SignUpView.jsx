@@ -26,10 +26,8 @@ const SignUpView = ({ navigation }) => {
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [verificationSent, setVerificationSent] = useState(false);
-  const [isResending, setIsResending] = useState(false);
-  const [resendSuccess, setResendSuccess] = useState(false);
 
-  const { signIn } = useAuth();
+  const { signIn, onResend } = useAuth();
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
     themeState.theme,
@@ -93,26 +91,15 @@ const SignUpView = ({ navigation }) => {
   };
 
   const handleResendVerification = async email => {
-    if (isResending) return; // Prevent multiple clicks
-
     try {
-      setIsResending(true);
       await api.post('/api/auth/resend-verification', { email });
-      setResendSuccess(true);
-
-      // Reset success message after 5 seconds
-
-      setTimeout(() => {
-        setResendSuccess(false);
-        setIsResending(false);
-      }, 5000);
     } catch (error) {
-      setGeneralError(
+      throw new Error(
         error.response?.data?.message || 'Failed to resend verification'
       );
-      setIsResending(false);
     }
   };
+
   const handleSignUp = async () => {
     console.log('========== SIGNUP PROCESS STARTED ==========');
 
@@ -144,6 +131,12 @@ const SignUpView = ({ navigation }) => {
         email,
         password
       });
+
+      // Sign in with limited access
+      await signIn(userData.token, userData.user);
+
+      // Show verification sent message
+      setVerificationSent(true);
 
       console.log('✅ Parsed User Data:', {
         hasToken: !!userData.token,
@@ -350,7 +343,7 @@ const SignUpView = ({ navigation }) => {
         <View style={styles.buttonContainer}>
           <ParallelogramButton
             style={[{ width: 300, alignItems: 'center' }]}
-            label='CONTINUE'
+            label='SIGN UP'
             onPress={handleSignUp}
             disabled={loading}
           />
@@ -368,6 +361,22 @@ const SignUpView = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      {verificationSent && (
+        <View style={styles.verificationContainer}>
+          <Text style={styles.verificationText}>
+            Please check your email to verify your account. You have limited
+            access until verification is complete.
+          </Text>
+          <TouchableOpacity
+            style={styles.resendButton}
+            onPress={() => handleResendVerification(email)}
+          >
+            <Text style={styles.resendButtonText}>
+              Resend Verification Email
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <Footer />
     </SafeAreaView>
   );
@@ -477,8 +486,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 15,
     backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    marginBottom: 100
+    borderRadius: 8
   },
   verificationText: {
     fontSize: 14,
