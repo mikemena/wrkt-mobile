@@ -24,6 +24,9 @@ const SignUpView = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
 
   const { signIn } = useAuth();
   const { state: themeState } = useTheme();
@@ -77,6 +80,38 @@ const SignUpView = ({ navigation }) => {
     setPasswordError(validatePassword(text));
   };
 
+  const handleVerifyEmail = async token => {
+    try {
+      const response = await api.post('/api/auth/verify-email', { token });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to verify email'
+      );
+    }
+  };
+
+  const handleResendVerification = async email => {
+    if (isResending) return; // Prevent multiple clicks
+
+    try {
+      setIsResending(true);
+      await api.post('/api/auth/resend-verification', { email });
+      setResendSuccess(true);
+
+      // Reset success message after 5 seconds
+
+      setTimeout(() => {
+        setResendSuccess(false);
+        setIsResending(false);
+      }, 5000);
+    } catch (error) {
+      setGeneralError(
+        error.response?.data?.message || 'Failed to resend verification'
+      );
+      setIsResending(false);
+    }
+  };
   const handleSignUp = async () => {
     console.log('========== SIGNUP PROCESS STARTED ==========');
     console.log('Initial Config State:', {
@@ -422,6 +457,48 @@ const SignUpView = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      {verificationSent && (
+        <View
+          style={[
+            styles.verificationContainer,
+            {
+              backgroundColor: themedStyles.secondaryBackgroundColor
+            }
+          ]}
+        >
+          <Text
+            style={[styles.verificationText, { color: themedStyles.textColor }]}
+          >
+            Please check your email to verify your account. You have limited
+            access until verification is complete.
+          </Text>
+          {resendSuccess ? (
+            <Text
+              style={[styles.successText, { color: themedStyles.accentColor }]}
+            >
+              Verification email sent successfully!
+            </Text>
+          ) : (
+            <TouchableOpacity
+              style={[
+                styles.resendButton,
+                isResending && styles.resendButtonDisabled
+              ]}
+              onPress={() => handleResendVerification(email)}
+              disabled={isResending}
+            >
+              <Text
+                style={[
+                  styles.resendButtonText,
+                  isResending && styles.resendButtonTextDisabled
+                ]}
+              >
+                {isResending ? 'Sending...' : 'Resend Verification Email'}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
       <Footer />
     </SafeAreaView>
   );
@@ -526,6 +603,27 @@ const styles = StyleSheet.create({
   eyeIcon: {
     padding: 10,
     marginRight: 10
+  },
+  verificationContainer: {
+    marginTop: 20,
+    padding: 15,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+    marginBottom: 100
+  },
+  verificationText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  resendButton: {
+    padding: 10
+  },
+  resendButtonText: {
+    color: '#D93B56',
+    textAlign: 'center',
+    fontSize: 14
   }
 });
 

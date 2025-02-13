@@ -2,7 +2,7 @@
   "expo": {
     "name": "WRKT",
     "slug": "wrkt",
-    "version": "1.1.6",
+    "version": "1.1.17",
     "orientation": "portrait",
     "icon": "./assets/app-icons/icon_1024.png",
     "scheme": "WRKT",
@@ -20,7 +20,20 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "version": "1.1.6",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
+          "NSExceptionDomains": {
+            "wrkt-backend-development.up.railway.app": {
+              "NSTemporaryExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true,
+              "NSTemporaryExceptionMinimumTLSVersion": "TLSv1.2",
+              "NSTemporaryExceptionRequiresForwardSecrecy": true
+            }
+          }
+        }
+      },
+      "version": "1.1.17",
       "icons": {
         "app": {
           "ios": {
