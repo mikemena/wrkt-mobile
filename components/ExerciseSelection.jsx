@@ -27,7 +27,6 @@ import { globalStyles, colors } from '../src/styles/globalStyles';
 import SecondaryButton from './SecondaryButton';
 import ExerciseFilter from './ExerciseFilter';
 import ExerciseImage from './ExerciseImage';
-import { cacheImage } from '../src/utils/imageCache';
 
 const ExerciseSelection = ({ navigation, route }) => {
   const { addExercise, state: programState } = useContext(ProgramContext);
@@ -84,6 +83,9 @@ const ExerciseSelection = ({ navigation, route }) => {
       });
 
       const response = await api.get(`/api/exercise-catalog?${queryParams}`);
+      console.log('******************************************');
+      console.log(response, response);
+      console.log('******************************************');
 
       // Transform the data right after receiving it from the API
       const transformedData = transformResponseData(response);
@@ -205,16 +207,17 @@ const ExerciseSelection = ({ navigation, route }) => {
     );
 
     if (!isSelected) {
-      // Cache image and log result
-      const wasAdded = cacheImage(exercise.id, exercise.imageUrl);
-
-      const newExercise = {
-        ...exercise,
-        id: Crypto.randomUUID(),
-        catalogExerciseId: exercise.id,
-        sets: [{ id: Crypto.randomUUID(), weight: '', reps: '', order: 1 }]
-      };
-      setSelectedExercises(prev => [...prev, newExercise]);
+      try {
+        const newExercise = {
+          ...exercise,
+          id: Crypto.randomUUID(),
+          catalogExerciseId: exercise.id,
+          sets: [{ id: Crypto.randomUUID(), weight: '', reps: '', order: 1 }]
+        };
+        setSelectedExercises(prev => [...prev, newExercise]);
+      } catch (error) {
+        console.error('Error toggling exercise selection:', error);
+      }
     } else {
       setSelectedExercises(prev =>
         prev.filter(e => e.catalogExerciseId !== exercise.id)
@@ -335,7 +338,18 @@ const ExerciseSelection = ({ navigation, route }) => {
         ]}
         onPress={() => toggleExerciseSelection(item)}
       >
-        <ExerciseImage exercise={item} />
+        <View style={styles.imageContainer}>
+          <ExerciseImage
+            exercise={{
+              id: item.id,
+              imageUrl: item.imageUrl
+            }}
+            style={styles.exerciseImage}
+            resizeMode='cover'
+            showOverlay={true}
+          />
+        </View>
+
         <View style={styles.exerciseDetails}>
           <Text
             style={[styles.exerciseName, { color: themedStyles.accentColor }]}
@@ -468,29 +482,36 @@ const styles = StyleSheet.create({
   exerciseList: { flex: 1 },
   exerciseItem: {
     flexDirection: 'row',
-    paddingBottom: 1,
-    borderBottomWidth: 1
+    padding: 5,
+    borderBottomWidth: 1,
+    alignItems: 'center',
+    height: 90
   },
-  // selectedExercise: {
-  //   borderStyle: 'solid',
-  //   borderWidth: 1,
-  //   backgroundColor: colors.voltGreen + '20'
-  // },
-  // exerciseImage: {
-  //   width: 90,
-  //   height: 90,
-  //   marginRight: 10,
-  //   borderEndStartRadius: 5,
-  //   borderTopStartRadius: 5
-  // },
-  exerciseDetails: { flex: 1 },
+  imageContainer: {
+    width: 85,
+    height: 85,
+    marginRight: 10,
+    // borderRadius: 5,
+    overflow: 'hidden'
+  },
+  exerciseImage: {
+    width: '100%',
+    height: '100%'
+    //borderRadius: 5
+  },
+  exerciseDetails: {
+    flex: 1,
+    justifyContent: 'center'
+  },
   exerciseName: {
     fontFamily: 'Lexend',
     fontSize: 16,
-    marginTop: 20,
-    marginBottom: 5
+    marginBottom: 4
   },
-  exerciseInfo: { fontFamily: 'Lexend', fontSize: 16, marginBottom: 10 }
+  exerciseInfo: {
+    fontFamily: 'Lexend',
+    fontSize: 14
+  }
 });
 
 export default ExerciseSelection;

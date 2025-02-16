@@ -11,6 +11,7 @@ import { api } from '../src/services/api';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import handleAppleAuth from '../src/utils/appleAuth';
 import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -74,15 +75,11 @@ const SignInView = ({ navigation }) => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // Implement Google Sign In
-    console.log('Google Sign In');
-  };
-
-  const handleAppleSignIn = () => {
-    // Implement Apple Sign In
-    console.log('Apple Sign In');
-  };
+  const handleAppleSignIn = handleAppleAuth({
+    api,
+    signIn,
+    setGeneralError
+  });
 
   return (
     <SafeAreaView
@@ -96,28 +93,6 @@ const SignInView = ({ navigation }) => {
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign in to your account
         </Text>
-
-        <TouchableOpacity
-          style={[
-            styles.socialButton,
-            { backgroundColor: themedStyles.secondaryBackgroundColor }
-          ]}
-          onPress={handleGoogleSignIn}
-        >
-          <Ionicons
-            name='logo-google'
-            size={20}
-            color={themedStyles.accentColor}
-          />
-          <Text
-            style={[
-              styles.socialButtonText,
-              { color: themedStyles.accentColor }
-            ]}
-          >
-            Sign in with Google
-          </Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={[
