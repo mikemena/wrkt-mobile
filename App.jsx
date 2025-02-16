@@ -37,8 +37,6 @@ const WorkoutStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 
-console.log('API URL from App.jsx', process.env.API_URL);
-
 const ProgramsStackScreen = () => (
   <ProgramsStack.Navigator screenOptions={{ headerShown: false }}>
     <ProgramsStack.Screen name='ProgramsList' component={ProgramsView} />
@@ -94,10 +92,14 @@ const TabNavigator = () => (
 );
 
 const getPrefixes = () => {
-  const scheme = Constants.expoConfig?.scheme || 'wrkt';
+  const scheme = Constants.expoConfig?.scheme || 'WRKT';
 
   if (__DEV__) {
-    return [`${scheme}://`, 'http://localhost:8081', 'exp://'];
+    return [
+      `${scheme}://`,
+      'exp://',
+      'https://wrkt-backend-development.up.railway.app'
+    ];
   }
 
   return [
@@ -127,7 +129,7 @@ const linking = {
 const AuthNavigator = () => (
   <AuthStack.Navigator
     screenOptions={{ headerShown: false, gestureEnabled: false }}
-    initialRouteName='SignUp'
+    initialRouteName='SignIn'
   >
     <AuthStack.Screen
       name='SignUp'
@@ -142,7 +144,7 @@ const AuthNavigator = () => (
       name='ResetPassword'
       component={ResetPasswordView}
       options={{
-        path: 'reset-password' // for web routing
+        path: 'reset-password'
       }}
     />
   </AuthStack.Navigator>
@@ -198,7 +200,7 @@ const App = () => {
         console.error('Failed to load fonts:', error);
       }
     }
-    const apiUrl = process.env.API_URL;
+    const apiUrl = Constants.expoConfig.extra.apiUrl;
     console.log('API URL from App.jsx', apiUrl);
     initializeApi({ apiUrl });
 

@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import Header from '../components/Header';
@@ -60,22 +60,10 @@ const ResetPasswordView = ({ navigation, route }) => {
     setSuccess('');
 
     try {
-      const response = await fetch(`${config.apiUrl}/api/auth/reset-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          token: resetToken,
-          newPassword
-        })
+      const data = await api.post('/api/auth/reset-password', {
+        token: resetToken,
+        newPassword
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to reset password');
-      }
 
       setSuccess('Password successfully reset');
 

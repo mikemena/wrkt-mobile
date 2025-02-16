@@ -12,19 +12,24 @@ if (fs.existsSync(path.resolve(__dirname, envFile))) {
 
 module.exports = ({ config }) => {
   const isProd = process.env.ENV === 'production';
+  console.log('Building with API URL:', process.env.API_URL);
+
   const iconDir = isProd
     ? './assets/app-icons/production'
     : './assets/app-icons/development';
 
   const extraConfig = {
     ...config.extra,
-    apiUrl: process.env.API_URL,
+    apiUrl:
+      process.env.API_URL || 'https://wrkt-backend-development.up.railway.app',
     env: process.env.ENV,
     isProd: isProd,
     environment: process.env.ENV
   };
 
-  const updatedConfig = {
+  console.log('Final extra config:', extraConfig);
+
+  return {
     ...config,
     icon: `${iconDir}/icon_1024.png`,
     ios: {
@@ -58,6 +63,4 @@ module.exports = ({ config }) => {
     },
     extra: extraConfig
   };
-
-  return updatedConfig;
 };

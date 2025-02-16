@@ -7,10 +7,11 @@ import {
   StyleSheet,
   SafeAreaView
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import handleAppleAuth from '../src/utils/appleAuth';
 import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -48,7 +49,6 @@ const SignInView = ({ navigation }) => {
   };
 
   const handleSignIn = async () => {
-    console.log('Attempting signin with url', config.apiUrl);
     // Clear any previous general error
     setGeneralError('');
     if (!password) {
@@ -59,34 +59,12 @@ const SignInView = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const requestUrl = `${config.apiUrl}/api/auth/signin`;
-      console.log('Making request to:', requestUrl);
+      console.log('Attempting signin...');
 
-      const response = await fetch(requestUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+      const data = await api.post('/api/auth/signin', {
+        email,
+        password
       });
-
-      console.log('Response status:', response.status);
-      const textResponse = await response.text();
-      console.log('Raw response:', textResponse);
-
-      let data;
-      try {
-        data = JSON.parse(textResponse);
-      } catch (parseError) {
-        console.error('Parse error:', parseError);
-        setGeneralError('Server error - invalid response format');
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Sign in failed');
-      }
 
       await signIn(data.token, data.user);
     } catch (err) {
@@ -97,15 +75,11 @@ const SignInView = ({ navigation }) => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // Implement Google Sign In
-    console.log('Google Sign In');
-  };
-
-  const handleAppleSignIn = () => {
-    // Implement Apple Sign In
-    console.log('Apple Sign In');
-  };
+  const handleAppleSignIn = handleAppleAuth({
+    api,
+    signIn,
+    setGeneralError
+  });
 
   return (
     <SafeAreaView
@@ -119,28 +93,6 @@ const SignInView = ({ navigation }) => {
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign in to your account
         </Text>
-
-        <TouchableOpacity
-          style={[
-            styles.socialButton,
-            { backgroundColor: themedStyles.secondaryBackgroundColor }
-          ]}
-          onPress={handleGoogleSignIn}
-        >
-          <Ionicons
-            name='logo-google'
-            size={20}
-            color={themedStyles.accentColor}
-          />
-          <Text
-            style={[
-              styles.socialButtonText,
-              { color: themedStyles.accentColor }
-            ]}
-          >
-            Sign in with Google
-          </Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={[
@@ -234,7 +186,14 @@ const SignInView = ({ navigation }) => {
         {generalError ? (
           <Text style={styles.errorText}>{generalError}</Text>
         ) : null}
-
+        <View style={styles.buttonContainer}>
+          <ParallelogramButton
+            style={[{ width: 300, alignItems: 'center' }]}
+            label='SIGN IN'
+            onPress={handleSignIn}
+            disabled={loading}
+          />
+        </View>
         <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
           <Text
             style={[styles.forgotPassword, { color: themedStyles.textColor }]}
@@ -242,15 +201,20 @@ const SignInView = ({ navigation }) => {
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <View style={styles.buttonContainer}>
-          <ParallelogramButton
-            style={[{ width: 300, alignItems: 'center' }]}
-            label='CONTINUE'
-            onPress={handleSignIn}
-            disabled={loading}
-          />
+        <View style={styles.signUpContainer}>
+          <Text style={[styles.signUpText, { color: themedStyles.textColor }]}>
+            Don't have an account?{' '}
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text
+              style={[styles.signUpLink, { color: themedStyles.accentColor }]}
+            >
+              Sign up
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.buttonContainer}></View>
     </SafeAreaView>
   );
 };
@@ -354,6 +318,21 @@ const styles = StyleSheet.create({
   eyeIcon: {
     padding: 10,
     marginRight: 10
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  signUpText: {
+    fontSize: 14,
+    fontFamily: 'Lexend'
+  },
+  signUpLink: {
+    fontSize: 14,
+    fontFamily: 'Lexend',
+    fontWeight: '600'
   }
 });
 

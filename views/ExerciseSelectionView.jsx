@@ -20,7 +20,7 @@ const ExerciseSelectionView = ({ route, navigation }) => {
         { backgroundColor: themedStyles.primaryBackgroundColor }
       ]}
     >
-      <Header pageName='Exercises' />
+      <Header pageName='Exercisesx' />
       <View style={{ flex: 1 }}>
         <ExerciseSelection navigation={navigation} route={route} />
       </View>

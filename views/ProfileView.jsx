@@ -9,7 +9,7 @@ import {
   Switch,
   StyleSheet
 } from 'react-native';
-import { config } from '../src/utils/config';
+import { api } from '../src/services/api';
 import ParallelogramButton from '../components/ParallelogramButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
@@ -67,13 +67,9 @@ const ProfileView = ({ navigation, route }) => {
 
       if (userDataChanged) {
         updates.push(
-          fetch(`${config.apiUrl}/api/users/${user.id}`, {
+          api.post(`/api/users/${user.id}`, {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            },
-            body: JSON.stringify({ username: userName, email })
+            body: { username: userName, email }
           })
         );
       }
@@ -85,30 +81,17 @@ const ProfileView = ({ navigation, route }) => {
 
         //save to server
         updates.push(
-          fetch(`${config.apiUrl}/api/settings/${user.id}`, {
+          api.post(`/api/settings/${user.id}`, {
             method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            },
-            body: JSON.stringify({
+            body: {
               theme_mode: darkMode ? 'dark' : 'light',
               accent_color: accentColor
-            })
+            }
           })
         );
       }
 
-      const responses = await Promise.all(updates);
-
-      // Check if all responses were successful
-      for (const response of responses) {
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error('Server response:', errorText);
-          throw new Error(`Server error: ${response.status}`);
-        }
-      }
+      await Promise.all(updates);
 
       setUserDataChanged(false);
       setSettingsChanged(false);

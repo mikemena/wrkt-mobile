@@ -7,8 +7,7 @@ import React, {
 import * as Crypto from 'expo-crypto';
 import { actionTypes } from '../actions/actionTypes';
 import { workoutReducer } from '../reducers/workoutReducer';
-import { getActiveProgram } from '../services/api';
-import { config } from '../utils/config.js';
+import { api, getActiveProgram } from '../services/api';
 import { useUser } from '../context/userContext';
 
 // Initial state
@@ -239,29 +238,8 @@ export const WorkoutProvider = ({ children }) => {
           workoutData.programId = state.activeWorkout.programId;
         }
 
-        const response = await fetch(`${config.apiUrl}/api/workout/complete`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(workoutData)
-        });
-
-        const responseText = await response.text();
-
-        if (!response.ok) {
-          let errorMessage = 'Failed to save workout';
-          try {
-            const errorData = JSON.parse(responseText);
-            errorMessage = `${errorData.message}${
-              errorData.error ? ': ' + errorData.error : ''
-            }`;
-          } catch (parseError) {
-            errorMessage = `Server error (${response.status}): ${responseText}`;
-          }
-          throw new Error(errorMessage);
-        }
+        const response = await api.post('/api/workout/complete', workoutData);
+        console.log('response', response);
 
         dispatch({ type: actionTypes.COMPLETE_WORKOUT });
         return true;
@@ -270,7 +248,7 @@ export const WorkoutProvider = ({ children }) => {
         throw error;
       }
     },
-    [state.activeWorkout, config.apiUrl]
+    [state.activeWorkout, api]
   );
 
   const clearCurrentWorkout = useCallback(() => {

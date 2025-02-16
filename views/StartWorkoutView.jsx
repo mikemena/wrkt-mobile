@@ -30,11 +30,11 @@ import SecondaryButton from '../components/SecondaryButton';
 import SwipeableItemDeletion from '../components/SwipeableItemDeletion';
 import Header from '../components/Header';
 import Set from '../components/Set';
+import ExerciseImage from '../components/ExerciseImage';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { globalStyles, colors } from '../src/styles/globalStyles';
-import { getCachedImage } from '../src/utils/imageCache';
 
 const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   const {
@@ -90,21 +90,24 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   }, [activeWorkout.exercises, navigation]);
 
   // Effect to animate image opacity when showing exercise info
-  useEffect(() => {
-    //Handle opacity animation
-    Animated.timing(imageOpacity, {
-      toValue: showExerciseInfo ? 0.3 : 1,
-      duration: 200,
-      useNativeDriver: true
-    }).start();
-    // Handle auto-hide timer
-    let timer;
-    if (showExerciseInfo) {
-      timer = setTimeout(() => setShowExerciseInfo(false), 3000);
-      // console.log('info icon clicked');
-    }
-    return () => clearTimeout(timer);
-  }, [showExerciseInfo]);
+  // useEffect(() => {
+  //   const animation = Animated.timing(imageOpacity, {
+  //     toValue: showExerciseInfo ? 0.3 : 1,
+  //     duration: 200,
+  //     useNativeDriver: true
+  //   });
+
+  //   animation.start(({ finished }) => {
+  //     if (finished) {
+  //       // Only handle completion if animation actually finished
+  //       // This prevents the immutable object error
+  //     }
+  //   });
+
+  //   return () => {
+  //     animation.stop(); // Clean up animation when component unmounts
+  //   };
+  // }, [showExerciseInfo]);
 
   // For exercise info auto-hide timer
 
@@ -306,10 +309,10 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   };
 
   const handleNextExercise = () => {
-    console.log('currentExerciseIndex', currentExerciseIndex);
+    console.log('Current Exercise Index:', currentExerciseIndex);
     console.log(
-      'activeWorkout.exercises.length',
-      activeWorkout.exercises.length
+      'Next Exercise:',
+      activeWorkout.exercises[currentExerciseIndex + 1]
     );
     if (currentExerciseIndex < activeWorkout.exercises.length - 1) {
       setCurrentExerciseIndex(prev => prev + 1);
@@ -317,7 +320,11 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   };
 
   const handlePreviousExercise = () => {
-    console.log('currentExerciseIndex', currentExerciseIndex);
+    console.log('Current Exercise Index:', currentExerciseIndex);
+    console.log(
+      'Previous Exercise:',
+      activeWorkout.exercises[currentExerciseIndex - 1]
+    );
     if (currentExerciseIndex > 0) {
       setCurrentExerciseIndex(prev => prev - 1);
     }
@@ -475,30 +482,31 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
                 }
               ]}
             >
+              {/* Replace your current exercise image section with this */}
               <View style={[styles.exerciseContainer]}>
                 <View
                   style={[
-                    styles.exerciseImage,
+                    styles.exerciseImageWrapper,
                     { opacity: isKeyboardVisible ? 0.1 : 1 }
                   ]}
                 >
-                  <View style={imageOverlayStyle} />
-                  {currentExercise?.imageUrl ? (
-                    <Animated.Image
-                      source={{
-                        uri:
-                          getCachedImage(currentExercise.catalogExerciseId) ||
-                          currentExercise.imageUrl
+                  {currentExercise ? (
+                    <ExerciseImage
+                      exercise={currentExercise}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 5
                       }}
-                      style={[styles.exerciseGif, { opacity: imageOpacity }]}
                       resizeMode='contain'
+                      showOverlay={true}
                     />
                   ) : (
                     <View style={styles.placeholderImage} />
                   )}
 
                   {showExerciseInfo && (
-                    <View style={infoOverlayStyle}>
+                    <View style={styles.infoOverlay}>
                       <Text
                         style={[
                           styles.exerciseName,
@@ -732,6 +740,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10
   },
+  exerciseImageWrapper: {
+    width: '91%',
+    aspectRatio: 1.5,
+    position: 'relative',
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: 'rgb(254, 254, 254)'
+  },
   exerciseContent: {
     flex: 1,
     position: 'relative'
@@ -767,11 +783,12 @@ const styles = StyleSheet.create({
     elevation: 3
   },
   exerciseImage: {
-    width: '91%',
+    width: '100%',
+    height: '100%',
     aspectRatio: 1.5,
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: 'rgb(254, 254, 254)',
+    backgroundColor: 'transparent',
     borderRadius: 5
   },
   exerciseName: {
@@ -887,6 +904,14 @@ const styles = StyleSheet.create({
     padding: 10,
     zIndex: 1000,
     elevation: 5
+  },
+  infoOverlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    padding: 10,
+    justifyContent: 'center'
   },
 
   noExerciseContainer: {
