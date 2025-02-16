@@ -18,7 +18,8 @@
     "ios": "expo run:ios",
     "build:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS'",
     "build:ios:prod": "ENVFILE=.env.production npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS'",
-    "release:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS' && xcrun altool --upload-app --type ios --file ios/build/Build/Products/Release-iphoneos/WRKT.ipa --username \"$APPLE_ID\" --password \"$ASC_APP_SPECIFIC_PASSWORD\"",
+    "release:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS' && xcrun altool --upload-app --type ios --file /Users/mike/Library/Developer/Xcode/DerivedData/WRKT-fymmwfwencvowggeyvwzzzceqlqo/Build/Products/Release-iphoneos/WRKT.ipa --username \"$APPLE_ID\" --password \"$ASC_APP_SPECIFIC_PASSWORD\"",
+    "build:ios": "expo build:ios",
     "clear-cache": "expo start --clear",
     "start": "expo start --dev-client"
   },
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
+    "@invertase/react-native-apple-authentication": "^2.4.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-picker/picker": "2.7.5",

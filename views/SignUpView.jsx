@@ -11,6 +11,7 @@ import { api } from '../src/services/api';
 import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import handleAppleAuth from '../src/utils/appleAuth';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ParallelogramButton from '../components/ParallelogramButton';
@@ -185,38 +186,11 @@ const SignUpView = ({ navigation }) => {
     }
   };
 
-  const handleSocialSignUp = async provider => {
-    try {
-      let authData;
-
-      if (provider === 'google') {
-        // Use Google Sign-In SDK
-        authData = await Google.logInAsync({
-          // your config
-        });
-      } else if (provider === 'apple') {
-        // Use Apple Sign-In SDK
-        authData = await AppleAuthentication.signInAsync({
-          // your config
-        });
-      }
-
-      if (authData) {
-        // Send to your backend
-        const data = await api.post('/api/auth/social', {
-          email: authData.email,
-          auth_provider: provider,
-          authProviderId: authData.id,
-          name: authData.name
-        });
-
-        // Handle the response similar to email signup
-        signIn(data.token, data.user);
-      }
-    } catch (error) {
-      console.error('Social auth error:', error);
-    }
-  };
+  const handleAppleSignUp = handleAppleAuth({
+    api,
+    signIn,
+    setGeneralError
+  });
 
   return (
     <SafeAreaView
@@ -236,29 +210,7 @@ const SignUpView = ({ navigation }) => {
             styles.socialButton,
             { backgroundColor: themedStyles.secondaryBackgroundColor }
           ]}
-          onPress={handleSocialSignUp}
-        >
-          <Ionicons
-            name='logo-google'
-            size={20}
-            color={themedStyles.accentColor}
-          />
-          <Text
-            style={[
-              styles.socialButtonText,
-              { color: themedStyles.accentColor }
-            ]}
-          >
-            Sign up with Google
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.socialButton,
-            { backgroundColor: themedStyles.secondaryBackgroundColor }
-          ]}
-          onPress={handleSocialSignUp}
+          onPress={handleAppleSignUp}
         >
           <Ionicons
             name='logo-apple'
