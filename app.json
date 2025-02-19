@@ -26,15 +26,16 @@
           "NSAllowsArbitraryLoads": false,
           "NSExceptionDomains": {
             "wrkt-backend-development.up.railway.app": {
-              "NSTemporaryExceptionAllowsInsecureHTTPLoads": false,
+              "NSExceptionAllowsInsecureHTTPLoads": false,
               "NSIncludesSubdomains": true,
-              "NSTemporaryExceptionMinimumTLSVersion": "TLSv1.2",
-              "NSTemporaryExceptionRequiresForwardSecrecy": true
+              "NSExceptionMinimumTLSVersion": "TLSv1.2",
+              "NSExceptionRequiresForwardSecrecy": true
             }
           }
-        }
+        },
+        "UIRequiredDeviceCapabilities": [],
+        "CFBundleDevelopmentRegion": "en"
       },
-      "version": "1.1.18",
       "icons": {
         "app": {
           "ios": {
