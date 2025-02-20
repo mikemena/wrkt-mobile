@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Image, ActivityIndicator, Text, StyleSheet } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 import { imageCache } from '../src/utils/imageCache';
 import { api } from '../src/services/api';
 import { useTheme } from '../src/hooks/useTheme';
@@ -26,15 +27,21 @@ const ExerciseImage = ({
     themeState.accentColor
   );
 
+  // Cleanup function
   useEffect(() => {
-    loadImage();
+    isMounted.current = true;
     return () => {
       isMounted.current = false;
     };
-  }, [exercise?.id, exercise?.imageUrl]);
+  }, []);
 
+  // Main image loading effect
   useEffect(() => {
-    isMounted.current = true;
+    if (!exercise?.id) {
+      console.log('No exercise ID provided');
+      setIsLoading(false);
+      return;
+    }
 
     console.log('Exercise changed:', {
       exerciseId: exercise?.id,
@@ -49,21 +56,19 @@ const ExerciseImage = ({
 
     return () => {
       console.log('Cleaning up image component for exercise:', exercise?.id);
-      isMounted.current = false;
     };
-  }, [exercise?.id]);
+  }, [exercise?.id, exercise?.imageUrl]);
 
-  useEffect(() => {
-    console.log('Exercise changed:', {
-      exerciseId: exercise?.id,
-      imageUrl: exercise?.imageUrl
-    });
-    setIsLoading(true);
-    setImageError(false);
-    setImageUri(null);
-    retryCount.current = 0;
-    loadImage();
-  }, [exercise?.id]);
+  const verifyFileExists = async uri => {
+    try {
+      if (!uri) return false;
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      return fileInfo.exists;
+    } catch (error) {
+      console.log('Error verifying file:', error);
+      return false;
+    }
+  };
 
   const fetchImageFromApi = async () => {
     if (retryCount.current >= MAX_RETRIES) {
@@ -78,10 +83,10 @@ const ExerciseImage = ({
       );
       console.log('API returned imageUrl:', imageUrl);
       if (imageUrl && isMounted.current) {
-        // Save to cache and get local URI
         const localUri = await imageCache.saveToCache(exercise.id, imageUrl);
-        console.log('Saved API result to cache:', localUri);
-        return localUri;
+        const exists = await verifyFileExists(localUri);
+        console.log('Saved API result to cache:', localUri, 'Exists:', exists);
+        return exists ? localUri : null;
       }
       return null;
     } catch (error) {
@@ -91,10 +96,7 @@ const ExerciseImage = ({
   };
 
   const loadImage = async () => {
-    if (!exercise?.id) {
-      console.log('No exercise ID provided');
-      return;
-    }
+    if (!exercise?.id) return;
 
     try {
       console.log('Starting image load for exercise:', exercise.id);
@@ -105,36 +107,25 @@ const ExerciseImage = ({
       let uri = await imageCache.getFromCache(exercise.id);
       console.log('Cache result:', uri);
 
-      // Verify the cached file exists and is accessible
-      if (uri) {
-        try {
-          const fileInfo = await FileSystem.getInfoAsync(uri);
-          console.log('File info:', fileInfo);
-          if (!fileInfo.exists) {
-            console.log('Cached file does not exist, clearing cache entry');
-            uri = null;
-          }
-        } catch (error) {
-          console.log('Error checking cached file:', error);
-          uri = null;
-        }
+      // Verify the cached file exists
+      const cacheExists = await verifyFileExists(uri);
+      if (!cacheExists) {
+        console.log('Cached file does not exist or is invalid');
+        uri = null;
       }
 
       // If not in cache or cache invalid, try the provided URL
       if (!uri && exercise.imageUrl) {
-        console.log(
-          'Not in cache, trying to cache image URL:',
-          exercise.imageUrl
-        );
+        console.log('Trying to cache image URL:', exercise.imageUrl);
         uri = await imageCache.saveToCache(exercise.id, exercise.imageUrl);
-        console.log('Save to cache result:', uri);
+        const exists = await verifyFileExists(uri);
+        if (!exists) uri = null;
       }
 
       // If still no image, fetch from API
       if (!uri) {
         console.log('No cached image or URL, fetching from API');
         uri = await fetchImageFromApi();
-        console.log('API fetch result:', uri);
       }
 
       if (uri && isMounted.current) {
@@ -166,11 +157,13 @@ const ExerciseImage = ({
     }
   };
 
-  const imageOverlayStyle = {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
-    zIndex: 1
-  };
+  const imageOverlayStyle = showOverlay
+    ? {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
+        zIndex: 1
+      }
+    : null;
 
   return (
     <View
@@ -180,7 +173,7 @@ const ExerciseImage = ({
         { backgroundColor: themedStyles.secondaryBackgroundColor }
       ]}
     >
-      <View style={imageOverlayStyle} />
+      {showOverlay && <View style={imageOverlayStyle} />}
 
       {isLoading && !imageError && (
         <ActivityIndicator

@@ -3,6 +3,12 @@ import * as FileSystem from 'expo-file-system';
 
 const CACHE_KEY_PREFIX = 'exercise_image_';
 const CACHE_FOLDER = `${FileSystem.cacheDirectory}exercise_images/`;
+const DOWNLOAD_OPTIONS = {
+  cache: true,
+  headers: {
+    'Cache-Control': 'max-age=31536000'
+  }
+};
 
 class ImageCache {
   constructor() {
@@ -20,42 +26,109 @@ class ImageCache {
         });
       }
 
-      // Load cache mapping from AsyncStorage
+      // Load and validate cache mapping from AsyncStorage
       const cacheKeys = await AsyncStorage.getAllKeys();
       const exerciseKeys = cacheKeys.filter(key =>
         key.startsWith(CACHE_KEY_PREFIX)
       );
       const cacheEntries = await AsyncStorage.multiGet(exerciseKeys);
 
-      // Populate memory cache
-      cacheEntries.forEach(([key, value]) => {
-        const exerciseId = key.replace(CACHE_KEY_PREFIX, '');
-        if (value) {
-          this.memoryCache.set(exerciseId, value);
-        }
-      });
+      // Validate and populate memory cache
+      await Promise.all(
+        cacheEntries.map(async ([key, value]) => {
+          const exerciseId = key.replace(CACHE_KEY_PREFIX, '');
+          if (value) {
+            const isValid = await this.validateCacheEntry(value);
+            if (isValid) {
+              this.memoryCache.set(exerciseId, value);
+            } else {
+              await this.removeFromCache(exerciseId);
+            }
+          }
+        })
+      );
     } catch (error) {
       console.error('Failed to initialize cache:', error);
     }
   }
 
+  async validateCacheEntry(uri) {
+    try {
+      if (!uri || typeof uri !== 'string') return false;
+
+      // Basic URI validation
+      if (!uri.startsWith('file://')) {
+        return false;
+      }
+
+      // Check if file exists and has content
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      return fileInfo.exists && fileInfo.size > 0;
+    } catch (error) {
+      console.error('Error validating cache entry:', error);
+      return false;
+    }
+  }
+
+  async ensureValidFilename(exerciseId) {
+    // Ensure filename is clean and safe
+    const safeId = exerciseId.toString().replace(/[^a-zA-Z0-9]/g, '_');
+    return `${CACHE_FOLDER}${safeId}.jpg`;
+  }
+
   async saveToCache(exerciseId, imageUrl) {
-    if (!exerciseId || !imageUrl) return null;
+    if (!exerciseId || !imageUrl) {
+      console.log('Missing exerciseId or imageUrl');
+      return null;
+    }
 
     try {
-      // Generate a unique filename
-      const filename = `${CACHE_FOLDER}${exerciseId}.jpg`;
+      const filename = await this.ensureValidFilename(exerciseId);
+      console.log('Attempting to download and cache:', imageUrl);
 
-      // Download and save the image
-      const { uri: localUri } = await FileSystem.downloadAsync(
-        imageUrl,
-        filename
-      );
+      // Download with retry logic
+      let localUri = null;
+      let attempts = 0;
+      const maxAttempts = 2;
+
+      while (attempts < maxAttempts && !localUri) {
+        try {
+          const downloadResult = await FileSystem.downloadAsync(
+            imageUrl,
+            filename,
+            DOWNLOAD_OPTIONS
+          );
+
+          if (downloadResult.status === 200) {
+            localUri = downloadResult.uri;
+          }
+        } catch (downloadError) {
+          console.warn(
+            `Download attempt ${attempts + 1} failed:`,
+            downloadError
+          );
+          attempts++;
+          if (attempts === maxAttempts) throw downloadError;
+        }
+      }
+
+      if (!localUri) {
+        throw new Error('Failed to download image after retries');
+      }
+
+      // Validate the downloaded file
+      const isValid = await this.validateCacheEntry(localUri);
+      if (!isValid) {
+        await FileSystem.deleteAsync(filename, { idempotent: true });
+        throw new Error('Downloaded file validation failed');
+      }
 
       // Save mapping to AsyncStorage and memory cache
-      await AsyncStorage.setItem(`${CACHE_KEY_PREFIX}${exerciseId}`, localUri);
+      const key = `${CACHE_KEY_PREFIX}${exerciseId}`;
+      await AsyncStorage.setItem(key, localUri);
       this.memoryCache.set(exerciseId, localUri);
 
+      console.log('Successfully cached image:', localUri);
       return localUri;
     } catch (error) {
       console.error('Failed to save image to cache:', error);
@@ -64,33 +137,38 @@ class ImageCache {
   }
 
   async getFromCache(exerciseId) {
-    if (!exerciseId) return null;
+    if (!exerciseId) {
+      console.log('No exerciseId provided to getFromCache');
+      return null;
+    }
 
     try {
       // Check memory cache first
       const memoryUri = this.memoryCache.get(exerciseId);
       if (memoryUri) {
-        // Verify file still exists
-        const fileInfo = await FileSystem.getInfoAsync(memoryUri);
-        if (fileInfo.exists) {
+        const isValid = await this.validateCacheEntry(memoryUri);
+        if (isValid) {
+          console.log('Cache hit from memory:', memoryUri);
           return memoryUri;
         }
       }
 
-      // Check AsyncStorage if not in memory
-      const uri = await AsyncStorage.getItem(
-        `${CACHE_KEY_PREFIX}${exerciseId}`
-      );
+      // Check AsyncStorage if not in memory or invalid
+      const key = `${CACHE_KEY_PREFIX}${exerciseId}`;
+      const uri = await AsyncStorage.getItem(key);
+
       if (uri) {
-        const fileInfo = await FileSystem.getInfoAsync(uri);
-        if (fileInfo.exists) {
+        const isValid = await this.validateCacheEntry(uri);
+        if (isValid) {
           this.memoryCache.set(exerciseId, uri);
+          console.log('Cache hit from storage:', uri);
           return uri;
         }
       }
 
-      // If file doesn't exist, clean up cache entries
+      // If we get here, the cache entry is invalid or missing
       await this.removeFromCache(exerciseId);
+      console.log('Cache miss for exerciseId:', exerciseId);
       return null;
     } catch (error) {
       console.error('Failed to retrieve from cache:', error);
@@ -109,6 +187,7 @@ class ImageCache {
 
       await AsyncStorage.removeItem(key);
       this.memoryCache.delete(exerciseId);
+      console.log('Removed from cache:', exerciseId);
     } catch (error) {
       console.error('Failed to remove from cache:', error);
     }
@@ -132,6 +211,7 @@ class ImageCache {
       // Clear AsyncStorage entries
       await AsyncStorage.multiRemove(exerciseKeys);
       this.memoryCache.clear();
+      console.log('Cache cleared successfully');
     } catch (error) {
       console.error('Failed to clear cache:', error);
     }
