@@ -52,8 +52,8 @@ const ExerciseSelection = ({ navigation, route }) => {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [filterValues, setFilterValues] = useState({
     exerciseName: '',
-    muscle: '',
-    equipment: ''
+    muscles: [],
+    equipment: []
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -74,18 +74,32 @@ const ExerciseSelection = ({ navigation, route }) => {
       setIsLoading(page === 1);
       setIsLoadingMore(page > 1);
 
-      const queryParams = new URLSearchParams({
-        page: page.toString(),
-        limit: '20',
-        name: filterValues.exerciseName?.trim() || '',
-        muscle: filterValues.muscle?.trim() || '',
-        equipment: filterValues.equipment?.trim() || ''
-      });
+      // Build query parameters
+      const params = new URLSearchParams();
+      params.append('page', page.toString());
+      params.append('limit', '20');
 
-      const response = await api.get(`/api/exercise-catalog?${queryParams}`);
-      console.log('******************************************');
-      console.log(response, response);
-      console.log('******************************************');
+      if (filterValues.exerciseName?.trim()) {
+        params.append('name', filterValues.exerciseName.trim());
+      }
+
+      // Add multiple muscles
+      if (filterValues.muscles?.length > 0) {
+        filterValues.muscles.forEach(muscle => {
+          params.append('muscles[]', muscle);
+        });
+      }
+
+      // Add multiple equipment
+      if (filterValues.equipment?.length > 0) {
+        filterValues.equipment.forEach(equip => {
+          params.append('equipment[]', equip);
+        });
+      }
+
+      const response = await api.get(
+        `/api/exercise-catalog?${params.toString()}`
+      );
 
       // Transform the data right after receiving it from the API
       const transformedData = transformResponseData(response);
@@ -188,8 +202,8 @@ const ExerciseSelection = ({ navigation, route }) => {
     }
     setFilterValues({
       exerciseName: '',
-      muscle: '',
-      equipment: ''
+      muscle: [],
+      equipment: []
     });
     setCurrentPage(1);
     fetchExercises(1, false);

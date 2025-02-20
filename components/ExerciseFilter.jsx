@@ -5,11 +5,12 @@ import {
   StyleSheet,
   SafeAreaView,
   Text,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import { api } from '../src/services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomPicker from './CustomPicker';
 import ParallelogramButton from './ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
@@ -21,6 +22,29 @@ const CACHE_KEYS = {
   MUSCLES: 'muscles_cache',
   EQUIPMENT: 'equipment_cache'
 };
+
+const SelectionChip = ({ label, selected, onPress, themedStyles }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={[
+      styles.chip,
+      {
+        backgroundColor: selected
+          ? themedStyles.accentColor
+          : themedStyles.secondaryBackgroundColor
+      }
+    ]}
+  >
+    <Text
+      style={[
+        styles.chipText,
+        { color: selected ? colors.flatBlack : themedStyles.textColor }
+      ]}
+    >
+      {label}
+    </Text>
+  </TouchableOpacity>
+);
 
 const ExerciseFilter = ({
   isVisible,
@@ -95,49 +119,49 @@ const ExerciseFilter = ({
 
   const loadCatalogData = async () => {
     try {
-      // Load muscles
       let muscles = await getCachedData(CACHE_KEYS.MUSCLES);
-
       if (!muscles || !Array.isArray(muscles) || muscles.length === 0) {
         muscles = await fetchMuscles();
         if (muscles.length > 0) {
-          // Only cache if we got data
           await setCachedData(CACHE_KEYS.MUSCLES, muscles);
         }
       }
+      setMuscleOptions(muscles || []);
 
-      setMuscleOptions([
-        { label: 'All Muscles', value: '' },
-        ...(muscles || [])
-      ]);
-
-      // Load equipment
       let equipment = await getCachedData(CACHE_KEYS.EQUIPMENT);
-
       if (!equipment || !Array.isArray(equipment) || equipment.length === 0) {
         equipment = await fetchEquipment();
         if (equipment.length > 0) {
-          // Only cache if we got data
           await setCachedData(CACHE_KEYS.EQUIPMENT, equipment);
         }
       }
-
-      setEquipmentOptions([
-        { label: 'All Equipment', value: '' },
-        ...(equipment || [])
-      ]);
+      setEquipmentOptions(equipment || []);
     } catch (error) {
       console.error('Error in loadCatalogData:', error);
     }
   };
 
+  const handleMuscleToggle = muscleValue => {
+    const currentMuscles = filterValues.muscles || [];
+    const newMuscles = currentMuscles.includes(muscleValue)
+      ? currentMuscles.filter(m => m !== muscleValue)
+      : [...currentMuscles, muscleValue];
+    onFilterChange('muscles', newMuscles);
+  };
+
+  const handleEquipmentToggle = equipmentValue => {
+    const currentEquipment = filterValues.equipment || [];
+    const newEquipment = currentEquipment.includes(equipmentValue)
+      ? currentEquipment.filter(e => e !== equipmentValue)
+      : [...currentEquipment, equipmentValue];
+    onFilterChange('equipment', newEquipment);
+  };
+
   if (!isVisible) return null;
 
   return (
-    // This outer TouchableWithoutFeedback captures taps outside the filter
     <TouchableWithoutFeedback onPress={onClose}>
       <View style={styles.overlay}>
-        {/* This inner TouchableWithoutFeedback prevents taps on the filter from bubbling up */}
         <TouchableWithoutFeedback onPress={e => e.stopPropagation()}>
           <SafeAreaView
             style={[
@@ -180,7 +204,6 @@ const ExerciseFilter = ({
                 />
               </View>
 
-              {/* Exercise Name Input */}
               <View style={styles.filterItem}>
                 <TextInput
                   style={[
@@ -193,47 +216,60 @@ const ExerciseFilter = ({
                   value={filterValues.exerciseName}
                   onChangeText={text => onFilterChange('exerciseName', text)}
                   placeholder='Exercise Name'
+                  placeholderTextSize='18'
                   placeholderTextColor={themedStyles.textColor}
                 />
               </View>
 
-              <View style={styles.pickerRow}>
-                {/* Muscle Picker */}
-                <View style={styles.pickerItem}>
+              <ScrollView style={styles.scrollContainer}>
+                <View style={styles.filterSection}>
                   <Text
                     style={[
-                      styles.pickerLabel,
+                      styles.sectionTitle,
                       { color: themedStyles.textColor }
                     ]}
                   >
-                    Muscle
+                    Muscles
                   </Text>
-                  <CustomPicker
-                    options={muscleOptions}
-                    selectedValue={filterValues.muscle}
-                    onValueChange={value => onFilterChange('muscle', value)}
-                    placeholder='Select Muscle'
-                  />
+                  <View style={styles.chipContainer}>
+                    {muscleOptions.map(muscle => (
+                      <SelectionChip
+                        key={muscle.value}
+                        label={muscle.label}
+                        selected={(filterValues.muscles || []).includes(
+                          muscle.value
+                        )}
+                        onPress={() => handleMuscleToggle(muscle.value)}
+                        themedStyles={themedStyles}
+                      />
+                    ))}
+                  </View>
                 </View>
 
-                {/* Equipment Picker */}
-                <View style={styles.pickerItem}>
+                <View style={styles.filterSection}>
                   <Text
                     style={[
-                      styles.pickerLabel,
+                      styles.sectionTitle,
                       { color: themedStyles.textColor }
                     ]}
                   >
                     Equipment
                   </Text>
-                  <CustomPicker
-                    options={equipmentOptions}
-                    selectedValue={filterValues.equipment}
-                    onValueChange={value => onFilterChange('equipment', value)}
-                    placeholder='Select Equipment'
-                  />
+                  <View style={styles.chipContainer}>
+                    {equipmentOptions.map(equipment => (
+                      <SelectionChip
+                        key={equipment.value}
+                        label={equipment.label}
+                        selected={(filterValues.equipment || []).includes(
+                          equipment.value
+                        )}
+                        onPress={() => handleEquipmentToggle(equipment.value)}
+                        themedStyles={themedStyles}
+                      />
+                    ))}
+                  </View>
                 </View>
-              </View>
+              </ScrollView>
             </View>
           </SafeAreaView>
         </TouchableWithoutFeedback>
@@ -244,17 +280,14 @@ const ExerciseFilter = ({
 
 const styles = StyleSheet.create({
   overlay: {
-    // This ensures the overlay covers the full screen
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    // Semi-transparent background
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    // Center filter vertically if needed
     justifyContent: 'flex-start',
-    paddingTop: 100
+    paddingTop: 60 // Reduced top padding to show more content
   },
   safeArea: {
     borderBottomLeftRadius: 20,
@@ -276,23 +309,41 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderRadius: 30,
+    borderRadius: 5,
     paddingHorizontal: 15,
     fontFamily: 'Lexend'
   },
-  pickerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-    gap: 10
+  filterSection: {
+    marginTop: 15
   },
-  pickerItem: {
-    flex: 1
-  },
-  pickerLabel: {
+  sectionTitle: {
     fontFamily: 'Lexend',
-    marginBottom: 5,
-    fontSize: 14
+    fontSize: 14,
+    marginBottom: 10
+  },
+  scrollContainer: {
+    maxHeight: 550 // Fixed height to show both sections
+  },
+  filterSection: {
+    marginTop: 12,
+    marginBottom: 12
+  },
+  chipContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    paddingBottom: 6
+  },
+  chip: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginBottom: 6,
+    minWidth: 100
+  },
+  chipText: {
+    fontFamily: 'Lexend',
+    fontSize: 12
   }
 });
 
