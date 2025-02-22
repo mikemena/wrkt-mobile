@@ -10,10 +10,7 @@ const Footer = () => {
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
   const appVersion = Constants.expoConfig?.version ?? '1.0.0';
   const apiUrl = Constants.expoConfig?.extra?.apiUrl;
-<<<<<<< HEAD
   const appEnv = Constants.expoConfig?.extra?.env;
-=======
->>>>>>> bc77f694 (created footer with app info for debug)
 
   return (
     <View
@@ -26,15 +23,9 @@ const Footer = () => {
         v{appVersion}
       </Text>
       <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e5a1f5fa (added env to footer)
         `Env: {appEnv}`
       </Text>
       <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
-=======
->>>>>>> bc77f694 (created footer with app info for debug)
         {apiUrl}
       </Text>
     </View>

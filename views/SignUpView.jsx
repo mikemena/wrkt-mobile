@@ -14,7 +14,6 @@ import { getThemedStyles } from '../src/utils/themeUtils';
 import handleAppleAuth from '../src/utils/appleAuth';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Footer from '../components/Footer';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 
