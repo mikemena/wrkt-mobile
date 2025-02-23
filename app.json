@@ -16,6 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wrkt.fitness",
+      "deploymentTarget": "12.0",
       "buildNumber": "1.1.19",
       "config": {
         "usesNonExemptEncryption": false
@@ -62,11 +63,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "fitness.wrkt"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
     },
     "plugins": ["expo-font", "expo-router"],
     "extra": {

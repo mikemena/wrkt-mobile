@@ -31,9 +31,9 @@
 
 ## Improvements
 
-- [] Update the splash image in images dir to match new style
-- [] In App.json, possibly remove the web node since this project is mobile
-- [] If web node is removed from above, remove the favicon image
+- [x] Update the splash image in images dir to match new style
+- [x] In App.json, possibly remove the web node since this project is mobile
+- [x] If web node is removed from above, remove the favicon image
 
 # Future Features [Not Included to a Release Yet]
 
