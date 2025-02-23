@@ -23,9 +23,10 @@
 
 ## Bugs
 
-- [] In startWorkout view , the black bans on the side of image needs to be same white color as gif
-- [] In startWorkout view, ncrease spacing between the set header
-- [] In Current Workout Details view, center the workout name
+- [x] In startWorkout view , the black bans on the side of image needs to be same white color as gif
+- [x] In startWorkout view, increase spacing between the set header
+- [x] In startWorkout view, the exercise info is not dissapearing - there should be a 2 second timer
+- [x] In Current Workout Details view, center the workout name
 - [] In Progress View, the metrics may not be working correctly. test fully and make necessary changes
 
 ## Improvements

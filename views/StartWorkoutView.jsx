@@ -90,24 +90,21 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   }, [activeWorkout.exercises, navigation]);
 
   // Effect to animate image opacity when showing exercise info
-  // useEffect(() => {
-  //   const animation = Animated.timing(imageOpacity, {
-  //     toValue: showExerciseInfo ? 0.3 : 1,
-  //     duration: 200,
-  //     useNativeDriver: true
-  //   });
-
-  //   animation.start(({ finished }) => {
-  //     if (finished) {
-  //       // Only handle completion if animation actually finished
-  //       // This prevents the immutable object error
-  //     }
-  //   });
-
-  //   return () => {
-  //     animation.stop(); // Clean up animation when component unmounts
-  //   };
-  // }, [showExerciseInfo]);
+  useEffect(() => {
+    let timeoutId;
+    if (showExerciseInfo) {
+      // Set a timer to hide the info after 2 seconds
+      timeoutId = setTimeout(() => {
+        setShowExerciseInfo(false);
+      }, 2000); // 2 seconds
+    }
+    // Cleanup the timer when showExerciseInfo changes or component unmounts
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [showExerciseInfo]);
 
   // For exercise info auto-hide timer
 
@@ -161,27 +158,6 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
       updateWorkoutName(workoutTitle.trim());
     }
   }, [workoutTitle, activeWorkout.name, updateWorkoutName]);
-
-  const imageOverlayStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
-    zIndex: 1
-  };
-
-  const infoOverlayStyle = {
-    position: 'absolute',
-    width: '100%',
-    bottom: 180,
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: `rgba(0,0,0,${themedStyles.overlayOpacity})`,
-    padding: 10
-  };
 
   const handleCancel = () => navigation.goBack();
 
@@ -482,7 +458,6 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
                 }
               ]}
             >
-              {/* Replace your current exercise image section with this */}
               <View style={[styles.exerciseContainer]}>
                 <View
                   style={[
@@ -493,11 +468,6 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
                   {currentExercise ? (
                     <ExerciseImage
                       exercise={currentExercise}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 5
-                      }}
                       resizeMode='contain'
                       showOverlay={true}
                     />
@@ -531,7 +501,7 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
             {!isSwipeOpen && (
               <TouchableOpacity
                 style={styles.infoButton}
-                onPress={() => setShowExerciseInfo(true)}
+                onPress={() => setShowExerciseInfo(prev => !prev)}
               >
                 <Ionicons
                   name='information-outline'
@@ -695,7 +665,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     marginVertical: 5,
-    marginBottom: 15
+    marginBottom: 10
   },
   startButton: {
     width: 180,
@@ -737,16 +707,14 @@ const styles = StyleSheet.create({
   exerciseContainer: {
     width: '110%',
     alignItems: 'center',
-    alignSelf: 'center',
-    borderRadius: 10
+    alignSelf: 'center'
   },
   exerciseImageWrapper: {
-    width: '91%',
+    width: '90%',
     aspectRatio: 1.5,
     position: 'relative',
     borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'rgb(254, 254, 254)'
+    overflow: 'hidden'
   },
   exerciseContent: {
     flex: 1,
@@ -794,12 +762,14 @@ const styles = StyleSheet.create({
   exerciseName: {
     fontSize: 16,
     fontFamily: 'Lexend',
-    padding: 5
+    padding: 5,
+    textAlign: 'center'
   },
   muscleName: {
     fontSize: 14,
     fontFamily: 'Lexend',
-    paddingLeft: 5
+    paddingLeft: 5,
+    textAlign: 'center'
   },
 
   exerciseGif: {
@@ -825,7 +795,7 @@ const styles = StyleSheet.create({
   },
 
   setControls: {
-    paddingTop: 10
+    paddingBottom: 5
   },
 
   setControlsKeyboardNotVisible: {
@@ -846,11 +816,10 @@ const styles = StyleSheet.create({
   },
 
   setHeader: {
-    paddingLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 25,
-    marginBottom: 1,
+    marginBottom: 3,
     borderRadius: 5
   },
 

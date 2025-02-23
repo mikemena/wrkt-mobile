@@ -309,7 +309,8 @@ const styles = StyleSheet.create({
   },
   workoutName: {
     fontFamily: 'Lexend',
-    fontSize: 18
+    fontSize: 18,
+    textAlign: 'center'
   },
   section: {
     marginBottom: 10,

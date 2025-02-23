@@ -8,7 +8,7 @@
     "scheme": "WRKT",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.jpg",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
