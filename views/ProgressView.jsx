@@ -36,6 +36,7 @@ const ProgressView = () => {
   }, []);
 
   const fetchProgressData = async () => {
+    console.log('userId', userId);
     try {
       const [summaryData, recordsData] = await Promise.all([
         api.get(`/api/progress/summary/${userId}`),

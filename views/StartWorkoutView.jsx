@@ -285,11 +285,11 @@ const StartWorkoutView = ({ route, isKeyboardVisible }) => {
   };
 
   const handleNextExercise = () => {
-    console.log('Current Exercise Index:', currentExerciseIndex);
-    console.log(
-      'Next Exercise:',
-      activeWorkout.exercises[currentExerciseIndex + 1]
-    );
+    // console.log('Current Exercise Index:', currentExerciseIndex);
+    // console.log(
+    //   'Next Exercise:',
+    //   activeWorkout.exercises[currentExerciseIndex + 1]
+    // );
     if (currentExerciseIndex < activeWorkout.exercises.length - 1) {
       setCurrentExerciseIndex(prev => prev + 1);
     }

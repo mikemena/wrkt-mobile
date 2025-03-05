@@ -37,14 +37,14 @@ const ExerciseImage = ({
 
   // Main image loading effect
   useEffect(() => {
-    if (!exercise?.id) {
+    if (!exercise?.catalog_exercise_id) {
       console.log('No exercise ID provided');
       setIsLoading(false);
       return;
     }
 
     console.log('Exercise changed:', {
-      exerciseId: exercise?.id,
+      exerciseId: exercise?.catalog_exercise_id,
       imageUrl: exercise?.imageUrl
     });
 
@@ -55,9 +55,12 @@ const ExerciseImage = ({
     loadImage();
 
     return () => {
-      console.log('Cleaning up image component for exercise:', exercise?.id);
+      console.log(
+        'Cleaning up image component for exercise:',
+        exercise?.catalog_exercise_id
+      );
     };
-  }, [exercise?.id, exercise?.imageUrl]);
+  }, [exercise?.catalog_exercise_id, exercise?.imageUrl]);
 
   const verifyFileExists = async uri => {
     try {
@@ -72,18 +75,21 @@ const ExerciseImage = ({
 
   const fetchImageFromApi = async () => {
     if (retryCount.current >= MAX_RETRIES) {
-      console.log('Max retries reached');
+      // console.log('Max retries reached');
       return null;
     }
 
     try {
-      console.log('Fetching from API for exercise:', exercise.id);
+      console.log('Fetching from API for exercise:', exercise.exercise);
       const { imageUrl } = await api.get(
-        `/api/exercise-catalog/${exercise.id}/image`
+        `/api/exercise-catalog/${exercise.catalog_exercise_id}/image`
       );
       console.log('API returned imageUrl:', imageUrl);
       if (imageUrl && isMounted.current) {
-        const localUri = await imageCache.saveToCache(exercise.id, imageUrl);
+        const localUri = await imageCache.saveToCache(
+          exercise.catalog_exercise_id,
+          imageUrl
+        );
         const exists = await verifyFileExists(localUri);
         console.log('Saved API result to cache:', localUri, 'Exists:', exists);
         return exists ? localUri : null;
@@ -96,7 +102,7 @@ const ExerciseImage = ({
   };
 
   const loadImage = async () => {
-    if (!exercise?.id) return;
+    if (!exercise?.catalog_exercise_id) return;
 
     try {
       console.log('Starting image load for exercise:', exercise.id);
@@ -104,7 +110,7 @@ const ExerciseImage = ({
       setImageError(false);
 
       // Try to get from cache first
-      let uri = await imageCache.getFromCache(exercise.id);
+      let uri = await imageCache.getFromCache(exercise.catalog_exercise_id);
       console.log('Cache result:', uri);
 
       // Verify the cached file exists
@@ -117,7 +123,10 @@ const ExerciseImage = ({
       // If not in cache or cache invalid, try the provided URL
       if (!uri && exercise.imageUrl) {
         console.log('Trying to cache image URL:', exercise.imageUrl);
-        uri = await imageCache.saveToCache(exercise.id, exercise.imageUrl);
+        uri = await imageCache.saveToCache(
+          exercise.catalog_exercise_id,
+          exercise.imageUrl
+        );
         const exists = await verifyFileExists(uri);
         if (!exists) uri = null;
       }
@@ -129,7 +138,7 @@ const ExerciseImage = ({
       }
 
       if (uri && isMounted.current) {
-        console.log('Setting image URI:', uri);
+        // console.log('Setting image URI:', uri);
         setImageUri(uri);
         setIsLoading(false);
       } else {

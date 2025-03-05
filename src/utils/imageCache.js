@@ -84,7 +84,7 @@ class ImageCache {
 
     try {
       const filename = await this.ensureValidFilename(exerciseId);
-      console.log('Attempting to download and cache:', imageUrl);
+      // console.log('Attempting to download and cache:', imageUrl);
 
       // Download with retry logic
       let localUri = null;
@@ -128,7 +128,7 @@ class ImageCache {
       await AsyncStorage.setItem(key, localUri);
       this.memoryCache.set(exerciseId, localUri);
 
-      console.log('Successfully cached image:', localUri);
+      // console.log('Successfully cached image:', localUri);
       return localUri;
     } catch (error) {
       console.error('Failed to save image to cache:', error);
@@ -148,7 +148,7 @@ class ImageCache {
       if (memoryUri) {
         const isValid = await this.validateCacheEntry(memoryUri);
         if (isValid) {
-          console.log('Cache hit from memory:', memoryUri);
+          // console.log('Cache hit from memory:', memoryUri);
           return memoryUri;
         }
       }
@@ -161,17 +161,17 @@ class ImageCache {
         const isValid = await this.validateCacheEntry(uri);
         if (isValid) {
           this.memoryCache.set(exerciseId, uri);
-          console.log('Cache hit from storage:', uri);
+          // console.log('Cache hit from storage:', uri);
           return uri;
         }
       }
 
       // If we get here, the cache entry is invalid or missing
       await this.removeFromCache(exerciseId);
-      console.log('Cache miss for exerciseId:', exerciseId);
+      // console.log('Cache miss for exerciseId:', exerciseId);
       return null;
     } catch (error) {
-      console.error('Failed to retrieve from cache:', error);
+      // console.error('Failed to retrieve from cache:', error);
       return null;
     }
   }
@@ -187,7 +187,6 @@ class ImageCache {
 
       await AsyncStorage.removeItem(key);
       this.memoryCache.delete(exerciseId);
-      console.log('Removed from cache:', exerciseId);
     } catch (error) {
       console.error('Failed to remove from cache:', error);
     }
@@ -211,7 +210,7 @@ class ImageCache {
       // Clear AsyncStorage entries
       await AsyncStorage.multiRemove(exerciseKeys);
       this.memoryCache.clear();
-      console.log('Cache cleared successfully');
+      // console.log('Cache cleared successfully');
     } catch (error) {
       console.error('Failed to clear cache:', error);
     }

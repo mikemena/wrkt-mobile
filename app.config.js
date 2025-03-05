@@ -3,7 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 const envFile = process.env.ENVFILE || '.env.development';
-console.log(`Using environment file: ${envFile}`);
+// console.log(`Using environment file: ${envFile}`);
 if (fs.existsSync(path.resolve(__dirname, envFile))) {
   dotenv.config({ path: envFile });
 } else {
@@ -12,7 +12,7 @@ if (fs.existsSync(path.resolve(__dirname, envFile))) {
 
 module.exports = ({ config }) => {
   const isProd = process.env.ENV === 'production';
-  console.log('Building with API URL:', process.env.API_URL);
+  // console.log('Building with API URL:', process.env.API_URL);
 
   const iconDir = isProd
     ? './assets/app-icons/production'
@@ -27,7 +27,7 @@ module.exports = ({ config }) => {
     environment: process.env.ENV
   };
 
-  console.log('Final extra config:', extraConfig);
+  // console.log('Final extra config:', extraConfig);
 
   return {
     ...config,
