@@ -2,19 +2,19 @@ import React, {
   createContext,
   useReducer,
   useCallback,
-  useEffect,
-} from "react";
-import * as Crypto from "expo-crypto";
-import { actionTypes } from "../actions/actionTypes";
-import { workoutReducer } from "../reducers/workoutReducer";
-import { api, getActiveProgram } from "../services/api";
-import { useUser } from "../context/userContext";
+  useEffect
+} from 'react';
+import * as Crypto from 'expo-crypto';
+import { actionTypes } from '../actions/actionTypes';
+import { workoutReducer } from '../reducers/workoutReducer';
+import { api, getActiveProgram } from '../services/api';
+import { useUser } from '../context/userContext';
 
 // Initial state
 const initialState = {
   activeProgram: null,
   userId: null,
-  activeWorkout: null,
+  activeWorkout: null
 };
 
 // Create the context
@@ -25,7 +25,7 @@ export const WorkoutProvider = ({ children }) => {
   const { userId } = useUser();
   const [state, dispatch] = useReducer(workoutReducer, {
     ...initialState,
-    userId: userId,
+    userId: userId
   });
 
   useEffect(() => {
@@ -34,10 +34,10 @@ export const WorkoutProvider = ({ children }) => {
     }
   }, [userId]);
 
-  const updateWorkoutDuration = useCallback((minutes) => {
+  const updateWorkoutDuration = useCallback(minutes => {
     dispatch({
       type: actionTypes.UPDATE_WORKOUT_DURATION,
-      payload: minutes,
+      payload: minutes
     });
   }, []);
 
@@ -50,37 +50,37 @@ export const WorkoutProvider = ({ children }) => {
       if (!data?.activeProgram) {
         dispatch({
           type: actionTypes.SET_ACTIVE_PROGRAM,
-          payload: null,
+          payload: null
         });
         return false;
       }
 
       dispatch({
         type: actionTypes.SET_ACTIVE_PROGRAM,
-        payload: data.activeProgram,
+        payload: data.activeProgram
       });
       return true;
     } catch (error) {
-      console.error("Detailed error:", {
+      console.error('Detailed error:', {
         error: error.message,
-        stack: error.stack,
+        stack: error.stack
       });
       dispatch({
         type: actionTypes.SET_ACTIVE_PROGRAM,
-        payload: null,
+        payload: null
       });
       return false;
     }
   }, [userId]);
 
-  const setActiveProgram = useCallback((activeProgram) => {
+  const setActiveProgram = useCallback(activeProgram => {
     dispatch({ type: actionTypes.SET_ACTIVE_PROGRAM, payload: activeProgram });
   }, []);
 
-  const setActiveWorkout = useCallback((workoutId) => {
+  const setActiveWorkout = useCallback(workoutId => {
     dispatch({
       type: actionTypes.SET_ACTIVE_WORKOUT,
-      payload: workoutId,
+      payload: workoutId
     });
   }, []);
 
@@ -90,10 +90,10 @@ export const WorkoutProvider = ({ children }) => {
   }, []);
 
   // Update workout name
-  const updateWorkoutName = useCallback((name) => {
+  const updateWorkoutName = useCallback(name => {
     dispatch({
       type: actionTypes.UPDATE_WORKOUT_NAME,
-      payload: name,
+      payload: name
     });
   }, []);
 
@@ -102,19 +102,19 @@ export const WorkoutProvider = ({ children }) => {
     dispatch({ type: actionTypes.CLEAR_WORKOUT_DETAILS });
   }, []);
 
-  const startWorkout = useCallback((workoutData) => {
+  const startWorkout = useCallback(workoutData => {
     dispatch({
       type: actionTypes.START_WORKOUT,
       payload: {
         ...workoutData,
         id: workoutData.id,
         startTime: new Date(),
-        isCompleted: false,
-      },
+        isCompleted: false
+      }
     });
   }, []);
 
-  const addExerciseToWorkout = useCallback((exercise) => {
+  const addExerciseToWorkout = useCallback(exercise => {
     // Generate a fallback ID if none exists
     const exerciseId = exercise.id || Crypto.randomUUID();
 
@@ -132,52 +132,46 @@ export const WorkoutProvider = ({ children }) => {
       sets: exercise.sets || [
         {
           id: Crypto.randomUUID(),
-          weight: "",
-          reps: "",
-          order: 1,
-        },
-      ],
+          weight: '',
+          reps: '',
+          order: 1
+        }
+      ]
     };
 
     dispatch({
       type: actionTypes.ADD_EXERCISE_TO_WORKOUT,
-      payload: newExercise,
+      payload: newExercise
     });
   }, []);
 
-    dispatch({
-      type: actionTypes.ADD_EXERCISE_TO_WORKOUT,
-      payload: newExercise,
-    });
-  }, []);
-
-  const removeExerciseFromWorkout = useCallback((exerciseId) => {
+  const removeExerciseFromWorkout = useCallback(exerciseId => {
     dispatch({
       type: actionTypes.REMOVE_EXERCISE_FROM_WORKOUT,
-      payload: exerciseId,
+      payload: exerciseId
     });
   }, []);
 
   const addSet = useCallback((exerciseId, setData) => {
     const newSet = {
       id: Crypto.randomUUID(),
-      weight: "",
-      reps: "",
+      weight: '',
+      reps: '',
       order:
-        (state.activeWorkout?.exercises.find((e) => e.id === exerciseId)?.sets
+        (state.activeWorkout?.exercises.find(e => e.id === exerciseId)?.sets
           ?.length || 0) + 1,
-      ...setData,
+      ...setData
     };
     dispatch({
       type: actionTypes.ADD_SET,
-      payload: { exerciseId, set: newSet },
+      payload: { exerciseId, set: newSet }
     });
   }, []);
 
   const updateSet = useCallback((exerciseId, setId, setData) => {
     dispatch({
       type: actionTypes.UPDATE_SET,
-      payload: { exerciseId, setId, setData },
+      payload: { exerciseId, setId, setData }
     });
   }, []);
 
@@ -186,13 +180,13 @@ export const WorkoutProvider = ({ children }) => {
       type: actionTypes.UPDATE_EXERCISE_SETS,
       payload: {
         exerciseId,
-        sets: newSets.map((set) => ({
+        sets: newSets.map(set => ({
           id: set.id,
           weight: set.weight,
           reps: set.reps,
-          order: set.order,
-        })),
-      },
+          order: set.order
+        }))
+      }
     });
   };
 
@@ -201,23 +195,23 @@ export const WorkoutProvider = ({ children }) => {
   }, []);
 
   const completeWorkout = useCallback(
-    async (duration) => {
+    async duration => {
       try {
         if (!state.activeWorkout) {
-          throw new Error("No active workout to complete");
+          throw new Error('No active workout to complete');
         }
 
         // Ensure duration is at least 1 minute
         const validDuration = Math.max(1, duration);
-        console.log("duration", validDuration);
+        console.log('duration', validDuration);
 
         // Filter out invalid sets and exercises
         const validExercises = state.activeWorkout.exercises
-          .map((exercise) => {
+          .map(exercise => {
             // Check if catalogExerciseId exists and is valid
             if (!exercise.catalogExerciseId) {
               console.warn(
-                `Exercise ${exercise.name} missing catalogExerciseId`,
+                `Exercise ${exercise.name} missing catalogExerciseId`
               );
               // Instead of filtering out, assign a dummy ID for testing purposes
               // In production, you should handle this properly
@@ -225,7 +219,7 @@ export const WorkoutProvider = ({ children }) => {
                 catalogExerciseId: exercise.id || Crypto.randomUUID(),
                 sets: Array.isArray(exercise.sets)
                   ? exercise.sets
-                      .filter((set) => {
+                      .filter(set => {
                         const weight = parseInt(set.weight);
                         const reps = parseInt(set.reps);
                         return (
@@ -235,12 +229,12 @@ export const WorkoutProvider = ({ children }) => {
                           reps > 0
                         );
                       })
-                      .map((set) => ({
+                      .map(set => ({
                         weight: parseInt(set.weight),
                         reps: parseInt(set.reps),
-                        order: set.order || 1,
+                        order: set.order || 1
                       }))
-                  : [],
+                  : []
               };
             }
 
@@ -248,7 +242,7 @@ export const WorkoutProvider = ({ children }) => {
               catalogExerciseId: exercise.catalogExerciseId,
               sets: Array.isArray(exercise.sets)
                 ? exercise.sets
-                    .filter((set) => {
+                    .filter(set => {
                       const weight = parseInt(set.weight);
                       const reps = parseInt(set.reps);
                       return (
@@ -258,43 +252,43 @@ export const WorkoutProvider = ({ children }) => {
                         reps > 0
                       );
                     })
-                    .map((set) => ({
+                    .map(set => ({
                       weight: parseInt(set.weight),
                       reps: parseInt(set.reps),
-                      order: set.order || 1,
+                      order: set.order || 1
                     }))
-                : [],
+                : []
             };
           })
-          .filter((exercise) => exercise.sets.length > 0);
+          .filter(exercise => exercise.sets.length > 0);
 
         if (validExercises.length === 0) {
-          throw new Error("No valid exercises with completed sets found");
+          throw new Error('No valid exercises with completed sets found');
         }
 
         const workoutData = {
           userId: userId,
-          name: state.activeWorkout.name.trim() || "Workout",
+          name: state.activeWorkout.name.trim() || 'Workout',
           duration: validDuration,
-          exercises: validExercises,
+          exercises: validExercises
         };
-        console.log("workout data passed to API", workoutData);
+        console.log('workout data passed to API', workoutData);
 
         if (state.activeWorkout.programId) {
           workoutData.programId = state.activeWorkout.programId;
         }
 
-        const response = await api.post("/api/workout/complete", workoutData);
-        console.log("response", response);
+        const response = await api.post('/api/workout/complete', workoutData);
+        console.log('response', response);
 
         dispatch({ type: actionTypes.COMPLETE_WORKOUT });
         return true;
       } catch (error) {
-        console.error("Error completing workout:", error);
+        console.error('Error completing workout:', error);
         throw error;
       }
     },
-    [state.activeWorkout, api, userId],
+    [state.activeWorkout, api, userId]
   );
 
   const clearCurrentWorkout = useCallback(() => {
@@ -320,7 +314,7 @@ export const WorkoutProvider = ({ children }) => {
         completeWorkout,
         clearCurrentWorkout,
         updateWorkoutDuration,
-        updateWorkoutName,
+        updateWorkoutName
       }}
     >
       {children}
