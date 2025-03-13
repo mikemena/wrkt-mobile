@@ -38,3 +38,9 @@
 # Future Features [Not Included to a Release Yet]
 
 - [ ] Finish signup and signin with Apple account
+
+# Release v1.1.21
+
+- [] Coming from the flex workout, the exercise list is not showing exercise images
+- [] Coming from create program, the exercise list is not showing exercise images
+- [] The progress view has 'Error loading progress data'

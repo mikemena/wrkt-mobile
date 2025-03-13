@@ -35,6 +35,24 @@ const ExerciseImage = ({
     };
   }, []);
 
+  // Debug function to get exercise object details
+  const logExerciseDetails = () => {
+    console.log('=============== EXERCISE DETAILS ===============');
+    console.log('exercise prop:', JSON.stringify(exercise, null, 2));
+    console.log('Has id:', Boolean(exercise?.id));
+    console.log(
+      'Has catalog_exercise_id:',
+      Boolean(exercise?.catalog_exercise_id)
+    );
+    console.log('Has catalogExerciseId:', Boolean(exercise?.catalogExerciseId));
+    console.log('Has imageUrl:', Boolean(exercise?.imageUrl));
+    console.log('exercise.id:', exercise?.id);
+    console.log('exercise.catalog_exercise_id:', exercise?.catalog_exercise_id);
+    console.log('exercise.catalogExerciseId:', exercise?.catalogExerciseId);
+    console.log('exercise.imageUrl:', exercise?.imageUrl);
+    console.log('===============================================');
+  };
+
   // Main image loading effect
   useEffect(() => {
     if (!exercise?.catalog_exercise_id) {
@@ -43,10 +61,22 @@ const ExerciseImage = ({
       return;
     }
 
-    console.log('Exercise changed:', {
-      exerciseId: exercise?.catalog_exercise_id,
-      imageUrl: exercise?.imageUrl
-    });
+    // Check which ID to use (either catalog_exercise_id or catalogExerciseId or just id)
+    const exerciseId =
+      exercise?.catalog_exercise_id ||
+      exercise?.catalogExerciseId ||
+      exercise?.id;
+
+    if (!exerciseId) {
+      console.log('❌ No valid exercise ID provided');
+      setIsLoading(false);
+      setImageError(true);
+      return;
+    }
+
+    console.log(
+      `🔄 Exercise changed. Using ID: ${exerciseId}, imageUrl: ${exercise?.imageUrl}`
+    );
 
     setIsLoading(true);
     setImageError(false);
@@ -64,11 +94,22 @@ const ExerciseImage = ({
 
   const verifyFileExists = async uri => {
     try {
-      if (!uri) return false;
+      if (!uri) {
+        console.log('❌ Cannot verify null or undefined uri');
+        return false;
+      }
+
+      console.log(`🔍 Verifying file exists: ${uri}`);
       const fileInfo = await FileSystem.getInfoAsync(uri);
-      return fileInfo.exists;
+      console.log(
+        `📄 File info: exists=${fileInfo.exists}, size=${
+          fileInfo.size || 'unknown'
+        }`
+      );
+
+      return fileInfo.exists && fileInfo.size > 0;
     } catch (error) {
-      console.log('Error verifying file:', error);
+      console.log(`❌ Error verifying file: ${error.message}`);
       return false;
     }
   };
@@ -102,51 +143,70 @@ const ExerciseImage = ({
   };
 
   const loadImage = async () => {
-    if (!exercise?.catalog_exercise_id) return;
+    // Get the correct exercise ID
+    const exerciseId =
+      exercise?.catalog_exercise_id ||
+      exercise?.catalogExerciseId ||
+      exercise?.id;
+
+    if (!exerciseId) {
+      console.log('❌ Cannot load image without valid exercise ID');
+      return;
+    }
 
     try {
-      console.log('Starting image load for exercise:', exercise.id);
+      console.log(`🔄 Starting image load for exercise ID: ${exerciseId}`);
       setIsLoading(true);
       setImageError(false);
 
       // Try to get from cache first
-      let uri = await imageCache.getFromCache(exercise.catalog_exercise_id);
-      console.log('Cache result:', uri);
+      console.log(`🔍 Checking cache for exercise ID: ${exerciseId}`);
+      let uri = await imageCache.getFromCache(exerciseId);
+      console.log(`📦 Cache result: ${uri || 'not found'}`);
 
       // Verify the cached file exists
-      const cacheExists = await verifyFileExists(uri);
-      if (!cacheExists) {
-        console.log('Cached file does not exist or is invalid');
-        uri = null;
+      if (uri) {
+        const cacheExists = await verifyFileExists(uri);
+        if (!cacheExists) {
+          console.log('❌ Cached file does not exist or is invalid');
+          uri = null;
+        } else {
+          console.log('✅ Valid cached image found');
+        }
       }
 
       // If not in cache or cache invalid, try the provided URL
       if (!uri && exercise.imageUrl) {
-        console.log('Trying to cache image URL:', exercise.imageUrl);
-        uri = await imageCache.saveToCache(
-          exercise.catalog_exercise_id,
-          exercise.imageUrl
+        console.log(
+          `🌐 Trying to cache provided image URL: ${exercise.imageUrl}`
         );
+        uri = await imageCache.saveToCache(exerciseId, exercise.imageUrl);
+
         const exists = await verifyFileExists(uri);
-        if (!exists) uri = null;
+        console.log(`📥 Downloaded from URL result: ${uri}, Exists: ${exists}`);
+
+        if (!exists) {
+          console.log('❌ Failed to download from provided URL');
+          uri = null;
+        }
       }
 
       // If still no image, fetch from API
       if (!uri) {
-        console.log('No cached image or URL, fetching from API');
+        console.log('🔄 No cached image or URL, fetching from API');
         uri = await fetchImageFromApi();
       }
 
       if (uri && isMounted.current) {
-        // console.log('Setting image URI:', uri);
+        console.log(`✅ Setting image URI: ${uri}`);
         setImageUri(uri);
         setIsLoading(false);
       } else {
-        console.log('No valid URI obtained');
+        console.log('❌ No valid URI obtained');
         throw new Error('Failed to load image');
       }
     } catch (error) {
-      console.error('Image load error:', error);
+      console.error(`❌ Image load error: ${error.message}`, error);
       if (isMounted.current) {
         setImageError(true);
         setIsLoading(false);

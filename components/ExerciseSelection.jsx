@@ -341,6 +341,21 @@ const ExerciseSelection = ({ navigation, route }) => {
   }, []);
 
   const renderExerciseItem = ({ item }) => {
+    console.log(
+      'Rendering exercise item:',
+      JSON.stringify(
+        {
+          id: item.id,
+          name: item.name,
+          imageUrl: item.imageUrl,
+          muscle: item.muscle,
+          equipment: item.equipment
+        },
+        null,
+        2
+      )
+    );
+
     return (
       <TouchableOpacity
         style={[
@@ -356,6 +371,8 @@ const ExerciseSelection = ({ navigation, route }) => {
           <ExerciseImage
             exercise={{
               id: item.id,
+              catalog_exercise_id: item.id,
+              catalogExerciseId: item.id,
               imageUrl: item.imageUrl
             }}
             style={styles.exerciseImage}
