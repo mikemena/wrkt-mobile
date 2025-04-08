@@ -30,11 +30,8 @@ import ExerciseImage from './ExerciseImage';
 
 const ExerciseSelection = ({ navigation, route }) => {
   const { addExercise, state: programState } = useContext(ProgramContext);
-  const {
-    addExerciseToWorkout,
-    removeExerciseFromWorkout,
-    state: workoutState
-  } = useContext(WorkoutContext);
+  const { addExerciseToWorkout, state: workoutState } =
+    useContext(WorkoutContext);
 
   const programAction = programState.mode;
   const contextType = route.params?.contextType;
@@ -480,9 +477,10 @@ const ExerciseSelection = ({ navigation, route }) => {
         style={styles.exerciseList}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.25}
-        initialNumToRender={10}
-        maxToRenderPerBatch={10}
-        windowSize={5}
+        initialNumToRender={5}
+        maxToRenderPerBatch={3}
+        updateCellsBatchingPeriod={100}
+        windowSize={3}
         removeClippedSubviews={true}
         key={JSON.stringify(filterValues)}
         ListEmptyComponent={() => (
