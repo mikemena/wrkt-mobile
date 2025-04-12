@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView, Text } from 'react-native';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useConfig } from '../src/context/configContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomPicker from './CustomPicker';
@@ -174,8 +175,8 @@ const Filter = ({
               {totalMatches === 0
                 ? 'No Matches'
                 : totalMatches === 1
-                ? '1 Match'
-                : `${totalMatches} Matches`}
+                  ? '1 Match'
+                  : `${totalMatches} Matches`}
             </Text>
           </View>
           <PillButton

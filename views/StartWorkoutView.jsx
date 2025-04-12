@@ -13,12 +13,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  SafeAreaView,
   Animated,
   ScrollView,
   Platform,
   Alert
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import * as Haptics from 'expo-haptics';
 import * as Crypto from 'expo-crypto';

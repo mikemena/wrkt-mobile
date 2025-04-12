@@ -3,12 +3,12 @@ import Header from '../components/Header';
 import {
   View,
   Text,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   Switch,
   StyleSheet
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { api } from '../src/services/api';
 import ParallelogramButton from '../components/ParallelogramButton';
 import Ionicons from '@expo/vector-icons/Ionicons';

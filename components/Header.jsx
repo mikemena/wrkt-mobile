@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { colors } from '../src/styles/globalStyles';
+import Constants from 'expo-constants';
 
 const Header = ({ pageName }) => {
   const { state } = useTheme();
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
+
+  const appVersion = Constants.expoConfig?.version;
 
   return (
     <View
@@ -17,6 +20,9 @@ const Header = ({ pageName }) => {
     >
       <Text style={[styles.logo, { color: themedStyles.accentColor }]}>
         WRKT
+      </Text>
+      <Text style={[styles.footerInfo, { color: themedStyles.textColor }]}>
+        {appVersion}
       </Text>
 
       <Text style={[styles.pageName]}>{pageName.toUpperCase()}</Text>

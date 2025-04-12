@@ -1,12 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  View,
-  ScrollView
-} from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { useNavigation } from '@react-navigation/native';
 import { WorkoutContext } from '../src/context/workoutContext';

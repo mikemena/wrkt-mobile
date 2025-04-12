@@ -85,6 +85,10 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
+.cxx/
+*.keystore
+!debug.keystore
+.kotlin/
 
 # Metro
 .metro-health-check*

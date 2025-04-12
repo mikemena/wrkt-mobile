@@ -4,9 +4,9 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  SafeAreaView
+  TouchableOpacity
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { ProgramContext } from '../src/context/programContext';
 import ParallelogramButton from '../components/ParallelogramButton';

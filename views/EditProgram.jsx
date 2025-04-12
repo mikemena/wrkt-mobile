@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
   Text,
   StyleSheet,
-  SafeAreaView,
   View,
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';

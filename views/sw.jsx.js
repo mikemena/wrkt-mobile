@@ -5,11 +5,11 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   Image,
   ScrollView,
   Alert
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { WorkoutContext } from '../src/context/workoutContext';
 import { ProgramContext } from '../src/context/programContext';

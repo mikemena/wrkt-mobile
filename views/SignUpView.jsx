@@ -4,9 +4,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  SafeAreaView
+  StyleSheet
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { api } from '../src/services/api';
 import { useAuth, loading } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
@@ -151,14 +151,8 @@ const SignUpView = ({ navigation }) => {
       // Show verification sent message
       setVerificationSent(true);
 
-      console.log('✅ Parsed User Data:', {
-        hasToken: !!userData.token,
-        hasUser: !!userData.user,
-        userId: userData.user?.id
-      });
-
       // Create user settings
-      console.log('📤 Creating user settings...');
+
       try {
         await api.post(`/api/settings/${userData.user.id}`, {
           theme_mode: 'dark',
@@ -170,19 +164,11 @@ const SignUpView = ({ navigation }) => {
       }
 
       // Sign in user
-      console.log('🔑 Attempting auto sign-in...');
       await signIn(userData.token, userData.user);
-      console.log('✅ Signup process completed successfully');
     } catch (err) {
-      console.error('🔴 Signup Process Error:', {
-        name: err.name,
-        message: err.message,
-        stack: err.stack
-      });
       setGeneralError(err.message || 'Failed to sign up');
     } finally {
       setIsSigningUp(false);
-      console.log('========== SIGNUP PROCESS ENDED ==========');
     }
   };
 

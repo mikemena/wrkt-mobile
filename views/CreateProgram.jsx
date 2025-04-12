@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useCallback } from 'react';
-import { StyleSheet, SafeAreaView, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import withKeyboardAvoidingView from '../src/hocs/withKeyboardAvoidingView';
 import { useNavigation } from '@react-navigation/native';
 import ProgramForm from '../components/ProgramForm';

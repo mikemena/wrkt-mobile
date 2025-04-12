@@ -3,12 +3,12 @@ import {
   View,
   TextInput,
   StyleSheet,
-  SafeAreaView,
   Text,
   TouchableWithoutFeedback,
   ScrollView,
   TouchableOpacity
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { api } from '../src/services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ParallelogramButton from './ParallelogramButton';
@@ -187,8 +187,8 @@ const ExerciseFilter = ({
                     {totalMatches === 0
                       ? 'No Matches'
                       : totalMatches === 1
-                      ? '1 Match'
-                      : `${totalMatches} Matches`}
+                        ? '1 Match'
+                        : `${totalMatches} Matches`}
                   </Text>
                 </View>
                 <ParallelogramButton

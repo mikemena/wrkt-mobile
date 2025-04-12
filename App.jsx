@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { initializeApi } from './src/services/api';
+import React, { useState, useEffect, useRef } from 'react';
+import { initializeApi, api } from './src/services/api';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text, Alert } from 'react-native';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
 import Navigation from './components/Navigation';
@@ -12,6 +12,9 @@ import { ProgramProvider } from './src/context/programContext';
 import { WorkoutProvider } from './src/context/workoutContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
+import { imageCache } from './src/utils/imageCache';
+import NetInfo from '@react-native-community/netinfo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import your view components
 import ProgramsView from './views/ProgramsView';
@@ -36,6 +39,10 @@ const ProgramsStack = createStackNavigator();
 const WorkoutStack = createStackNavigator();
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+
+// Constants for image preloading
+const LAST_PRELOAD_KEY = 'last_exercises_preload';
+const PRELOAD_INTERVAL = 1000 * 60 * 60 * 24 * 7; // 7 days
 
 const ProgramsStackScreen = () => (
   <ProgramsStack.Navigator screenOptions={{ headerShown: false }}>
@@ -150,19 +157,131 @@ const AuthNavigator = () => (
   </AuthStack.Navigator>
 );
 
-// Create a loading screen component
-const LoadingScreen = () => (
+// Create a loading screen component with progress indicator
+const LoadingScreen = ({ message = 'Loading...', progress = null }) => (
   <View style={styles.loadingContainer}>
-    <ActivityIndicator size='large' />
+    <ActivityIndicator size='large' color='#ffffff' />
+    {message && <Text style={styles.loadingText}>{message}</Text>}
+    {progress && (
+      <Text style={styles.progressText}>
+        {progress.percent}% ({progress.current}/{progress.total})
+      </Text>
+    )}
   </View>
 );
+
+// Function to preload exercise images
+const preloadExerciseImages = async (setPreloadProgress, setPreloadMessage) => {
+  try {
+    setPreloadMessage('Checking for image updates...');
+
+    // Check if we should preload based on last preload time
+    const lastPreload = await AsyncStorage.getItem(LAST_PRELOAD_KEY);
+    const lastPreloadTime = lastPreload ? parseInt(lastPreload, 10) : 0;
+    const now = Date.now();
+
+    if (now - lastPreloadTime < PRELOAD_INTERVAL && lastPreloadTime > 0) {
+      console.log('Skipping preload, last preload was recent');
+      return false; // Skip preload, it was done recently
+    }
+
+    // Check network status before preloading
+    const netInfo = await NetInfo.fetch();
+    if (!netInfo.isConnected || netInfo.isConnectionExpensive) {
+      console.log('Skipping preload due to network constraints');
+      return false; // Skip preload on cellular or no connection
+    }
+
+    setPreloadMessage('Downloading exercise catalog...');
+
+    // Fetch all exercises
+    const params = new URLSearchParams();
+    params.append('limit', '500'); // Get as many as possible in one request
+
+    const response = await api.get(
+      `/api/exercise-catalog?${params.toString()}`
+    );
+
+    if (
+      !response ||
+      !response.exercises ||
+      !Array.isArray(response.exercises)
+    ) {
+      console.log('Invalid exercise data received');
+      return false;
+    }
+
+    const exercises = response.exercises;
+
+    if (exercises.length === 0) {
+      console.log('No exercises received to preload');
+      return false;
+    }
+
+    console.log(`Starting preload of ${exercises.length} exercise images`);
+    setPreloadMessage('Preloading exercise images...');
+
+    // Start preloading
+    const result = await imageCache.preloadImages(exercises, progress => {
+      setPreloadProgress(progress);
+    });
+
+    // Update last preload time
+    await AsyncStorage.setItem(LAST_PRELOAD_KEY, now.toString());
+
+    console.log('Preload completed:', result);
+    return true;
+  } catch (error) {
+    console.error('Failed to preload exercise images:', error);
+    return false;
+  } finally {
+    setPreloadProgress(null);
+    setPreloadMessage(null);
+  }
+};
 
 // Create a navigator that checks auth state
 const RootNavigator = () => {
   const { user, loading } = useAuth();
+  const [preloading, setPreloading] = useState(false);
+  const [preloadProgress, setPreloadProgress] = useState(null);
+  const [preloadMessage, setPreloadMessage] = useState(null);
+  const hasInitialized = useRef(false);
+
+  // Handle image preloading after user logs in
+  useEffect(() => {
+    if (user && !loading && !hasInitialized.current && !__DEV__) {
+      hasInitialized.current = true;
+      setPreloading(true);
+
+      // Start preloading process
+      preloadExerciseImages(setPreloadProgress, setPreloadMessage)
+        .then(didPreload => {
+          if (didPreload) {
+            // Optional: Show completion message
+            console.log('Image preloading completed successfully');
+          }
+        })
+        .catch(error => {
+          console.error('Error during image preloading:', error);
+        })
+        .finally(() => {
+          setPreloading(false);
+        });
+    }
+  }, [user, loading]);
 
   if (loading) {
-    return <LoadingScreen />;
+    return <LoadingScreen message='Loading your profile...' />;
+  }
+
+  if (preloading) {
+    return (
+      <LoadingScreen
+        message={preloadMessage || 'Preparing your workout data...'}
+        progress={preloadProgress}
+      />
+    );
   }
 
   return (
@@ -244,6 +363,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black'
+  },
+  loadingText: {
+    color: 'white',
+    marginTop: 20,
+    fontFamily: 'Lexend'
+  },
+  progressText: {
+    color: '#bbb',
+    marginTop: 10,
+    fontFamily: 'Lexend'
   }
 });
 

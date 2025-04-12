@@ -1,10 +1,64 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Image, ActivityIndicator, Text, StyleSheet } from 'react-native';
 import * as FileSystem from 'expo-file-system';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { imageCache } from '../src/utils/imageCache';
 import { api } from '../src/services/api';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+
+// Enhanced debug logging function
+const logDebug = async (component, message, data = {}) => {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    component,
+    message,
+    data: JSON.stringify(data)
+  };
+
+  console.log(`[${component}] ${message}`, data);
+
+  // In production, save logs to AsyncStorage for later retrieval
+  if (!__DEV__) {
+    try {
+      // Get existing logs
+      const existingLogsString = await AsyncStorage.getItem('imageDebugLogs');
+      const existingLogs = existingLogsString
+        ? JSON.parse(existingLogsString)
+        : [];
+
+      // Add new log entry and limit to most recent 50 logs
+      const updatedLogs = [logEntry, ...existingLogs].slice(0, 50);
+
+      // Save back to AsyncStorage
+      await AsyncStorage.getItem('imageDebugLogs', JSON.stringify(updatedLogs));
+    } catch (error) {
+      console.error('Failed to save debug log:', error);
+    }
+  }
+};
+
+// Function to expose logs in TestFlight
+export const getDebugLogs = async () => {
+  try {
+    const logsString = await AsyncStorage.getItem('imageDebugLogs');
+    return logsString ? JSON.parse(logsString) : [];
+  } catch (error) {
+    console.error('Failed to retrieve debug logs:', error);
+    return [];
+  }
+};
+
+// Function to clear logs
+export const clearDebugLogs = async () => {
+  try {
+    await AsyncStorage.setItem('imageDebugLogs', JSON.stringify([]));
+    return true;
+  } catch (error) {
+    console.error('Failed to clear debug logs:', error);
+    return false;
+  }
+};
 
 const ExerciseImage = ({
   exercise,
@@ -16,11 +70,13 @@ const ExerciseImage = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [imageUri, setImageUri] = useState(null);
   const isMounted = useRef(true);
   const retryCount = useRef(0);
   const MAX_RETRIES = 2;
   const loadAttempted = useRef(false);
+  const isTestFlight = !__DEV__;
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -74,8 +130,7 @@ const ExerciseImage = ({
       logDebug('Loading image for exercise', {
         exerciseId,
         hasImageUrl: !!exercise?.imageUrl,
-        platform: Platform.OS,
-        isTestFlight: !__DEV__
+        isTestFlight
       });
 
       loadImage();
@@ -190,21 +245,23 @@ const ExerciseImage = ({
       setImageError(false);
 
       // Try direct URL first if available (fastest path)
+      if (isTestFlight && exercise.imageUrl) {
+        logDebug('TestFlight: Using direct imageUrl', {
+          url: exercise.imageUrl
+        });
+        setImageUri(exercise.imageUrl);
+        setIsLoading(false);
+        return;
+      }
+
+      // Try direct URL first if available (fastest path)
       if (exercise.imageUrl) {
         logDebug('Using direct imageUrl', { url: exercise.imageUrl });
-        try {
-          // For TestFlight, try direct URL first as it's most reliable
-          if (!__DEV__) {
-            setImageUri(exercise.imageUrl);
-            setIsLoading(false);
-            return;
-          }
-        } catch (directUrlError) {
-          logDebug('Error using direct URL', {
-            error: directUrlError?.message
-          });
-          // Continue to cache path if direct URL fails
-        }
+
+        // Don't limit this path to TestFlight only
+        setImageUri(exercise.imageUrl);
+        setIsLoading(false);
+        return;
       }
 
       // Try to get from cache
@@ -240,18 +297,15 @@ const ExerciseImage = ({
 
           if (!exists) {
             logDebug('Failed to download from provided URL');
-            // If saving to cache fails, use direct URL in production
-            if (!__DEV__) {
-              setImageUri(exercise.imageUrl);
-              setIsLoading(false);
-              return;
-            }
-            uri = null;
+            // If saving to cache fails, use direct URL as fallback
+            setImageUri(exercise.imageUrl);
+            setIsLoading(false);
+            return;
           }
         } catch (saveError) {
           logDebug('Error saving to cache', { error: saveError?.message });
-          // If saving to cache fails, use direct URL in production
-          if (!__DEV__ && exercise.imageUrl) {
+          // If saving to cache fails, use direct URL as fallback
+          if (exercise.imageUrl) {
             setImageUri(exercise.imageUrl);
             setIsLoading(false);
             return;
@@ -273,7 +327,7 @@ const ExerciseImage = ({
       } else {
         logDebug('No valid URI obtained');
         // Final fallback - use direct URL in production if available
-        if (!__DEV__ && exercise.imageUrl) {
+        if (exercise.imageUrl) {
           setImageUri(exercise.imageUrl);
           setIsLoading(false);
           return;
@@ -294,11 +348,18 @@ const ExerciseImage = ({
   const handleImageError = async () => {
     if (!isMounted.current) return;
 
-    logDebug('Image error occurred', { retryCount: retryCount.current });
+    logDebug('Image error occurred', {
+      retryCount: retryCount.current,
+      uri: imageUri
+    });
     retryCount.current += 1;
 
     // For production builds, try direct URL as final fallback
-    if (!__DEV__ && exercise.imageUrl && retryCount.current >= MAX_RETRIES) {
+    if (
+      isTestFlight &&
+      exercise.imageUrl &&
+      retryCount.current >= MAX_RETRIES
+    ) {
       logDebug('Falling back to direct URL after error');
       setImageUri(exercise.imageUrl);
       return;

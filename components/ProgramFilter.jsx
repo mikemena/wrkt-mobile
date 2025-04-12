@@ -3,10 +3,10 @@ import {
   View,
   TextInput,
   StyleSheet,
-  SafeAreaView,
   Text,
   TouchableWithoutFeedback
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomPicker from './CustomPicker';
 import SecondaryButton from './SecondaryButton';
 import { useTheme } from '../src/hooks/useTheme';
@@ -80,8 +80,8 @@ const ProgramFilter = ({
                   {totalMatches === 0
                     ? 'No Programs'
                     : totalMatches === 1
-                    ? '1 Program'
-                    : `${totalMatches} Programs`}
+                      ? '1 Program'
+                      : `${totalMatches} Programs`}
                 </Text>
                 <SecondaryButton
                   label='Clear'

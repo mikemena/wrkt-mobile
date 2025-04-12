@@ -4,9 +4,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
-  SafeAreaView
+  ScrollView
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { WorkoutContext } from '../src/context/workoutContext';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
