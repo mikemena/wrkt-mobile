@@ -12,15 +12,13 @@
     "ios:prod": "ENVFILE=.env.production expo start --ios",
     "ios:pro:dev": "ENVFILE=.env.development expo start --ios --simulator='iPhone 15 Pro'",
     "ios:pro:prod": "ENVFILE=.env.production expo start --ios --simulator='iPhone 15 Pro'",
-    "android:dev": "ENVFILE=.env.development expo run:android",
-    "android:prod": "ENVFILE=.env.production expo run:android",
-    "android": "expo run:android",
     "ios": "expo run:ios",
     "build:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && cd ios && pod install && cd .. && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS'",
     "build:ios:prod": "ENVFILE=.env.production npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS'",
     "release:ios:dev": "ENVFILE=.env.development npx expo prebuild -p ios && xcodebuild -workspace ios/WRKT.xcworkspace -scheme WRKT -configuration Release -destination 'generic/platform=iOS' && xcrun altool --upload-app --type ios --file /Users/mike/Library/Developer/Xcode/DerivedData/WRKT-fymmwfwencvowggeyvwzzzceqlqo/Build/Products/Release-iphoneos/WRKT.ipa --username \"$APPLE_ID\" --password \"$ASC_APP_SPECIFIC_PASSWORD\"",
     "clear-cache": "expo start --clear",
-    "start": "expo start --dev-client"
+    "start": "expo start --dev-client",
+    "android": "expo run:android"
   },
   "jest": {
     "preset": "jest-expo"

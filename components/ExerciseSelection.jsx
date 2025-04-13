@@ -209,6 +209,10 @@ const ExerciseSelection = ({ navigation, route }) => {
   const handleLoadMore = useCallback(() => {
     if (!isLoadingMore && hasMore && !isLoading) {
       fetchExercises(currentPage + 1, true);
+      console.log(
+        '[ExerciseSelection] Fetching exercises with params:',
+        params.toString()
+      );
     }
   }, [currentPage, hasMore, isLoadingMore, isLoading]);
 
