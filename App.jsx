@@ -12,6 +12,7 @@ import { ProgramProvider } from './src/context/programContext';
 import { WorkoutProvider } from './src/context/workoutContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
+import { UserEquipmentProvider } from './src/context/userEquipmentContext';
 import { imageCache } from './src/utils/imageCache';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -337,17 +338,19 @@ const App = () => {
   return (
     <AuthProvider>
       <UserProvider>
-        <ProgramProvider>
-          <WorkoutProvider>
-            <ThemeProvider>
-              <View style={styles.container}>
-                <NavigationContainer linking={linking}>
-                  <RootNavigator />
-                </NavigationContainer>
-              </View>
-            </ThemeProvider>
-          </WorkoutProvider>
-        </ProgramProvider>
+        <UserEquipmentProvider>
+          <ProgramProvider>
+            <WorkoutProvider>
+              <ThemeProvider>
+                <View style={styles.container}>
+                  <NavigationContainer linking={linking}>
+                    <RootNavigator />
+                  </NavigationContainer>
+                </View>
+              </ThemeProvider>
+            </WorkoutProvider>
+          </ProgramProvider>
+        </UserEquipmentProvider>
       </UserProvider>
     </AuthProvider>
   );

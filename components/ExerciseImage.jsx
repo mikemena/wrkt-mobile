@@ -13,7 +13,6 @@ const API_URL =
 // Enhanced debug logging function
 const logDebug = (message, data = {}) => {
   const component = 'ExerciseImage';
-  console.log(`[${component}] ${message}`, data);
 
   // In TestFlight/production, save logs to AsyncStorage for later retrieval
   if (!__DEV__) {
@@ -81,13 +80,6 @@ const ExerciseImage = ({
 
   // Cleanup function
   useEffect(() => {
-    logDebug('Mount with exercise', {
-      id: exercise?.id,
-      catalogId: exercise?.catalogExerciseId || exercise?.catalog_exercise_id,
-      hasImageUrl: !!exercise?.imageUrl,
-      imageUrl: exercise?.imageUrl
-    });
-
     isMounted.current = true;
     return () => {
       isMounted.current = false;
@@ -128,23 +120,15 @@ const ExerciseImage = ({
           throw new Error('No valid exercise ID provided');
         }
 
-        logDebug('Loading image', { exerciseId, imageUrl: exercise.imageUrl });
-
         // If we have an imageUrl, create a proxied URL
         if (exercise.imageUrl) {
           const proxiedUrl = createProxiedUrl(exercise.imageUrl);
 
           if (proxiedUrl) {
-            logDebug('Using proxied URL', {
-              original: exercise.imageUrl,
-              proxied: proxiedUrl
-            });
             setImageUri(proxiedUrl);
             setIsLoading(false);
             return;
           } else {
-            // If we couldn't create a proxied URL, fall back to the original
-            logDebug('Fallback to original URL', { url: exercise.imageUrl });
             setImageUri(exercise.imageUrl);
             setIsLoading(false);
             return;
@@ -181,10 +165,6 @@ const ExerciseImage = ({
         imageUri.includes('/api/exercise-images/') &&
         exercise?.imageUrl
       ) {
-        logDebug('Switching from proxy to direct URL after error', {
-          proxy: imageUri,
-          direct: exercise.imageUrl
-        });
         setImageUri(exercise.imageUrl);
       }
     } else {

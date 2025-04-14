@@ -16,11 +16,55 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { colors } from '../src/styles/globalStyles';
+import { useUserEquipment } from '../src/context/userEquipmentContext';
 
 const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const CACHE_KEYS = {
   MUSCLES: 'muscles_cache',
   EQUIPMENT: 'equipment_cache'
+};
+
+// Equipment filter toggle component
+const EquipmentToggle = ({ isMyEquipment, onToggle, themedStyles }) => {
+  return (
+    <View style={styles.toggleContainer}>
+      <TouchableOpacity
+        style={[
+          styles.toggleOption,
+          isMyEquipment && { backgroundColor: themedStyles.accentColor }
+        ]}
+        onPress={() => onToggle(true)}
+      >
+        <Text
+          style={[
+            styles.toggleText,
+            { color: isMyEquipment ? colors.flatBlack : themedStyles.textColor }
+          ]}
+        >
+          My Equipment
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[
+          styles.toggleOption,
+          !isMyEquipment && { backgroundColor: themedStyles.accentColor }
+        ]}
+        onPress={() => onToggle(false)}
+      >
+        <Text
+          style={[
+            styles.toggleText,
+            {
+              color: !isMyEquipment ? colors.flatBlack : themedStyles.textColor
+            }
+          ]}
+        >
+          All Equipment
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const SelectionChip = ({ label, selected, onPress, themedStyles }) => (
@@ -56,12 +100,56 @@ const ExerciseFilter = ({
 }) => {
   const { state } = useTheme();
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
+
+  // Get user equipment from context
+  const { userEquipment } = useUserEquipment();
+
   const [muscleOptions, setMuscleOptions] = useState([]);
   const [equipmentOptions, setEquipmentOptions] = useState([]);
+  const [showMyEquipment, setShowMyEquipment] = useState(false);
+  const [displayedEquipment, setDisplayedEquipment] = useState([]);
+
+  useEffect(() => {
+    if (showMyEquipment && userEquipment && userEquipment.length > 0) {
+      // Get current equipment selections
+      const currentEquipment = filterValues.equipment || [];
+
+      // Create a set of new equipment (include both current selections and user equipment)
+      const newEquipment = [
+        ...new Set([...currentEquipment, ...userEquipment])
+      ];
+
+      // Update the filter with the combined equipment
+      onFilterChange('equipment', newEquipment);
+    }
+  }, [showMyEquipment, userEquipment]);
+
+  // Debug log
+  useEffect(() => {
+    console.log('User equipment in filter:', userEquipment);
+  }, [userEquipment]);
 
   useEffect(() => {
     loadCatalogData();
+
+    // Default to "My Equipment" if user has equipment
+    if (userEquipment && userEquipment.length > 0) {
+      setShowMyEquipment(true);
+    }
   }, []);
+
+  // Update displayed equipment when the toggle state changes or when userEquipment changes
+  useEffect(() => {
+    if (showMyEquipment && userEquipment && userEquipment.length > 0) {
+      // Filter equipment to only show user's equipment
+      setDisplayedEquipment(
+        equipmentOptions.filter(item => userEquipment.includes(item.value))
+      );
+    } else {
+      // Show all equipment
+      setDisplayedEquipment(equipmentOptions);
+    }
+  }, [showMyEquipment, equipmentOptions, userEquipment]);
 
   const getCachedData = async key => {
     try {
@@ -157,7 +245,15 @@ const ExerciseFilter = ({
     onFilterChange('equipment', newEquipment);
   };
 
+  const handleEquipmentFilterToggle = showOnlyUserEquipment => {
+    setShowMyEquipment(showOnlyUserEquipment);
+  };
+
   if (!isVisible) return null;
+
+  // Check if user has equipment to determine whether to show the toggle
+  const hasUserEquipment = userEquipment && userEquipment.length > 0;
+  console.log('Has user equipment:', hasUserEquipment);
 
   return (
     <TouchableWithoutFeedback onPress={onClose}>
@@ -247,16 +343,28 @@ const ExerciseFilter = ({
                 </View>
 
                 <View style={styles.filterSection}>
-                  <Text
-                    style={[
-                      styles.sectionTitle,
-                      { color: themedStyles.textColor }
-                    ]}
-                  >
-                    Equipment
-                  </Text>
+                  <View style={styles.sectionHeader}>
+                    <Text
+                      style={[
+                        styles.sectionTitleNoMargin,
+                        { color: themedStyles.textColor }
+                      ]}
+                    >
+                      Equipment
+                    </Text>
+
+                    {/* Only show toggle if user has equipment */}
+                    {hasUserEquipment && (
+                      <EquipmentToggle
+                        isMyEquipment={showMyEquipment}
+                        onToggle={handleEquipmentFilterToggle}
+                        themedStyles={themedStyles}
+                      />
+                    )}
+                  </View>
+
                   <View style={styles.chipContainer}>
-                    {equipmentOptions.map(equipment => (
+                    {displayedEquipment.map(equipment => (
                       <SelectionChip
                         key={equipment.value}
                         label={equipment.label}
@@ -313,13 +421,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontFamily: 'Lexend'
   },
-  filterSection: {
-    marginTop: 15
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10
   },
   sectionTitle: {
     fontFamily: 'Lexend',
     fontSize: 14,
     marginBottom: 10
+  },
+  sectionTitleNoMargin: {
+    fontFamily: 'Lexend',
+    fontSize: 14
   },
   scrollContainer: {
     maxHeight: 550 // Fixed height to show both sections
@@ -342,6 +457,24 @@ const styles = StyleSheet.create({
     minWidth: 100
   },
   chipText: {
+    fontFamily: 'Lexend',
+    fontSize: 12
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    borderRadius: 16,
+    overflow: 'hidden',
+    backgroundColor: '#2A2A2C',
+    height: 32
+  },
+  toggleOption: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: 80
+  },
+  toggleText: {
     fontFamily: 'Lexend',
     fontSize: 12
   }
