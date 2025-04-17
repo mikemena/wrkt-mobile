@@ -114,8 +114,6 @@ const SignUpView = ({ navigation }) => {
     }
   };
   const handleSignUp = async () => {
-    console.log('========== SIGNUP PROCESS STARTED ==========');
-
     // Clear previous errors and set loading
     setGeneralError('');
     setIsSigningUp(true);
@@ -123,16 +121,11 @@ const SignUpView = ({ navigation }) => {
     // Validate fields
     const newEmailError = validateEmail(email);
     const newPasswordError = validatePassword(password);
-    console.log('Validation Results:', {
-      emailError: newEmailError || 'none',
-      passwordError: newPasswordError || 'none'
-    });
 
     setEmailError(newEmailError);
     setPasswordError(newPasswordError);
 
     if (newEmailError || newPasswordError) {
-      console.log('❌ Validation failed, aborting signup');
       setIsSigningUp(false);
       return;
     }
@@ -159,7 +152,7 @@ const SignUpView = ({ navigation }) => {
           accent_color: '#D93B56'
         });
       } catch (settingsError) {
-        console.warn('⚠️ Failed to create default settings:', settingsError);
+        console.warn('Failed to create default settings:', settingsError);
         // Continue with sign-in even if settings creation fails
       }
 
@@ -171,12 +164,6 @@ const SignUpView = ({ navigation }) => {
       setIsSigningUp(false);
     }
   };
-
-  const handleAppleSignUp = handleAppleAuth({
-    api,
-    signIn,
-    setGeneralError
-  });
 
   return (
     <SafeAreaView
@@ -190,47 +177,6 @@ const SignUpView = ({ navigation }) => {
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign up
         </Text>
-
-        <TouchableOpacity
-          style={[
-            styles.socialButton,
-            { backgroundColor: themedStyles.secondaryBackgroundColor }
-          ]}
-          onPress={handleAppleSignUp}
-        >
-          <Ionicons
-            name='logo-apple'
-            size={20}
-            color={themedStyles.accentColor}
-          />
-          <Text
-            style={[
-              styles.socialButtonText,
-              { color: themedStyles.accentColor }
-            ]}
-          >
-            Sign up with Apple
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.dividerContainer}>
-          <View
-            style={[
-              styles.divider,
-              { backgroundColor: themedStyles.textColor }
-            ]}
-          />
-          <Text style={[styles.dividerText, { color: themedStyles.textColor }]}>
-            Or continue with
-          </Text>
-          <View
-            style={[
-              styles.divider,
-              { backgroundColor: themedStyles.textColor }
-            ]}
-          />
-        </View>
-
         <TextInput
           style={[
             styles.input,
@@ -370,6 +316,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginTop: 20,
     padding: 20
   },
   title: {

@@ -35,12 +35,9 @@
 - [x] In App.json, possibly remove the web node since this project is mobile
 - [x] If web node is removed from above, remove the favicon image
 
-# Future Features [Not Included to a Release Yet]
+# Release v1.1.26
 
-- [ ] Finish signup and signin with Apple account
-
-# Release v1.1.21
-
-- [] Coming from the flex workout, the exercise list is not showing exercise images
-- [] Coming from create program, the exercise list is not showing exercise images
-- [] The progress view has 'Error loading progress data'
+- [x] Coming from the flex workout, the exercise list is not showing exercise images
+- [x] Coming from create program, the exercise list is not showing exercise images
+- [x] The progress view has 'Error loading progress data'
+- [x] Added my equipment feature

@@ -117,7 +117,6 @@ export const UserEquipmentProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-
   const updateUserEquipment = async newEquipment => {
     if (!userId) return { success: false, error: 'User not logged in' };
 
@@ -131,18 +130,27 @@ export const UserEquipmentProvider = ({ children }) => {
         JSON.stringify(newEquipment)
       );
 
-      // Send to server
-      await api.put(`/api/users/${userId}/equipment`, {
-        equipment: newEquipment
+      // Send to server using fetch instead of api.put
+      const apiUrl = 'https://wrkt-backend-development.up.railway.app'; // Use your API URL
+      const endpoint = `/api/users/${userId}/equipment`;
+      const url = `${apiUrl}${endpoint}`;
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({ equipment: newEquipment })
       });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
 
       return { success: true };
     } catch (err) {
       console.error('Error updating user equipment:', err);
-
-      // Don't revert state on error to maintain UI responsiveness
-      // The next loadUserEquipment call will sync state if needed
-
       return {
         success: false,
         error: err.message || 'Failed to update equipment'

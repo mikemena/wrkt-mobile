@@ -11,7 +11,6 @@ import { api } from '../src/services/api';
 import { useAuth } from '../src/context/authContext';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import handleAppleAuth from '../src/utils/appleAuth';
 import Header from '../components/Header';
 import ParallelogramButton from '../components/ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -75,12 +74,6 @@ const SignInView = ({ navigation }) => {
     }
   };
 
-  const handleAppleSignIn = handleAppleAuth({
-    api,
-    signIn,
-    setGeneralError
-  });
-
   return (
     <SafeAreaView
       style={[
@@ -93,46 +86,6 @@ const SignInView = ({ navigation }) => {
         <Text style={[styles.title, { color: themedStyles.textColor }]}>
           Sign in to your account
         </Text>
-
-        <TouchableOpacity
-          style={[
-            styles.socialButton,
-            { backgroundColor: themedStyles.secondaryBackgroundColor }
-          ]}
-          onPress={handleAppleSignIn}
-        >
-          <Ionicons
-            name='logo-apple'
-            size={20}
-            color={themedStyles.accentColor}
-          />
-          <Text
-            style={[
-              styles.socialButtonText,
-              { color: themedStyles.accentColor }
-            ]}
-          >
-            Sign in with Apple
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.dividerContainer}>
-          <View
-            style={[
-              styles.divider,
-              { backgroundColor: themedStyles.textColor }
-            ]}
-          />
-          <Text style={[styles.dividerText, { color: themedStyles.textColor }]}>
-            Or continue with
-          </Text>
-          <View
-            style={[
-              styles.divider,
-              { backgroundColor: themedStyles.textColor }
-            ]}
-          />
-        </View>
 
         <TextInput
           style={[
@@ -231,6 +184,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginTop: 20,
     padding: 20
   },
   title: {

@@ -18,6 +18,7 @@ import { api } from '../src/services/api';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
+import { useUserEquipment } from '../src/context/userEquipmentContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
 import { useTheme } from '../src/hooks/useTheme';
@@ -32,7 +33,7 @@ const ExerciseSelection = ({ navigation, route }) => {
   const { addExercise, state: programState } = useContext(ProgramContext);
   const { addExerciseToWorkout, state: workoutState } =
     useContext(WorkoutContext);
-
+  const { userEquipment } = useUserEquipment();
   const programAction = programState.mode;
   const contextType = route.params?.contextType;
   const programId = route.params?.programId;
@@ -41,6 +42,7 @@ const ExerciseSelection = ({ navigation, route }) => {
   const abortController = useRef(null);
   const initialLoadRef = useRef(true);
   const flatListRef = useRef(null);
+  const hasAppliedUserEquipmentRef = useRef(false);
 
   // State
   const [exercises, setExercises] = useState([]);
@@ -140,6 +142,44 @@ const ExerciseSelection = ({ navigation, route }) => {
   );
 
   useEffect(() => {
+    // Only apply user equipment filter once and only if user has equipment
+    if (
+      !hasAppliedUserEquipmentRef.current &&
+      userEquipment &&
+      userEquipment.length > 0
+    ) {
+      console.log(
+        'Applying user equipment filter automatically:',
+        userEquipment
+      );
+
+      // Update filter values with user equipment
+      setFilterValues(prev => ({
+        ...prev,
+        equipment: userEquipment
+      }));
+
+      // Mark that we've applied the user equipment filter
+      hasAppliedUserEquipmentRef.current = true;
+    }
+  }, [userEquipment]);
+
+  // Modify the existing useEffect to trigger when filterValues changes
+  useEffect(() => {
+    if (initialLoadRef.current) {
+      initialLoadRef.current = false;
+      // Don't immediately fetch on first render since userEquipment might not be loaded yet
+      return;
+    }
+
+    // Reset pagination when filters change
+    setCurrentPage(1);
+    setHasMore(true);
+    // Fetch with new filters
+    fetchExercises(1, false);
+  }, [filterValues]);
+
+  useEffect(() => {
     if (Object.values(filterValues).some(value => value !== '')) {
       // Reset pagination when filters change
       setCurrentPage(1);
@@ -150,7 +190,13 @@ const ExerciseSelection = ({ navigation, route }) => {
   }, [filterValues]);
 
   useEffect(() => {
-    // Initial load
+    // If we already have user equipment, don't do initial fetch
+    // The equipment filter effect will trigger a fetch with the equipment filter
+    if (userEquipment && userEquipment.length > 0) {
+      return;
+    }
+
+    // If no user equipment, do the initial fetch as normal
     fetchExercises(1, false);
 
     return () => {

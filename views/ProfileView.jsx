@@ -15,6 +15,7 @@ import ParallelogramButton from '../components/ParallelogramButton';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/hooks/useTheme';
 import { useAuth } from '../src/context/authContext';
+import { useUserEquipment } from '../src/context/userEquipmentContext';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { globalStyles, colors } from '../src/styles/globalStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -43,6 +44,7 @@ const ProfileView = ({ navigation, route }) => {
   const [equipmentOptions, setEquipmentOptions] = useState([]);
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [equipmentChanged, setEquipmentChanged] = useState(false);
+  const { updateUserEquipment } = useUserEquipment();
 
   const themedStyles = getThemedStyles(
     themeState.theme,
@@ -216,6 +218,9 @@ const ProfileView = ({ navigation, route }) => {
             },
             body: JSON.stringify({ equipment: selectedEquipment })
           });
+
+          await updateUserEquipment(selectedEquipment);
+          console.log('Equipment context updated successfully');
 
           console.log('Response status:', response.status);
           console.log('Response headers:', JSON.stringify(response.headers));

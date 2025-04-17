@@ -108,6 +108,7 @@ const ExerciseFilter = ({
   const [equipmentOptions, setEquipmentOptions] = useState([]);
   const [showMyEquipment, setShowMyEquipment] = useState(false);
   const [displayedEquipment, setDisplayedEquipment] = useState([]);
+  const { loadUserEquipment } = useUserEquipment();
 
   useEffect(() => {
     if (showMyEquipment && userEquipment && userEquipment.length > 0) {
@@ -124,9 +125,24 @@ const ExerciseFilter = ({
     }
   }, [showMyEquipment, userEquipment]);
 
-  // Debug log
   useEffect(() => {
-    console.log('User equipment in filter:', userEquipment);
+    // This will run whenever userEquipment changes
+    if (userEquipment && userEquipment.length > 0) {
+      console.log('User equipment changed in context, updating filter');
+
+      // If we're in "My Equipment" mode, update the selections
+      if (showMyEquipment) {
+        // Update the filter with the user's equipment
+        onFilterChange('equipment', userEquipment);
+      }
+
+      // Update the displayed equipment options based on current toggle state
+      if (showMyEquipment) {
+        setDisplayedEquipment(
+          equipmentOptions.filter(item => userEquipment.includes(item.value))
+        );
+      }
+    }
   }, [userEquipment]);
 
   useEffect(() => {
@@ -150,6 +166,21 @@ const ExerciseFilter = ({
       setDisplayedEquipment(equipmentOptions);
     }
   }, [showMyEquipment, equipmentOptions, userEquipment]);
+
+  useEffect(() => {
+    if (isVisible) {
+      refreshUserEquipment();
+    }
+  }, [isVisible]);
+
+  const refreshUserEquipment = async () => {
+    try {
+      await loadUserEquipment();
+      console.log('User equipment refreshed in filter');
+    } catch (error) {
+      console.error('Error refreshing user equipment:', error);
+    }
+  };
 
   const getCachedData = async key => {
     try {
