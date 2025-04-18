@@ -105,12 +105,17 @@ const ExerciseSelection = ({ navigation, route }) => {
 
       // Reset data when applying new filters
       if (!shouldAppend) {
-        setExercises(transformedData.exercises);
-        setFilteredExercises(transformedData.exercises);
-        flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+        // Safe reset
+        setExercises(transformedData.exercises || []);
+        setFilteredExercises(transformedData.exercises || []);
+        if (flatListRef.current) {
+          flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+        }
       } else {
-        setExercises(prev => [...prev, ...transformedData.exercises]);
-        setFilteredExercises(prev => [...prev, ...transformedData.exercises]);
+        // Safe append with null checks
+        const newExercises = transformedData.exercises || [];
+        setExercises(prev => [...(prev || []), ...newExercises]);
+        setFilteredExercises(prev => [...(prev || []), ...newExercises]);
       }
 
       setHasMore(transformedData.pagination.hasMore);
@@ -164,27 +169,24 @@ const ExerciseSelection = ({ navigation, route }) => {
     }
   }, [userEquipment]);
 
-  // Modify the existing useEffect to trigger when filterValues changes
+  // Replace all three filterValues useEffects with this
   useEffect(() => {
+    // Skip first render
     if (initialLoadRef.current) {
       initialLoadRef.current = false;
-      // Don't immediately fetch on first render since userEquipment might not be loaded yet
       return;
     }
 
-    // Reset pagination when filters change
-    setCurrentPage(1);
-    setHasMore(true);
-    // Fetch with new filters
-    fetchExercises(1, false);
-  }, [filterValues]);
-
-  useEffect(() => {
-    if (Object.values(filterValues).some(value => value !== '')) {
-      // Reset pagination when filters change
+    // Only fetch if there are filter values
+    if (
+      Object.values(filterValues).some(value => {
+        return Array.isArray(value) ? value.length > 0 : value !== '';
+      })
+    ) {
+      // Reset pagination safely
       setCurrentPage(1);
       setHasMore(true);
-      // Fetch with new filters
+      // Fetch with new filters - one single fetch
       fetchExercises(1, false);
     }
   }, [filterValues]);
@@ -206,16 +208,6 @@ const ExerciseSelection = ({ navigation, route }) => {
       debouncedFilterChange.cancel();
     };
   }, []);
-
-  useEffect(() => {
-    if (
-      !initialLoadRef.current &&
-      Object.values(filterValues).some(value => value !== '')
-    ) {
-      setCurrentPage(1);
-      fetchExercises(1, false);
-    }
-  }, [filterValues]);
 
   useEffect(() => {
     if (contextType === 'workout') {
@@ -255,12 +247,8 @@ const ExerciseSelection = ({ navigation, route }) => {
   const handleLoadMore = useCallback(() => {
     if (!isLoadingMore && hasMore && !isLoading) {
       fetchExercises(currentPage + 1, true);
-      console.log(
-        '[ExerciseSelection] Fetching exercises with params:',
-        params.toString()
-      );
     }
-  }, [currentPage, hasMore, isLoadingMore, isLoading]);
+  }, [currentPage, hasMore, isLoadingMore, isLoading, fetchExercises]);
 
   const toggleExerciseSelection = async exercise => {
     const isSelected = selectedExercises.some(
@@ -388,6 +376,7 @@ const ExerciseSelection = ({ navigation, route }) => {
   }, []);
 
   const renderExerciseItem = ({ item }) => {
+    if (!item) return null;
     return (
       <TouchableOpacity
         style={[
@@ -508,7 +497,10 @@ const ExerciseSelection = ({ navigation, route }) => {
         ref={flatListRef}
         data={filteredExercises}
         renderItem={renderExerciseItem}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item =>
+          item.id ? item.id.toString() : `item-${Math.random()}`
+        }
+        // keyExtractor={item => item.id.toString()}
         style={styles.exerciseList}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.25}
