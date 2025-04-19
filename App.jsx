@@ -10,6 +10,7 @@ import Navigation from './components/Navigation';
 import { ThemeProvider } from './src/context/themeContext';
 import { ProgramProvider } from './src/context/programContext';
 import { WorkoutProvider } from './src/context/workoutContext';
+import { StaticDataProvider } from './src/context/staticDataContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
 import { UserEquipmentProvider } from './src/context/userEquipmentContext';
@@ -338,19 +339,21 @@ const App = () => {
   return (
     <AuthProvider>
       <UserProvider>
-        <UserEquipmentProvider>
-          <ProgramProvider>
-            <WorkoutProvider>
-              <ThemeProvider>
-                <View style={styles.container}>
-                  <NavigationContainer linking={linking}>
-                    <RootNavigator />
-                  </NavigationContainer>
-                </View>
-              </ThemeProvider>
-            </WorkoutProvider>
-          </ProgramProvider>
-        </UserEquipmentProvider>
+        <StaticDataProvider>
+          <UserEquipmentProvider>
+            <ProgramProvider>
+              <WorkoutProvider>
+                <ThemeProvider>
+                  <View style={styles.container}>
+                    <NavigationContainer linking={linking}>
+                      <RootNavigator />
+                    </NavigationContainer>
+                  </View>
+                </ThemeProvider>
+              </WorkoutProvider>
+            </ProgramProvider>
+          </UserEquipmentProvider>
+        </StaticDataProvider>
       </UserProvider>
     </AuthProvider>
   );

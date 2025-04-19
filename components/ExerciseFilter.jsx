@@ -9,20 +9,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { api } from '../src/services/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import ParallelogramButton from './ParallelogramButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import { colors } from '../src/styles/globalStyles';
 import { useUserEquipment } from '../src/context/userEquipmentContext';
-
-const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-const CACHE_KEYS = {
-  MUSCLES: 'muscles_cache',
-  EQUIPMENT: 'equipment_cache'
-};
+import { useStaticData } from '../src/context/staticDataContext';
 
 // Equipment filter toggle component
 const EquipmentToggle = ({ isMyEquipment, onToggle, themedStyles }) => {
@@ -101,6 +94,10 @@ const ExerciseFilter = ({
   const { state } = useTheme();
   const themedStyles = getThemedStyles(state.theme, state.accentColor);
 
+  // Get static data from context
+  const { isLoaded, getFormattedMuscles, getFormattedEquipment } =
+    useStaticData();
+
   // Get user equipment from context
   const { userEquipment } = useUserEquipment();
 
@@ -109,6 +106,14 @@ const ExerciseFilter = ({
   const [showMyEquipment, setShowMyEquipment] = useState(false);
   const [displayedEquipment, setDisplayedEquipment] = useState([]);
   const { loadUserEquipment } = useUserEquipment();
+
+  // Load data from static context when component mounts
+  useEffect(() => {
+    if (isLoaded) {
+      setMuscleOptions(getFormattedMuscles());
+      setEquipmentOptions(getFormattedEquipment());
+    }
+  }, [isLoaded]);
 
   useEffect(() => {
     if (showMyEquipment && userEquipment && userEquipment.length > 0) {
@@ -145,10 +150,8 @@ const ExerciseFilter = ({
     }
   }, [userEquipment]);
 
+  // Default to "My Equipment" if user has equipment
   useEffect(() => {
-    loadCatalogData();
-
-    // Default to "My Equipment" if user has equipment
     if (userEquipment && userEquipment.length > 0) {
       setShowMyEquipment(true);
     }
@@ -182,84 +185,6 @@ const ExerciseFilter = ({
     }
   };
 
-  const getCachedData = async key => {
-    try {
-      const cached = await AsyncStorage.getItem(key);
-      if (cached) {
-        const { data, timestamp } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_EXPIRY) {
-          return data;
-        }
-      }
-      return null;
-    } catch (error) {
-      console.error('Error reading cache:', error);
-      return null;
-    }
-  };
-
-  const setCachedData = async (key, data) => {
-    try {
-      const cacheData = {
-        data,
-        timestamp: Date.now()
-      };
-      await AsyncStorage.setItem(key, JSON.stringify(cacheData));
-    } catch (error) {
-      console.error('Error setting cache:', error);
-    }
-  };
-
-  const fetchMuscles = async () => {
-    try {
-      const data = await api.get('/api/muscles');
-      return data.map(muscle => ({
-        label: `${muscle.muscle} (${muscle.muscle_group})`,
-        value: muscle.muscle
-      }));
-    } catch (error) {
-      console.error('Error fetching muscles:', error);
-      return [];
-    }
-  };
-
-  const fetchEquipment = async () => {
-    try {
-      const data = await api.get('/api/equipments');
-      return data.map(equipment => ({
-        label: equipment.name,
-        value: equipment.name
-      }));
-    } catch (error) {
-      console.error('Equipment fetch error:', error);
-      return [];
-    }
-  };
-
-  const loadCatalogData = async () => {
-    try {
-      let muscles = await getCachedData(CACHE_KEYS.MUSCLES);
-      if (!muscles || !Array.isArray(muscles) || muscles.length === 0) {
-        muscles = await fetchMuscles();
-        if (muscles.length > 0) {
-          await setCachedData(CACHE_KEYS.MUSCLES, muscles);
-        }
-      }
-      setMuscleOptions(muscles || []);
-
-      let equipment = await getCachedData(CACHE_KEYS.EQUIPMENT);
-      if (!equipment || !Array.isArray(equipment) || equipment.length === 0) {
-        equipment = await fetchEquipment();
-        if (equipment.length > 0) {
-          await setCachedData(CACHE_KEYS.EQUIPMENT, equipment);
-        }
-      }
-      setEquipmentOptions(equipment || []);
-    } catch (error) {
-      console.error('Error in loadCatalogData:', error);
-    }
-  };
-
   const handleMuscleToggle = muscleValue => {
     const currentMuscles = filterValues.muscles || [];
     const newMuscles = currentMuscles.includes(muscleValue)
@@ -284,7 +209,6 @@ const ExerciseFilter = ({
 
   // Check if user has equipment to determine whether to show the toggle
   const hasUserEquipment = userEquipment && userEquipment.length > 0;
-  console.log('Has user equipment:', hasUserEquipment);
 
   return (
     <TouchableWithoutFeedback onPress={onClose}>
