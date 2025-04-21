@@ -3,9 +3,10 @@ import { initializeApi, api } from './src/services/api';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, StyleSheet, ActivityIndicator, Text, Alert } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
+import * as Crypto from 'expo-crypto';
 import Navigation from './components/Navigation';
 import { ThemeProvider } from './src/context/themeContext';
 import { ProgramProvider } from './src/context/programContext';
@@ -134,6 +135,17 @@ const linking = {
     }
   }
 };
+
+// Polyfill for crypto.getRandomValues
+if (typeof global.crypto !== 'object') {
+  global.crypto = {};
+}
+
+if (typeof global.crypto.getRandomValues !== 'function') {
+  global.crypto.getRandomValues = function (array) {
+    return Crypto.getRandomValues(array);
+  };
+}
 
 const AuthNavigator = () => (
   <AuthStack.Navigator

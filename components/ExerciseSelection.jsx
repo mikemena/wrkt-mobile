@@ -1,4 +1,3 @@
-// components/ExerciseSelection.jsx (Debugged version)
 import React, {
   useState,
   useEffect,
@@ -15,36 +14,32 @@ import {
   Modal,
   StyleSheet
 } from 'react-native';
+import { api } from '../src/services/api';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
 import { useUserEquipment } from '../src/context/userEquipmentContext';
-import { useStaticData } from '../src/context/staticDataContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import { transformResponseData } from '../src/utils/apiTransformers';
 import { globalStyles, colors } from '../src/styles/globalStyles';
 import SecondaryButton from './SecondaryButton';
 import ExerciseFilter from './ExerciseFilter';
-import ExerciseImage from './ExerciseImage';
+// import ExerciseImage from './ExerciseImage';
 
 const ExerciseSelection = ({ navigation, route }) => {
   const { addExercise, state: programState } = useContext(ProgramContext);
   const { addExerciseToWorkout, state: workoutState } =
     useContext(WorkoutContext);
   const { userEquipment } = useUserEquipment();
-  const { isLoaded, filterExercises, getFormattedExercises } = useStaticData();
-
-  // Add logging to debug
-  console.log('ExerciseSelection rendered, isLoaded:', isLoaded);
-  console.log('UserEquipment:', userEquipment);
-
   const programAction = programState.mode;
   const contextType = route.params?.contextType;
   const programId = route.params?.programId;
 
   // Refs
+  const abortController = useRef(null);
   const initialLoadRef = useRef(true);
   const flatListRef = useRef(null);
   const hasAppliedUserEquipmentRef = useRef(false);
@@ -59,7 +54,10 @@ const ExerciseSelection = ({ navigation, route }) => {
     muscles: [],
     equipment: []
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const { state: themeState } = useTheme();
   const themedStyles = getThemedStyles(
@@ -67,21 +65,89 @@ const ExerciseSelection = ({ navigation, route }) => {
     themeState.accentColor
   );
 
+  // Fetch exercises function
+  const fetchExercises = async (page = 1, shouldAppend = false) => {
+    if (!hasMore && page > 1) return;
+
+    try {
+      setIsLoading(page === 1);
+      setIsLoadingMore(page > 1);
+
+      // Build query parameters
+      const params = new URLSearchParams();
+      params.append('page', page.toString());
+      params.append('limit', '20');
+
+      if (filterValues.exerciseName?.trim()) {
+        params.append('name', filterValues.exerciseName.trim());
+      }
+
+      // Add multiple muscles
+      if (filterValues.muscles?.length > 0) {
+        filterValues.muscles.forEach(muscle => {
+          params.append('muscles[]', muscle);
+        });
+      }
+
+      // Add multiple equipment
+      if (filterValues.equipment?.length > 0) {
+        filterValues.equipment.forEach(equip => {
+          params.append('equipment[]', equip);
+        });
+      }
+
+      const response = await api.get(
+        `/api/exercise-catalog?${params.toString()}`
+      );
+
+      // Transform the data right after receiving it from the API
+      const transformedData = transformResponseData(response);
+
+      // Reset data when applying new filters
+      if (!shouldAppend) {
+        // Safe reset
+        setExercises(transformedData.exercises || []);
+        setFilteredExercises(transformedData.exercises || []);
+        if (flatListRef.current) {
+          flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+        }
+      } else {
+        // Safe append with null checks
+        const newExercises = transformedData.exercises || [];
+        setExercises(prev => [...(prev || []), ...newExercises]);
+        setFilteredExercises(prev => [...(prev || []), ...newExercises]);
+      }
+
+      setHasMore(transformedData.pagination.hasMore);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error('Fetch error:', error);
+      setHasMore(false);
+      if (!shouldAppend) {
+        setExercises([]);
+        setFilteredExercises([]);
+      }
+    } finally {
+      setIsLoading(false);
+      setIsLoadingMore(false);
+    }
+  };
+
   // Create debounced filter function
   const debouncedFilterChange = useMemo(
     () =>
       debounce((key, value) => {
-        console.log(`Debounced filter change: ${key} = ${value}`);
         setFilterValues(prev => {
           const newValues = { ...prev, [key]: value };
+
           return newValues;
         });
       }, 300),
     []
   );
 
-  // Apply user equipment filter once when component mounts
   useEffect(() => {
+    // Only apply user equipment filter once and only if user has equipment
     if (
       !hasAppliedUserEquipmentRef.current &&
       userEquipment &&
@@ -93,85 +159,60 @@ const ExerciseSelection = ({ navigation, route }) => {
       );
 
       // Update filter values with user equipment
-      setFilterValues(prev => {
-        const updated = {
-          ...prev,
-          equipment: userEquipment
-        };
-        console.log('Updated filter values with equipment:', updated);
-        return updated;
-      });
+      setFilterValues(prev => ({
+        ...prev,
+        equipment: userEquipment
+      }));
 
       // Mark that we've applied the user equipment filter
       hasAppliedUserEquipmentRef.current = true;
     }
   }, [userEquipment]);
 
-  // Apply filters when they change
+  // Replace all three filterValues useEffects with this
   useEffect(() => {
     // Skip first render
     if (initialLoadRef.current) {
-      console.log('Skipping first render for filter');
       initialLoadRef.current = false;
       return;
     }
 
-    if (isLoaded) {
-      console.log('Applying filter changes, isLoaded:', isLoaded);
-      setIsLoading(true);
-
-      // Get filtered exercises from static data context
-      console.log('Filtering with:', filterValues);
-      const filtered = filterExercises(filterValues);
-      console.log('Got filtered exercises:', filtered?.length);
-
-      setExercises(filtered);
-      setFilteredExercises(filtered);
-
-      // Scroll back to the top when filter changes
-      if (flatListRef.current) {
-        flatListRef.current.scrollToOffset({ offset: 0, animated: true });
-      }
-
-      setIsLoading(false);
-    } else {
-      console.log('Not applying filters because data is not loaded yet');
+    // Only fetch if there are filter values
+    if (
+      Object.values(filterValues).some(value => {
+        return Array.isArray(value) ? value.length > 0 : value !== '';
+      })
+    ) {
+      // Reset pagination safely
+      setCurrentPage(1);
+      setHasMore(true);
+      // Fetch with new filters - one single fetch
+      fetchExercises(1, false);
     }
-  }, [filterValues, isLoaded]);
+  }, [filterValues]);
 
-  // Initial data load
   useEffect(() => {
-    console.log('Initial data load effect triggered, isLoaded:', isLoaded);
-
-    if (isLoaded) {
-      console.log('Data is loaded, initializing exercises');
-
-      // Check if we should wait for equipment filter
-      if (userEquipment && userEquipment.length > 0) {
-        console.log(
-          'User has equipment, will wait for equipment filter to trigger'
-        );
-        return;
-      }
-
-      console.log('No user equipment, fetching all exercises');
-      // If no user equipment, do the initial fetch as normal
-      const initialExercises = filterExercises({});
-      console.log('Initial exercise count:', initialExercises?.length);
-
-      setExercises(initialExercises || []);
-      setFilteredExercises(initialExercises || []);
-      setIsLoading(false);
-    } else {
-      console.log('Static data not loaded yet, waiting...');
+    // If we already have user equipment, don't do initial fetch
+    // The equipment filter effect will trigger a fetch with the equipment filter
+    if (userEquipment && userEquipment.length > 0) {
+      return;
     }
-  }, [isLoaded]);
 
-  // Set selected exercises based on context
+    // If no user equipment, do the initial fetch as normal
+    fetchExercises(1, false);
+
+    return () => {
+      if (abortController.current) {
+        abortController.current.abort();
+      }
+      debouncedFilterChange.cancel();
+    };
+  }, []);
+
   useEffect(() => {
     if (contextType === 'workout') {
       // For workout context, use the exercises from workoutState
-      setSelectedExercises(workoutState.activeWorkout?.exercises || []);
+      setSelectedExercises(workoutState.activeWorkout.exercises || []);
     } else if (contextType === 'program') {
       // For program context, use the exercises from active workout
       const activeWorkout = programState.workout.workouts.find(
@@ -181,59 +222,35 @@ const ExerciseSelection = ({ navigation, route }) => {
         setSelectedExercises(activeWorkout.exercises || []);
       }
     }
-  }, [contextType, workoutState.activeWorkout, programState.workout]);
-
-  // Force reload exercise data - backup if other methods fail
-  useEffect(() => {
-    // This is a fallback for if the exercises aren't loading properly
-    const timer = setTimeout(() => {
-      if (isLoaded && filteredExercises.length === 0 && !isLoading) {
-        console.log(
-          'No exercises loaded after timeout, trying direct approach'
-        );
-        const allExercises = getFormattedExercises();
-        console.log('Direct exercises count:', allExercises?.length);
-
-        if (allExercises?.length > 0) {
-          setExercises(allExercises);
-          setFilteredExercises(allExercises);
-        }
-      }
-    }, 1000); // Check after 1 second
-
-    return () => clearTimeout(timer);
-  }, [isLoaded, filteredExercises.length, isLoading]);
+  }, [contextType, workoutState.exercises, programState.workout]);
 
   // Handlers
   const handleFilterChange = (key, value) => {
-    console.log(`Filter change: ${key} = ${value}`);
     debouncedFilterChange.cancel();
     debouncedFilterChange(key, value);
   };
 
   const clearFilters = () => {
-    console.log('Clearing all filters');
     debouncedFilterChange.cancel();
+    if (abortController.current) {
+      abortController.current.abort();
+    }
     setFilterValues({
       exerciseName: '',
-      muscles: [],
+      muscle: [],
       equipment: []
     });
-
-    // Immediately apply empty filters
-    if (isLoaded) {
-      console.log('Applying empty filters');
-      const initialExercises = filterExercises({});
-      console.log(
-        'Got exercises after clearing filters:',
-        initialExercises?.length
-      );
-      setExercises(initialExercises || []);
-      setFilteredExercises(initialExercises || []);
-    }
+    setCurrentPage(1);
+    fetchExercises(1, false);
   };
 
-  const toggleExerciseSelection = exercise => {
+  const handleLoadMore = useCallback(() => {
+    if (!isLoadingMore && hasMore && !isLoading) {
+      fetchExercises(currentPage + 1, true);
+    }
+  }, [currentPage, hasMore, isLoadingMore, isLoading, fetchExercises]);
+
+  const toggleExerciseSelection = async exercise => {
     const isSelected = selectedExercises.some(
       e => e.catalogExerciseId === exercise.id
     );
@@ -261,7 +278,7 @@ const ExerciseSelection = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     try {
       if (!selectedExercises?.length) {
         console.warn('No exercises selected for addition');
@@ -334,7 +351,7 @@ const ExerciseSelection = ({ navigation, route }) => {
           );
           return;
         }
-        addExercise(activeWorkoutId, standardizedExercises);
+        await addExercise(activeWorkoutId, standardizedExercises);
         setSelectedExercises([]); // Reset selected exercises
 
         if (programAction === 'create') {
@@ -351,17 +368,15 @@ const ExerciseSelection = ({ navigation, route }) => {
     }
   };
 
-  // Reset selected exercises when unmounting
+  // Also add a cleanup effect to reset selected exercises when unmounting
   useEffect(() => {
     return () => {
       setSelectedExercises([]);
-      debouncedFilterChange.cancel();
     };
   }, []);
 
   const renderExerciseItem = ({ item }) => {
     if (!item) return null;
-
     return (
       <TouchableOpacity
         style={[
@@ -374,7 +389,7 @@ const ExerciseSelection = ({ navigation, route }) => {
         onPress={() => toggleExerciseSelection(item)}
       >
         <View style={styles.imageContainer}>
-          <ExerciseImage
+          {/* <ExerciseImage
             exercise={{
               id: item.id,
               catalog_exercise_id: item.id,
@@ -384,7 +399,7 @@ const ExerciseSelection = ({ navigation, route }) => {
             style={styles.exerciseImage}
             resizeMode='cover'
             showOverlay={true}
-          />
+          /> */}
         </View>
 
         <View style={styles.exerciseDetails}>
@@ -396,18 +411,12 @@ const ExerciseSelection = ({ navigation, route }) => {
           <Text
             style={[styles.exerciseInfo, { color: themedStyles.textColor }]}
           >
-            {`${item.muscle || 'Unknown'} - ${item.equipment || 'Any Equipment'}`}
+            {`${item.muscle} - ${item.equipment}`}
           </Text>
         </View>
       </TouchableOpacity>
     );
   };
-
-  console.log('Rendering with:', {
-    exercisesLength: filteredExercises?.length || 0,
-    isLoading,
-    isLoaded
-  });
 
   return (
     <View
@@ -481,7 +490,7 @@ const ExerciseSelection = ({ navigation, route }) => {
           filterValues={filterValues}
           onFilterChange={handleFilterChange}
           onClearFilters={clearFilters}
-          totalMatches={filteredExercises?.length || 0}
+          totalMatches={filteredExercises.length}
         />
       </Modal>
       <FlatList
@@ -491,20 +500,20 @@ const ExerciseSelection = ({ navigation, route }) => {
         keyExtractor={item =>
           item.id ? item.id.toString() : `item-${Math.random()}`
         }
+        // keyExtractor={item => item.id.toString()}
         style={styles.exerciseList}
-        initialNumToRender={10}
-        maxToRenderPerBatch={5}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.25}
+        initialNumToRender={5}
+        maxToRenderPerBatch={3}
         updateCellsBatchingPeriod={100}
-        windowSize={5}
+        windowSize={3}
         removeClippedSubviews={true}
+        key={JSON.stringify(filterValues)}
         ListEmptyComponent={() => (
           <View style={styles.emptyList}>
             <Text style={[styles.emptyText, { color: themedStyles.textColor }]}>
-              {!isLoaded
-                ? 'Loading exercise data...'
-                : isLoading
-                  ? 'Loading exercises...'
-                  : 'No exercises found. Try removing filters.'}
+              {isLoading ? 'Loading exercises...' : 'No exercises found'}
             </Text>
           </View>
         )}
@@ -538,11 +547,13 @@ const styles = StyleSheet.create({
     width: 85,
     height: 85,
     marginRight: 10,
+    // borderRadius: 5,
     overflow: 'hidden'
   },
   exerciseImage: {
     width: '100%',
     height: '100%'
+    //borderRadius: 5
   },
   exerciseDetails: {
     flex: 1,
@@ -556,18 +567,6 @@ const styles = StyleSheet.create({
   exerciseInfo: {
     fontFamily: 'Lexend',
     fontSize: 14
-  },
-  emptyList: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
-  },
-  emptyText: {
-    fontFamily: 'Lexend',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 20
   }
 });
 

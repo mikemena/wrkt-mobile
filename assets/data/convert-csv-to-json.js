@@ -15,6 +15,4 @@ function convertCsvToJson(csvFilePath, jsonFilePath) {
 }
 
 // Convert each CSV file to JSON
-convertCsvToJson('equipment_catalog.csv', 'equipments.json');
-convertCsvToJson('muscles.csv', 'muscles.json');
-convertCsvToJson('exercises.csv', 'exercises.json');
+convertCsvToJson('image_metadata.csv', 'image_metadata.json');

@@ -1,0 +1,4814 @@
+[
+  {
+    "name": "Ab Wheel",
+    "muscle_group_id": "44",
+    "equipment_id": "23",
+    "image_id": "133",
+    "image_name": "ab-wheel.gif"
+  },
+  {
+    "id": "607",
+    "name": "Air Bike Crunch",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "135"
+  },
+  {
+    "id": "608",
+    "name": "Air Twisting Crunch_Waist",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "136"
+  },
+  {
+    "id": "609",
+    "name": "Alternate Heel Touchers",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "137"
+  },
+  {
+    "id": "610",
+    "name": "Alternating Hammer Curls",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "138"
+  },
+  {
+    "id": "611",
+    "name": "Anderson Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "139"
+  },
+  {
+    "id": "612",
+    "name": "Archer Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "140"
+  },
+  {
+    "id": "613",
+    "name": "Bicep Curl (Arm Blaster)",
+    "muscle_group_id": "46",
+    "equipment_id": "27",
+    "image_id": "141"
+  },
+  {
+    "id": "614",
+    "name": "Arnold Presses",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "142"
+  },
+  {
+    "id": "615",
+    "name": "Single-Leg Staggered Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "143"
+  },
+  {
+    "id": "616",
+    "name": "Back Extension",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "144"
+  },
+  {
+    "id": "617",
+    "name": "Exercise Ball Sit-Up",
+    "muscle_group_id": "44",
+    "equipment_id": "29",
+    "image_id": "145"
+  },
+  {
+    "id": "618",
+    "name": "Standing Band Twist (Down to Up)",
+    "muscle_group_id": "45",
+    "equipment_id": "30",
+    "image_id": "146"
+  },
+  {
+    "id": "619",
+    "name": "Resistance Band Tricep Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "30",
+    "image_id": "147"
+  },
+  {
+    "id": "620",
+    "name": "Resistance Band Bicep Curls",
+    "muscle_group_id": "46",
+    "equipment_id": "30",
+    "image_id": "148"
+  },
+  {
+    "id": "621",
+    "name": "Resistance Band Back Row",
+    "muscle_group_id": "53",
+    "equipment_id": "30",
+    "image_id": "149"
+  },
+  {
+    "id": "622",
+    "name": "Resistance Band Good Morning",
+    "muscle_group_id": "51",
+    "equipment_id": "30",
+    "image_id": "150"
+  },
+  {
+    "id": "623",
+    "name": "Resistance Band Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "30",
+    "image_id": "151"
+  },
+  {
+    "id": "624",
+    "name": "Resistance Band Standing Pull Apart",
+    "muscle_group_id": "53",
+    "equipment_id": "30",
+    "image_id": "152"
+  },
+  {
+    "id": "625",
+    "name": "Resistance Band Standing  Row",
+    "muscle_group_id": "53",
+    "equipment_id": "30",
+    "image_id": "153"
+  },
+  {
+    "id": "626",
+    "name": "Close Grip Standing Resistance Band Row",
+    "muscle_group_id": "53",
+    "equipment_id": "30",
+    "image_id": "154"
+  },
+  {
+    "id": "627",
+    "name": "Resistance Band Chest Fly",
+    "muscle_group_id": "48",
+    "equipment_id": "30",
+    "image_id": "155"
+  },
+  {
+    "id": "628",
+    "name": "Resistance Band Chest Press",
+    "muscle_group_id": "48",
+    "equipment_id": "30",
+    "image_id": "156"
+  },
+  {
+    "id": "629",
+    "name": "Resistance Band Push Ups",
+    "muscle_group_id": "48",
+    "equipment_id": "30",
+    "image_id": "157"
+  },
+  {
+    "id": "630",
+    "name": "Resistance Band Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "30",
+    "image_id": "158"
+  },
+  {
+    "id": "631",
+    "name": "Resistance Band Donkey Kickback",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "159"
+  },
+  {
+    "id": "632",
+    "name": "Standing Resistance Band Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "160"
+  },
+  {
+    "id": "633",
+    "name": "Resistance Band Leg Press",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "161"
+  },
+  {
+    "id": "634",
+    "name": "Resistance Band Pull Through",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "162"
+  },
+  {
+    "id": "635",
+    "name": "Reverse Resistance Band-Assisted Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "163"
+  },
+  {
+    "id": "636",
+    "name": "Resistance Band Side Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "164"
+  },
+  {
+    "id": "637",
+    "name": "Resistance Band Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "165"
+  },
+  {
+    "id": "638",
+    "name": "Resistance Band Standing Hip Extension",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "166"
+  },
+  {
+    "id": "639",
+    "name": "Resistance Banded Lateral Side Steps",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "167"
+  },
+  {
+    "id": "640",
+    "name": "Barbell Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "168"
+  },
+  {
+    "id": "641",
+    "name": "Back Squats with Resistance Band",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "169"
+  },
+  {
+    "id": "642",
+    "name": "Resistance Banded Face Pull",
+    "muscle_group_id": "56",
+    "equipment_id": "30",
+    "image_id": "170"
+  },
+  {
+    "id": "643",
+    "name": "Single-Leg Barbell Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "171"
+  },
+  {
+    "id": "644",
+    "name": "Wide Grip Resistance Band Row",
+    "muscle_group_id": "53",
+    "equipment_id": "30",
+    "image_id": "172"
+  },
+  {
+    "id": "645",
+    "name": "Barbell Bench Press with Resistance Bands",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "173"
+  },
+  {
+    "id": "646",
+    "name": "Barbell Front Squat on a Bench",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "174"
+  },
+  {
+    "id": "647",
+    "name": "Barbell Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "175"
+  },
+  {
+    "id": "648",
+    "name": "Barbell Bent Over Row",
+    "muscle_group_id": "53",
+    "equipment_id": "26",
+    "image_id": "176"
+  },
+  {
+    "id": "649",
+    "name": "Barbell Cheat Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "177"
+  },
+  {
+    "id": "650",
+    "name": "Barbell Clean And Press",
+    "muscle_group_id": "49",
+    "equipment_id": "26",
+    "image_id": "178"
+  },
+  {
+    "id": "651",
+    "name": "Barbell Concentration Bicep Curls",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "179"
+  },
+  {
+    "id": "652",
+    "name": "Barbell Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "180"
+  },
+  {
+    "id": "653",
+    "name": "Barbell Deadlift with Mixed Grip",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "181"
+  },
+  {
+    "id": "654",
+    "name": "Barbell Deadlift",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "182"
+  },
+  {
+    "id": "655",
+    "name": "Barbell Decline Bench Press",
+    "muscle_group_id": "57",
+    "equipment_id": "26",
+    "image_id": "183"
+  },
+  {
+    "id": "656",
+    "name": "Barbell Floor Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "184"
+  },
+  {
+    "id": "657",
+    "name": "Barbell Full Depth Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "185"
+  },
+  {
+    "id": "658",
+    "name": "Barbell Good Morning",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "186"
+  },
+  {
+    "id": "659",
+    "name": "Barbell Hack Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "187"
+  },
+  {
+    "id": "660",
+    "name": "Barbell Hang Clean",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "188"
+  },
+  {
+    "id": "661",
+    "name": "Bodyweight Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "189"
+  },
+  {
+    "id": "662",
+    "name": "Barbell Incline Bench Press",
+    "muscle_group_id": "58",
+    "equipment_id": "26",
+    "image_id": "190"
+  },
+  {
+    "id": "663",
+    "name": "Barbell JM Press",
+    "muscle_group_id": "52",
+    "equipment_id": "26",
+    "image_id": "191"
+  },
+  {
+    "id": "665",
+    "name": "Barbell Lying Triceps Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "26",
+    "image_id": "193"
+  },
+  {
+    "id": "666",
+    "name": "Barbell Narrow Stance Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "194"
+  },
+  {
+    "id": "667",
+    "name": "Cable Donkey Kickback",
+    "muscle_group_id": "50",
+    "equipment_id": "28",
+    "image_id": "195"
+  },
+  {
+    "id": "668",
+    "name": "Barbell Overhead Press",
+    "muscle_group_id": "49",
+    "equipment_id": "26",
+    "image_id": "196"
+  },
+  {
+    "id": "669",
+    "name": "Barbell Overhead Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "197"
+  },
+  {
+    "id": "670",
+    "name": "Barbell Pause Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "198"
+  },
+  {
+    "id": "671",
+    "name": "Barbell Preacher Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "199"
+  },
+  {
+    "id": "672",
+    "name": "Barbell Pullover",
+    "muscle_group_id": "58",
+    "equipment_id": "26",
+    "image_id": "200"
+  },
+  {
+    "id": "673",
+    "name": "Barbell Push Jerk",
+    "muscle_group_id": "49",
+    "equipment_id": "26",
+    "image_id": "201"
+  },
+  {
+    "id": "674",
+    "name": "Barbell Rack Pull",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "202"
+  },
+  {
+    "id": "675",
+    "name": "Barbell Reverse Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "26",
+    "image_id": "203"
+  },
+  {
+    "id": "676",
+    "name": "Barbell Reverse Grip Incline Bench Row",
+    "muscle_group_id": "54",
+    "equipment_id": "26",
+    "image_id": "204"
+  },
+  {
+    "id": "677",
+    "name": "Barbell Reverse Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "26",
+    "image_id": "205"
+  },
+  {
+    "id": "678",
+    "name": "Barbell Rollout",
+    "muscle_group_id": "44",
+    "equipment_id": "26",
+    "image_id": "206"
+  },
+  {
+    "id": "679",
+    "name": "Barbell Romanian Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "26",
+    "image_id": "207"
+  },
+  {
+    "id": "680",
+    "name": "Barbell Seal Row",
+    "muscle_group_id": "53",
+    "equipment_id": "26",
+    "image_id": "208"
+  },
+  {
+    "id": "681",
+    "name": "Barbell Seated Overhead Press",
+    "muscle_group_id": "49",
+    "equipment_id": "26",
+    "image_id": "209"
+  },
+  {
+    "id": "682",
+    "name": "Barbell Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "26",
+    "image_id": "210"
+  },
+  {
+    "id": "683",
+    "name": "Barbell Single-Leg Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "26",
+    "image_id": "211"
+  },
+  {
+    "id": "684",
+    "name": "Barbell Single-Leg Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "212"
+  },
+  {
+    "id": "685",
+    "name": "Barbell Skier",
+    "muscle_group_id": "56",
+    "equipment_id": "26",
+    "image_id": "213"
+  },
+  {
+    "id": "686",
+    "name": "Barbell Snatch",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "214"
+  },
+  {
+    "id": "687",
+    "name": "Barbell Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "215"
+  },
+  {
+    "id": "688",
+    "name": "Barbell Squat Clean",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "216"
+  },
+  {
+    "id": "689",
+    "name": "Barbell Standing Back Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "26",
+    "image_id": "217"
+  },
+  {
+    "id": "690",
+    "name": "Barbell Standing Overhead Triceps Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "26",
+    "image_id": "218"
+  },
+  {
+    "id": "691",
+    "name": "Barbell Standing Reverse Grip Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "26",
+    "image_id": "219"
+  },
+  {
+    "id": "692",
+    "name": "Barbell Sumo Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "220"
+  },
+  {
+    "id": "693",
+    "name": "Barbell Upright Row",
+    "muscle_group_id": "62",
+    "equipment_id": "26",
+    "image_id": "221"
+  },
+  {
+    "id": "694",
+    "name": "Barbell Wide Grip Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "222"
+  },
+  {
+    "id": "695",
+    "name": "Barbell Wide Grip Upright Row",
+    "muscle_group_id": "62",
+    "equipment_id": "26",
+    "image_id": "223"
+  },
+  {
+    "id": "696",
+    "name": "Barbell Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "26",
+    "image_id": "224"
+  },
+  {
+    "id": "697",
+    "name": "Barbell Zercher Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "225"
+  },
+  {
+    "id": "698",
+    "name": "Battle Ropes",
+    "muscle_group_id": "49",
+    "equipment_id": "31",
+    "image_id": "226"
+  },
+  {
+    "id": "699",
+    "name": "Bayesian Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "227"
+  },
+  {
+    "id": "700",
+    "name": "Bear Crawl",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "228"
+  },
+  {
+    "id": "701",
+    "name": "Behind The Back Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "24",
+    "image_id": "229"
+  },
+  {
+    "id": "702",
+    "name": "Behind The Back Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "230"
+  },
+  {
+    "id": "703",
+    "name": "Behind The Neck Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "231"
+  },
+  {
+    "id": "704",
+    "name": "Belt Squat Between Boxes",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "232"
+  },
+  {
+    "id": "705",
+    "name": "Belt Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "233"
+  },
+  {
+    "id": "706",
+    "name": "Bench Dip",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "234"
+  },
+  {
+    "id": "707",
+    "name": "Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "235"
+  },
+  {
+    "id": "708",
+    "name": "Bench Tricep Dips",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "236"
+  },
+  {
+    "id": "709",
+    "name": "Benefits of Farmers Walks",
+    "muscle_group_id": "61",
+    "equipment_id": "32",
+    "image_id": "237"
+  },
+  {
+    "id": "710",
+    "name": "Bicep Curl Machine",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "238"
+  },
+  {
+    "id": "711",
+    "name": "Biceps Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "239"
+  },
+  {
+    "id": "712",
+    "name": "Bicycle Crunch",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "240"
+  },
+  {
+    "id": "713",
+    "name": "Block Pull Deadlift",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "241"
+  },
+  {
+    "id": "714",
+    "name": "Board Chest Press",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "242"
+  },
+  {
+    "id": "715",
+    "name": "Boat Pose",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "243"
+  },
+  {
+    "id": "716",
+    "name": "Body Saw Plank",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "244"
+  },
+  {
+    "id": "718",
+    "name": "Bodyweight Forward Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "246"
+  },
+  {
+    "id": "719",
+    "name": "Cable Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "28",
+    "image_id": "247"
+  },
+  {
+    "id": "720",
+    "name": "Bodyweight Sissy Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "248"
+  },
+  {
+    "id": "721",
+    "name": "Bodyweight Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "249"
+  },
+  {
+    "id": "722",
+    "name": "Bosu Ball Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "33",
+    "image_id": "250"
+  },
+  {
+    "id": "723",
+    "name": "Bosu Ball Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "33",
+    "image_id": "251"
+  },
+  {
+    "id": "724",
+    "name": "Box Jump",
+    "muscle_group_id": "47",
+    "equipment_id": "34",
+    "image_id": "252"
+  },
+  {
+    "id": "725",
+    "name": "Box Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "253"
+  },
+  {
+    "id": "726",
+    "name": "Boxing",
+    "muscle_group_id": "49",
+    "equipment_id": "35",
+    "image_id": "254"
+  },
+  {
+    "id": "728",
+    "name": "Burpee Long Jump",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "256"
+  },
+  {
+    "id": "729",
+    "name": "Burpee Mountain Climber",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "257"
+  },
+  {
+    "id": "730",
+    "name": "Burpee Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "258"
+  },
+  {
+    "id": "731",
+    "name": "Burpee Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "259"
+  },
+  {
+    "id": "732",
+    "name": "Burpee",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "260"
+  },
+  {
+    "id": "733",
+    "name": "Butterfly Sit-Up",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "261"
+  },
+  {
+    "id": "734",
+    "name": "Butterfly Yoga Pose",
+    "muscle_group_id": "63",
+    "equipment_id": "24",
+    "image_id": "262"
+  },
+  {
+    "id": "735",
+    "name": "Cable Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "263"
+  },
+  {
+    "id": "736",
+    "name": "Cable Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "264"
+  },
+  {
+    "id": "737",
+    "name": "Cable Cross Over Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "265"
+  },
+  {
+    "id": "738",
+    "name": "Cable Crossover",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "266"
+  },
+  {
+    "id": "739",
+    "name": "Cable Pull Through",
+    "muscle_group_id": "50",
+    "equipment_id": "28",
+    "image_id": "267"
+  },
+  {
+    "id": "740",
+    "name": "Cable Drag Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "268"
+  },
+  {
+    "id": "741",
+    "name": "Cable Face Pull",
+    "muscle_group_id": "56",
+    "equipment_id": "28",
+    "image_id": "269"
+  },
+  {
+    "id": "742",
+    "name": "Cable Fly",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "270"
+  },
+  {
+    "id": "743",
+    "name": "Cable Forward Raise",
+    "muscle_group_id": "49",
+    "equipment_id": "28",
+    "image_id": "271"
+  },
+  {
+    "id": "744",
+    "name": "Cable Front Raise",
+    "muscle_group_id": "49",
+    "equipment_id": "28",
+    "image_id": "272"
+  },
+  {
+    "id": "745",
+    "name": "Cable Front Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "28",
+    "image_id": "273"
+  },
+  {
+    "id": "746",
+    "name": "Cable High Row",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "274"
+  },
+  {
+    "id": "747",
+    "name": "Donkey Kicks",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "275"
+  },
+  {
+    "id": "748",
+    "name": "Cable Kickback",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "276"
+  },
+  {
+    "id": "749",
+    "name": "Cable Kickback",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "277"
+  },
+  {
+    "id": "750",
+    "name": "Cable Knee Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "28",
+    "image_id": "278"
+  },
+  {
+    "id": "751",
+    "name": "Cable Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "279"
+  },
+  {
+    "id": "752",
+    "name": "Cable Lying Curl",
+    "muscle_group_id": "44",
+    "equipment_id": "28",
+    "image_id": "280"
+  },
+  {
+    "id": "753",
+    "name": "Cable Lying Pullover",
+    "muscle_group_id": "58",
+    "equipment_id": "28",
+    "image_id": "281"
+  },
+  {
+    "id": "754",
+    "name": "Cable Lying Tricep Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "282"
+  },
+  {
+    "id": "755",
+    "name": "Cable Neutral Grip Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "283"
+  },
+  {
+    "id": "756",
+    "name": "Cable One Arm Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "284"
+  },
+  {
+    "id": "757",
+    "name": "Cable One Arm Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "285"
+  },
+  {
+    "id": "758",
+    "name": "Cable One Arm Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "28",
+    "image_id": "286"
+  },
+  {
+    "id": "759",
+    "name": "Cable One Arm Seated Row",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "287"
+  },
+  {
+    "id": "760",
+    "name": "Cable Preacher Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "288"
+  },
+  {
+    "id": "761",
+    "name": "Dumbbell Banded Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "289"
+  },
+  {
+    "id": "762",
+    "name": "Cable Pushdown with Rope",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "290"
+  },
+  {
+    "id": "763",
+    "name": "Cable Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "291"
+  },
+  {
+    "id": "764",
+    "name": "Cable Rear Delt Fly",
+    "muscle_group_id": "56",
+    "equipment_id": "28",
+    "image_id": "292"
+  },
+  {
+    "id": "765",
+    "name": "Cable Rear Delt Row",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "293"
+  },
+  {
+    "id": "766",
+    "name": "Cable Reverse Grip Triceps Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "294"
+  },
+  {
+    "id": "767",
+    "name": "Cable Reverse Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "28",
+    "image_id": "295"
+  },
+  {
+    "id": "768",
+    "name": "Cable Seated Row with Straight Bar",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "296"
+  },
+  {
+    "id": "769",
+    "name": "Cable Seated Cross Arm Twist",
+    "muscle_group_id": "45",
+    "equipment_id": "28",
+    "image_id": "297"
+  },
+  {
+    "id": "770",
+    "name": "Cable Seated Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "28",
+    "image_id": "298"
+  },
+  {
+    "id": "771",
+    "name": "Cable Seated Row with Triangle V Bar",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "299"
+  },
+  {
+    "id": "772",
+    "name": "Cable Shoulder Press",
+    "muscle_group_id": "49",
+    "equipment_id": "28",
+    "image_id": "300"
+  },
+  {
+    "id": "773",
+    "name": "Cable Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "28",
+    "image_id": "301"
+  },
+  {
+    "id": "774",
+    "name": "Cable Single Arm Hammer Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "302"
+  },
+  {
+    "id": "775",
+    "name": "Cable Standing Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "28",
+    "image_id": "303"
+  },
+  {
+    "id": "776",
+    "name": "Cable Standing Chest Press",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "304"
+  },
+  {
+    "id": "777",
+    "name": "Cable Standing Crossover",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "305"
+  },
+  {
+    "id": "778",
+    "name": "Cable Standing Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "28",
+    "image_id": "306"
+  },
+  {
+    "id": "779",
+    "name": "Cable Standing One Arm Triceps Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "307"
+  },
+  {
+    "id": "780",
+    "name": "Cable Standing Rear Delt Row with Rope",
+    "muscle_group_id": "56",
+    "equipment_id": "28",
+    "image_id": "308"
+  },
+  {
+    "id": "781",
+    "name": "Cable Step Up",
+    "muscle_group_id": "47",
+    "equipment_id": "28",
+    "image_id": "309"
+  },
+  {
+    "id": "782",
+    "name": "Cable Tricep Kickback",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "310"
+  },
+  {
+    "id": "783",
+    "name": "Cable Tricep Overhead Extensions",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "311"
+  },
+  {
+    "id": "784",
+    "name": "Cable Tricep Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "312"
+  },
+  {
+    "id": "785",
+    "name": "Cable Underhand Row",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "313"
+  },
+  {
+    "id": "786",
+    "name": "Cable Wide Grip Row",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "314"
+  },
+  {
+    "id": "787",
+    "name": "Cable Y Raise",
+    "muscle_group_id": "56",
+    "equipment_id": "28",
+    "image_id": "315"
+  },
+  {
+    "id": "788",
+    "name": "Cabled Seated Rear Lateral Raise",
+    "muscle_group_id": "56",
+    "equipment_id": "28",
+    "image_id": "316"
+  },
+  {
+    "id": "789",
+    "name": "Calf Squats",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "317"
+  },
+  {
+    "id": "790",
+    "name": "Captain's Chair Knee Raise",
+    "muscle_group_id": "64",
+    "equipment_id": "36",
+    "image_id": "318"
+  },
+  {
+    "id": "791",
+    "name": "Chain Sumo Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "319"
+  },
+  {
+    "id": "792",
+    "name": "Chest Dip",
+    "muscle_group_id": "57",
+    "equipment_id": "24",
+    "image_id": "320"
+  },
+  {
+    "id": "793",
+    "name": "Chest Press Machine",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "321"
+  },
+  {
+    "id": "794",
+    "name": "Child's Pose",
+    "muscle_group_id": "51",
+    "equipment_id": "24",
+    "image_id": "322"
+  },
+  {
+    "id": "795",
+    "name": "Clapping Push-Ups",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "323"
+  },
+  {
+    "id": "796",
+    "name": "Clean Jerk",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "324"
+  },
+  {
+    "id": "797",
+    "name": "Dumbbell Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "325"
+  },
+  {
+    "id": "798",
+    "name": "Close Grip Barbell Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "326"
+  },
+  {
+    "id": "799",
+    "name": "Close Grip Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "327"
+  },
+  {
+    "id": "800",
+    "name": "Close Grip Lat Pulldown (Standard Bar Attachment)",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "328"
+  },
+  {
+    "id": "801",
+    "name": "Close Grip Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "329"
+  },
+  {
+    "id": "802",
+    "name": "Close Grip Preacher Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "37",
+    "image_id": "330"
+  },
+  {
+    "id": "803",
+    "name": "Close Grip Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "331"
+  },
+  {
+    "id": "804",
+    "name": "Close Grip Pushup",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "332"
+  },
+  {
+    "id": "805",
+    "name": "Cobra Push-Up",
+    "muscle_group_id": "58",
+    "equipment_id": "24",
+    "image_id": "333"
+  },
+  {
+    "id": "806",
+    "name": "Commando Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "334"
+  },
+  {
+    "id": "807",
+    "name": "Conventional Single-Leg Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "335"
+  },
+  {
+    "id": "808",
+    "name": "Conventional Sit-Up",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "336"
+  },
+  {
+    "id": "809",
+    "name": "Cossack Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "337"
+  },
+  {
+    "id": "810",
+    "name": "Cross Body Hammer Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "338"
+  },
+  {
+    "id": "811",
+    "name": "CrossFit Cluster",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "339"
+  },
+  {
+    "id": "812",
+    "name": "Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "340"
+  },
+  {
+    "id": "813",
+    "name": "Bike",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "341"
+  },
+  {
+    "id": "814",
+    "name": "DB Push Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "342"
+  },
+  {
+    "id": "815",
+    "name": "Dead Hang",
+    "muscle_group_id": "54",
+    "equipment_id": "38",
+    "image_id": "343"
+  },
+  {
+    "id": "816",
+    "name": "Dead Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "344"
+  },
+  {
+    "id": "817",
+    "name": "Deadlift",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "345"
+  },
+  {
+    "id": "818",
+    "name": "Decline Cable Fly",
+    "muscle_group_id": "57",
+    "equipment_id": "28",
+    "image_id": "346"
+  },
+  {
+    "id": "819",
+    "name": "Decline Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "347"
+  },
+  {
+    "id": "820",
+    "name": "Decline Push-Up",
+    "muscle_group_id": "57",
+    "equipment_id": "24",
+    "image_id": "348"
+  },
+  {
+    "id": "821",
+    "name": "Decline Sit-Up",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "349"
+  },
+  {
+    "id": "822",
+    "name": "Deficit Bulgarian Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "350"
+  },
+  {
+    "id": "823",
+    "name": "Deficit Deadlift",
+    "muscle_group_id": "51",
+    "equipment_id": "26",
+    "image_id": "351"
+  },
+  {
+    "id": "824",
+    "name": "Deficit Push-Ups",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "352"
+  },
+  {
+    "id": "825",
+    "name": "Deficit Romanian Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "26",
+    "image_id": "353"
+  },
+  {
+    "id": "826",
+    "name": "Degree Twisting Hyperextension",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "354"
+  },
+  {
+    "id": "827",
+    "name": "Diamond Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "355"
+  },
+  {
+    "id": "828",
+    "name": "Dive Bomber Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "356"
+  },
+  {
+    "id": "829",
+    "name": "Donkey Calf Raise Machine",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "357"
+  },
+  {
+    "id": "830",
+    "name": "Donkey Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "358"
+  },
+  {
+    "id": "831",
+    "name": "Dumbbell Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "359"
+  },
+  {
+    "id": "832",
+    "name": "Drag Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "360"
+  },
+  {
+    "id": "833",
+    "name": "Dragon Flag",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "361"
+  },
+  {
+    "id": "834",
+    "name": "Duck Walk",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "362"
+  },
+  {
+    "id": "835",
+    "name": "Dumbbell Back Extension",
+    "muscle_group_id": "51",
+    "equipment_id": "25",
+    "image_id": "363"
+  },
+  {
+    "id": "836",
+    "name": "Dumbbell Single-Leg Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "364"
+  },
+  {
+    "id": "837",
+    "name": "Dumbbell Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "365"
+  },
+  {
+    "id": "838",
+    "name": "Dumbbell Bench Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "366"
+  },
+  {
+    "id": "839",
+    "name": "Dumbbell Bent Over Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "367"
+  },
+  {
+    "id": "840",
+    "name": "Dumbbell Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "368"
+  },
+  {
+    "id": "841",
+    "name": "Dumbbell Bicep Curl Reverse",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "369"
+  },
+  {
+    "id": "842",
+    "name": "Dumbbell Bulgarian Split Squats",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "370"
+  },
+  {
+    "id": "843",
+    "name": "Dumbbell Burpee",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "371"
+  },
+  {
+    "id": "844",
+    "name": "Dumbbell Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "25",
+    "image_id": "372"
+  },
+  {
+    "id": "845",
+    "name": "Dumbbell Chest Fly",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "373"
+  },
+  {
+    "id": "846",
+    "name": "Dumbbell Chest Supported Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "374"
+  },
+  {
+    "id": "847",
+    "name": "Dumbbell Close Grip Press",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "375"
+  },
+  {
+    "id": "848",
+    "name": "Dumbbell Concentration Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "376"
+  },
+  {
+    "id": "849",
+    "name": "Dumbbell Deadlift (Neutral Grip)",
+    "muscle_group_id": "51",
+    "equipment_id": "25",
+    "image_id": "377"
+  },
+  {
+    "id": "850",
+    "name": "Dumbbell Deadlift",
+    "muscle_group_id": "51",
+    "equipment_id": "25",
+    "image_id": "378"
+  },
+  {
+    "id": "851",
+    "name": "Dumbbell Decline Chest Fly",
+    "muscle_group_id": "57",
+    "equipment_id": "25",
+    "image_id": "379"
+  },
+  {
+    "id": "852",
+    "name": "Dumbbell Devil Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "380"
+  },
+  {
+    "id": "853",
+    "name": "Dumbbell External Rotation",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "381"
+  },
+  {
+    "id": "854",
+    "name": "Dumbbell Face Pull",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "382"
+  },
+  {
+    "id": "855",
+    "name": "Dumbbell Floor Press",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "383"
+  },
+  {
+    "id": "856",
+    "name": "Dumbbell Forward Leaning Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "384"
+  },
+  {
+    "id": "857",
+    "name": "Dumbbell Front Raise",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "385"
+  },
+  {
+    "id": "858",
+    "name": "Dumbbell Front Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "386"
+  },
+  {
+    "id": "859",
+    "name": "Dumbbell Single-Leg Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "387"
+  },
+  {
+    "id": "860",
+    "name": "Dumbbell Goblet Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "388"
+  },
+  {
+    "id": "861",
+    "name": "Dumbbell Good Morning",
+    "muscle_group_id": "51",
+    "equipment_id": "25",
+    "image_id": "389"
+  },
+  {
+    "id": "862",
+    "name": "Dumbbell Hack Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "390"
+  },
+  {
+    "id": "863",
+    "name": "Dumbbell Hammer Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "391"
+  },
+  {
+    "id": "864",
+    "name": "Dumbbell Hex Press",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "392"
+  },
+  {
+    "id": "865",
+    "name": "Dumbbell Sumo Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "393"
+  },
+  {
+    "id": "866",
+    "name": "Dumbbell Incline Chest Press",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "394"
+  },
+  {
+    "id": "867",
+    "name": "Dumbbell Incline Fly",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "395"
+  },
+  {
+    "id": "868",
+    "name": "Dumbbell Incline Hammer Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "396"
+  },
+  {
+    "id": "869",
+    "name": "Dumbbell Incline Reverse Grip Bench",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "397"
+  },
+  {
+    "id": "870",
+    "name": "Dumbbell Incline Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "398"
+  },
+  {
+    "id": "871",
+    "name": "Dumbbell Incline Y Raise",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "399"
+  },
+  {
+    "id": "872",
+    "name": "Dumbbell Jefferson Curl",
+    "muscle_group_id": "51",
+    "equipment_id": "25",
+    "image_id": "400"
+  },
+  {
+    "id": "873",
+    "name": "Dumbbell Kickbacks on Exercise Ball",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "401"
+  },
+  {
+    "id": "874",
+    "name": "Dumbbell Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "402"
+  },
+  {
+    "id": "875",
+    "name": "Dumbbell Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "403"
+  },
+  {
+    "id": "876",
+    "name": "Dumbbell Leg Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "404"
+  },
+  {
+    "id": "877",
+    "name": "Dumbbell Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "405"
+  },
+  {
+    "id": "878",
+    "name": "Dumbbell Lying One Arm Rear Lateral Raise",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "406"
+  },
+  {
+    "id": "879",
+    "name": "Dumbbell Lying Rear Lateral Raise",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "407"
+  },
+  {
+    "id": "880",
+    "name": "Dumbbell Military Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "408"
+  },
+  {
+    "id": "881",
+    "name": "Dumbbell One Arm Chest Press",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "409"
+  },
+  {
+    "id": "882",
+    "name": "Dumbbell One Arm Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "410"
+  },
+  {
+    "id": "883",
+    "name": "Dumbbell One Arm Reverse Preacher Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "411"
+  },
+  {
+    "id": "884",
+    "name": "Dumbbell Over Bench One Arm Reverse Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "412"
+  },
+  {
+    "id": "885",
+    "name": "Dumbbell Preacher Hammer Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "413"
+  },
+  {
+    "id": "886",
+    "name": "Dumbbell Power Clean",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "414"
+  },
+  {
+    "id": "887",
+    "name": "Dumbbell Preacher Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "415"
+  },
+  {
+    "id": "888",
+    "name": "Dumbbell Preacher Hammer Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "416"
+  },
+  {
+    "id": "889",
+    "name": "Dumbbell Pullover",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "417"
+  },
+  {
+    "id": "890",
+    "name": "Dumbbell Push Jerk",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "418"
+  },
+  {
+    "id": "891",
+    "name": "Dumbbell Rear Delt Fly",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "419"
+  },
+  {
+    "id": "892",
+    "name": "Dumbbell Rear Delt Row",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "420"
+  },
+  {
+    "id": "893",
+    "name": "Dumbbell Rear Lateral Raise",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "421"
+  },
+  {
+    "id": "894",
+    "name": "Dumbbell Reverse Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "422"
+  },
+  {
+    "id": "895",
+    "name": "Dumbbell Reverse Fly",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "423"
+  },
+  {
+    "id": "896",
+    "name": "Dumbbell Reverse Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "424"
+  },
+  {
+    "id": "897",
+    "name": "Dumbbell Romanian Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "425"
+  },
+  {
+    "id": "898",
+    "name": "Dumbbell Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "426"
+  },
+  {
+    "id": "899",
+    "name": "Dumbbell Scott Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "427"
+  },
+  {
+    "id": "900",
+    "name": "Dumbbell Seated Alternate Front Raise",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "428"
+  },
+  {
+    "id": "901",
+    "name": "Dumbbell Seated Bent Arm Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "429"
+  },
+  {
+    "id": "902",
+    "name": "Dumbbell Seated Kickback",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "430"
+  },
+  {
+    "id": "903",
+    "name": "Dumbbell Seated Reverse Grip One Arm Overhead Tricep Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "431"
+  },
+  {
+    "id": "904",
+    "name": "Dumbbell Seated Triceps Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "432"
+  },
+  {
+    "id": "905",
+    "name": "Dumbbell Seated Zottman Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "433"
+  },
+  {
+    "id": "906",
+    "name": "Dumbbell Shoulder Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "434"
+  },
+  {
+    "id": "907",
+    "name": "Dumbbell Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "25",
+    "image_id": "435"
+  },
+  {
+    "id": "908",
+    "name": "Dumbbell Side Bend",
+    "muscle_group_id": "45",
+    "equipment_id": "25",
+    "image_id": "436"
+  },
+  {
+    "id": "909",
+    "name": "Dumbbell Single Arm Snatch",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "437"
+  },
+  {
+    "id": "910",
+    "name": "Dumbbell Swings",
+    "muscle_group_id": "50",
+    "equipment_id": "25",
+    "image_id": "438"
+  },
+  {
+    "id": "911",
+    "name": "Elevated Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "439"
+  },
+  {
+    "id": "912",
+    "name": "Dumbbell Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "440"
+  },
+  {
+    "id": "913",
+    "name": "Dumbbell Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "441"
+  },
+  {
+    "id": "914",
+    "name": "Dumbbell Standing Alternate Overhead Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "442"
+  },
+  {
+    "id": "915",
+    "name": "Dumbbell Standing Inner Biceps Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "443"
+  },
+  {
+    "id": "916",
+    "name": "Dumbbell Standing Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "444"
+  },
+  {
+    "id": "917",
+    "name": "Dumbbell Step Up with Single-Leg Balance and Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "445"
+  },
+  {
+    "id": "918",
+    "name": "Dumbbell Step Up",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "446"
+  },
+  {
+    "id": "919",
+    "name": "Dumbbell Stiff-Leg Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "447"
+  },
+  {
+    "id": "920",
+    "name": "Frog Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "448"
+  },
+  {
+    "id": "921",
+    "name": "Dumbbell Sumo Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "449"
+  },
+  {
+    "id": "922",
+    "name": "Dumbbell Superman Pulls",
+    "muscle_group_id": "51",
+    "equipment_id": "25",
+    "image_id": "450"
+  },
+  {
+    "id": "923",
+    "name": "Dumbbell Svend Press",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "451"
+  },
+  {
+    "id": "924",
+    "name": "Frog Pump",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "452"
+  },
+  {
+    "id": "925",
+    "name": "Dumbbell Tate Press",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "453"
+  },
+  {
+    "id": "926",
+    "name": "Dumbbell Tricep Kickback",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "454"
+  },
+  {
+    "id": "927",
+    "name": "Dumbbell Upright Row",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "455"
+  },
+  {
+    "id": "928",
+    "name": "Dumbbell Upright Shoulder External Rotation",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "456"
+  },
+  {
+    "id": "929",
+    "name": "Dumbbell W Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "457"
+  },
+  {
+    "id": "930",
+    "name": "Dumbbell W Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "458"
+  },
+  {
+    "id": "931",
+    "name": "Dumbbell Wrist Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "459"
+  },
+  {
+    "id": "932",
+    "name": "Dumbbell Wrist Extension",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "460"
+  },
+  {
+    "id": "933",
+    "name": "Dumbbell Z Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "461"
+  },
+  {
+    "id": "934",
+    "name": "Frog Reverse Hyperextension",
+    "muscle_group_id": "50",
+    "equipment_id": "28",
+    "image_id": "462"
+  },
+  {
+    "id": "935",
+    "name": "Elliptical",
+    "muscle_group_id": "47",
+    "equipment_id": "39",
+    "image_id": "463"
+  },
+  {
+    "id": "936",
+    "name": "Exercise Ball Back Extension",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "464"
+  },
+  {
+    "id": "937",
+    "name": "Exercise Ball Supine Triceps Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "465"
+  },
+  {
+    "id": "938",
+    "name": "Exercise Ball Wall Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "466"
+  },
+  {
+    "id": "939",
+    "name": "Exercise Bike",
+    "muscle_group_id": "47",
+    "equipment_id": "40",
+    "image_id": "467"
+  },
+  {
+    "id": "940",
+    "name": "Exercise Ball Leg Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "468"
+  },
+  {
+    "id": "941",
+    "name": "EZ Bar Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "37",
+    "image_id": "469"
+  },
+  {
+    "id": "942",
+    "name": "EZ Bar Preacher Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "37",
+    "image_id": "470"
+  },
+  {
+    "id": "943",
+    "name": "EZ Bar Reverse Grip Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "37",
+    "image_id": "471"
+  },
+  {
+    "id": "944",
+    "name": "EZ Bar Tricep Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "37",
+    "image_id": "472"
+  },
+  {
+    "id": "945",
+    "name": "EZ Barbell Close Grip Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "473"
+  },
+  {
+    "id": "946",
+    "name": "EZ Barbell Incline Triceps Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "26",
+    "image_id": "474"
+  },
+  {
+    "id": "947",
+    "name": "EZ Barbell Reverse Grip Curl",
+    "muscle_group_id": "59",
+    "equipment_id": "26",
+    "image_id": "475"
+  },
+  {
+    "id": "948",
+    "name": "EZ Barbell Spider Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "476"
+  },
+  {
+    "id": "949",
+    "name": "Flat Bench Skull Crusher",
+    "muscle_group_id": "52",
+    "equipment_id": "26",
+    "image_id": "477"
+  },
+  {
+    "id": "950",
+    "name": "Floor Back Extensions",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "478"
+  },
+  {
+    "id": "951",
+    "name": "Flying Lizard",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "479"
+  },
+  {
+    "id": "952",
+    "name": "Forward Bend",
+    "muscle_group_id": "60",
+    "equipment_id": "24",
+    "image_id": "480"
+  },
+  {
+    "id": "953",
+    "name": "Frog Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "481"
+  },
+  {
+    "id": "954",
+    "name": "Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "482"
+  },
+  {
+    "id": "955",
+    "name": "Heel Elevated Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "483"
+  },
+  {
+    "id": "956",
+    "name": "Hex Bar Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "484"
+  },
+  {
+    "id": "957",
+    "name": "Front Squat Clean Grip",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "485"
+  },
+  {
+    "id": "958",
+    "name": "Front Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "486"
+  },
+  {
+    "id": "959",
+    "name": "Full Sit-Up",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "487"
+  },
+  {
+    "id": "960",
+    "name": "Hip Abduction Machine",
+    "muscle_group_id": "50",
+    "equipment_id": "48",
+    "image_id": "488"
+  },
+  {
+    "id": "961",
+    "name": "Glute Ham Raise",
+    "muscle_group_id": "60",
+    "equipment_id": "24",
+    "image_id": "489"
+  },
+  {
+    "id": "962",
+    "name": "Goblet Box Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "490"
+  },
+  {
+    "id": "963",
+    "name": "Goblet Bulgarian Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "491"
+  },
+  {
+    "id": "964",
+    "name": "Goblet Side Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "492"
+  },
+  {
+    "id": "965",
+    "name": "Goblet Wall Sit",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "493"
+  },
+  {
+    "id": "966",
+    "name": "Hack Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "494"
+  },
+  {
+    "id": "967",
+    "name": "Half Burpee",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "495"
+  },
+  {
+    "id": "968",
+    "name": "Half Knee Bend Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "496"
+  },
+  {
+    "id": "969",
+    "name": "Handstand Hold",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "497"
+  },
+  {
+    "id": "970",
+    "name": "Handstand Push-Up",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "498"
+  },
+  {
+    "id": "971",
+    "name": "Handstand Walk",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "499"
+  },
+  {
+    "id": "972",
+    "name": "Handstand",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "500"
+  },
+  {
+    "id": "973",
+    "name": "Hanging Leg Raise",
+    "muscle_group_id": "64",
+    "equipment_id": "38",
+    "image_id": "501"
+  },
+  {
+    "id": "974",
+    "name": "Hawaiian Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "502"
+  },
+  {
+    "id": "975",
+    "name": "Heel Elevated Bulgarian Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "503"
+  },
+  {
+    "id": "976",
+    "name": "Heel Elevated Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "504"
+  },
+  {
+    "id": "977",
+    "name": "Heel Raised Wall Sit",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "505"
+  },
+  {
+    "id": "978",
+    "name": "Heel Raises",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "506"
+  },
+  {
+    "id": "979",
+    "name": "Hercules Hold",
+    "muscle_group_id": "49",
+    "equipment_id": "32",
+    "image_id": "507"
+  },
+  {
+    "id": "980",
+    "name": "Kettlebell Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "42",
+    "image_id": "508"
+  },
+  {
+    "id": "981",
+    "name": "High Bar Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "509"
+  },
+  {
+    "id": "982",
+    "name": "High Cable Fly",
+    "muscle_group_id": "57",
+    "equipment_id": "28",
+    "image_id": "510"
+  },
+  {
+    "id": "983",
+    "name": "High Knee Twist",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "511"
+  },
+  {
+    "id": "984",
+    "name": "High Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "512"
+  },
+  {
+    "id": "985",
+    "name": "Kettlebell Single-Arm Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "42",
+    "image_id": "513"
+  },
+  {
+    "id": "986",
+    "name": "Kettlebell Single-Arm Swing",
+    "muscle_group_id": "50",
+    "equipment_id": "42",
+    "image_id": "514"
+  },
+  {
+    "id": "987",
+    "name": "Hollow Body Hold",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "515"
+  },
+  {
+    "id": "988",
+    "name": "Inchworm",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "516"
+  },
+  {
+    "id": "989",
+    "name": "Incline Cable Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "517"
+  },
+  {
+    "id": "990",
+    "name": "Incline Cable Fly",
+    "muscle_group_id": "58",
+    "equipment_id": "28",
+    "image_id": "518"
+  },
+  {
+    "id": "991",
+    "name": "Incline Close Grip Press",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "519"
+  },
+  {
+    "id": "992",
+    "name": "Incline Dumbbell Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "520"
+  },
+  {
+    "id": "993",
+    "name": "Incline Dumbbell Hex Press",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "521"
+  },
+  {
+    "id": "994",
+    "name": "Incline Push-Up",
+    "muscle_group_id": "58",
+    "equipment_id": "24",
+    "image_id": "522"
+  },
+  {
+    "id": "995",
+    "name": "Incline Skullcrusher",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "523"
+  },
+  {
+    "id": "996",
+    "name": "Incline Supinated Dumbbell Chest Press",
+    "muscle_group_id": "58",
+    "equipment_id": "25",
+    "image_id": "524"
+  },
+  {
+    "id": "997",
+    "name": "Incline Treadmill",
+    "muscle_group_id": "47",
+    "equipment_id": "43",
+    "image_id": "525"
+  },
+  {
+    "id": "998",
+    "name": "Inner Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "526"
+  },
+  {
+    "id": "999",
+    "name": "Inverted Row (Feet Elevated)",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "527"
+  },
+  {
+    "id": "1000",
+    "name": "Inverted Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "528"
+  },
+  {
+    "id": "1001",
+    "name": "Jackknife on Ball",
+    "muscle_group_id": "64",
+    "equipment_id": "44",
+    "image_id": "529"
+  },
+  {
+    "id": "1002",
+    "name": "Jackknife Sit-Up",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "530"
+  },
+  {
+    "id": "1003",
+    "name": "Jump Rope",
+    "muscle_group_id": "55",
+    "equipment_id": "31",
+    "image_id": "531"
+  },
+  {
+    "id": "1004",
+    "name": "Jumping Jacks (High Knees)",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "532"
+  },
+  {
+    "id": "1005",
+    "name": "Jumping Jacks",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "533"
+  },
+  {
+    "id": "1006",
+    "name": "Kettlebell Clean and Jerk",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "534"
+  },
+  {
+    "id": "1007",
+    "name": "Kettlebell Sumo Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "42",
+    "image_id": "535"
+  },
+  {
+    "id": "1008",
+    "name": "Kettlebell Figure 8",
+    "muscle_group_id": "49",
+    "equipment_id": "42",
+    "image_id": "536"
+  },
+  {
+    "id": "1009",
+    "name": "Kettlebell Goblet Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "537"
+  },
+  {
+    "id": "1010",
+    "name": "Kettlebell Good Morning (Behind Head)",
+    "muscle_group_id": "51",
+    "equipment_id": "42",
+    "image_id": "538"
+  },
+  {
+    "id": "1011",
+    "name": "Kettlebell Good Morning",
+    "muscle_group_id": "51",
+    "equipment_id": "42",
+    "image_id": "539"
+  },
+  {
+    "id": "1012",
+    "name": "Kettlebell Hang Clean",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "540"
+  },
+  {
+    "id": "1013",
+    "name": "Kettlebell Kneeling One Arm Bottoms Up Press",
+    "muscle_group_id": "49",
+    "equipment_id": "42",
+    "image_id": "541"
+  },
+  {
+    "id": "1014",
+    "name": "Kettlebell Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "42",
+    "image_id": "542"
+  },
+  {
+    "id": "1015",
+    "name": "Kettlebell Overhead Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "543"
+  },
+  {
+    "id": "1016",
+    "name": "Kettlebell Pistol Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "544"
+  },
+  {
+    "id": "1017",
+    "name": "Kettlebell Pullover",
+    "muscle_group_id": "54",
+    "equipment_id": "42",
+    "image_id": "545"
+  },
+  {
+    "id": "1018",
+    "name": "Kettlebell Romanian Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "42",
+    "image_id": "546"
+  },
+  {
+    "id": "1019",
+    "name": "Kettlebell Russian Twist",
+    "muscle_group_id": "45",
+    "equipment_id": "42",
+    "image_id": "547"
+  },
+  {
+    "id": "1020",
+    "name": "Kettlebell Side Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "548"
+  },
+  {
+    "id": "1021",
+    "name": "Kettlebell Side Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "549"
+  },
+  {
+    "id": "1022",
+    "name": "Kettlebell Swing",
+    "muscle_group_id": "50",
+    "equipment_id": "42",
+    "image_id": "550"
+  },
+  {
+    "id": "1023",
+    "name": "Kneeling Banded Hip Thrusts",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "551"
+  },
+  {
+    "id": "1024",
+    "name": "Kettlebell Single-Leg Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "42",
+    "image_id": "552"
+  },
+  {
+    "id": "1025",
+    "name": "Kettlebell Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "553"
+  },
+  {
+    "id": "1026",
+    "name": "Kettlebell Squat Clean",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "554"
+  },
+  {
+    "id": "1027",
+    "name": "Kettlebell Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "555"
+  },
+  {
+    "id": "1028",
+    "name": "Kettlebell Sumo Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "556"
+  },
+  {
+    "id": "1029",
+    "name": "Landmine Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "557"
+  },
+  {
+    "id": "1030",
+    "name": "Kettlebell Swing to Goblet Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "42",
+    "image_id": "558"
+  },
+  {
+    "id": "1031",
+    "name": "Kettlebell Upright Row",
+    "muscle_group_id": "62",
+    "equipment_id": "42",
+    "image_id": "559"
+  },
+  {
+    "id": "1032",
+    "name": "Knee Extension",
+    "muscle_group_id": "47",
+    "equipment_id": "28",
+    "image_id": "560"
+  },
+  {
+    "id": "1033",
+    "name": "Knee Touch Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "561"
+  },
+  {
+    "id": "1034",
+    "name": "Lever Seated Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "48",
+    "image_id": "562"
+  },
+  {
+    "id": "1035",
+    "name": "Kneeling Cable Press",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "563"
+  },
+  {
+    "id": "1036",
+    "name": "Lying Side Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "564"
+  },
+  {
+    "id": "1037",
+    "name": "Kneeling Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "565"
+  },
+  {
+    "id": "1038",
+    "name": "Korean Dips",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "566"
+  },
+  {
+    "id": "1039",
+    "name": "Pause Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "567"
+  },
+  {
+    "id": "1040",
+    "name": "Landmine Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "568"
+  },
+  {
+    "id": "1041",
+    "name": "Landmine Row",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "569"
+  },
+  {
+    "id": "1042",
+    "name": "Landmine Single Arm Row",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "570"
+  },
+  {
+    "id": "1043",
+    "name": "Landmine Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "571"
+  },
+  {
+    "id": "1044",
+    "name": "Lat Pulldown Reverse Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "28",
+    "image_id": "572"
+  },
+  {
+    "id": "1045",
+    "name": "Lat Pullover",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "573"
+  },
+  {
+    "id": "1046",
+    "name": "Lateral Bicep Curls",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "574"
+  },
+  {
+    "id": "1047",
+    "name": "Lateral Raise Machine",
+    "muscle_group_id": "62",
+    "equipment_id": "48",
+    "image_id": "575"
+  },
+  {
+    "id": "1048",
+    "name": "Lateral Step-Up",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "576"
+  },
+  {
+    "id": "1049",
+    "name": "Leg Extension Machine",
+    "muscle_group_id": "47",
+    "equipment_id": "28",
+    "image_id": "577"
+  },
+  {
+    "id": "1050",
+    "name": "Leg Extension",
+    "muscle_group_id": "47",
+    "equipment_id": "28",
+    "image_id": "578"
+  },
+  {
+    "id": "1051",
+    "name": "Leg Press Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "579"
+  },
+  {
+    "id": "1052",
+    "name": "Leg Press",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "580"
+  },
+  {
+    "id": "1053",
+    "name": "Lever Back Extension",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "581"
+  },
+  {
+    "id": "1054",
+    "name": "Lever Hammer Curl Machine",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "582"
+  },
+  {
+    "id": "1055",
+    "name": "Lever Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "48",
+    "image_id": "583"
+  },
+  {
+    "id": "1056",
+    "name": "Lever Pullover Machine",
+    "muscle_group_id": "54",
+    "equipment_id": "48",
+    "image_id": "584"
+  },
+  {
+    "id": "1057",
+    "name": "Lever Seated Calf Raise (Plate Loaded)",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "585"
+  },
+  {
+    "id": "1058",
+    "name": "Lever Seated Fly",
+    "muscle_group_id": "48",
+    "equipment_id": "48",
+    "image_id": "586"
+  },
+  {
+    "id": "1059",
+    "name": "Prone Hip Circle",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "587"
+  },
+  {
+    "id": "1060",
+    "name": "Low Bar Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "588"
+  },
+  {
+    "id": "1061",
+    "name": "Low Cable Chest Flys",
+    "muscle_group_id": "57",
+    "equipment_id": "28",
+    "image_id": "589"
+  },
+  {
+    "id": "1062",
+    "name": "Low Impact Jack",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "590"
+  },
+  {
+    "id": "1063",
+    "name": "Lumbar Spine Extension",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "591"
+  },
+  {
+    "id": "1064",
+    "name": "Lying Back Extension",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "592"
+  },
+  {
+    "id": "1065",
+    "name": "Lying Cable Flys",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "593"
+  },
+  {
+    "id": "1066",
+    "name": "Lying Dumbbell Lateral Raise",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "594"
+  },
+  {
+    "id": "1067",
+    "name": "Lying Hamstring Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "595"
+  },
+  {
+    "id": "1068",
+    "name": "Lying Knee to Chest",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "596"
+  },
+  {
+    "id": "1069",
+    "name": "Lying Leg Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "597"
+  },
+  {
+    "id": "1070",
+    "name": "Lying Leg Raise",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "598"
+  },
+  {
+    "id": "1071",
+    "name": "PVC Hinge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "599"
+  },
+  {
+    "id": "1072",
+    "name": "Machine Shoulder Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "600"
+  },
+  {
+    "id": "1073",
+    "name": "Machine Tricep Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "601"
+  },
+  {
+    "id": "1074",
+    "name": "Meadows Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "602"
+  },
+  {
+    "id": "1075",
+    "name": "Military Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "603"
+  },
+  {
+    "id": "1076",
+    "name": "Monkey Bars",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "604"
+  },
+  {
+    "id": "1077",
+    "name": "Monkey Row",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "605"
+  },
+  {
+    "id": "1078",
+    "name": "Mountain Climber Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "606"
+  },
+  {
+    "id": "1079",
+    "name": "Mountain Climbers",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "607"
+  },
+  {
+    "id": "1080",
+    "name": "Narrow Stance Leg Press",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "608"
+  },
+  {
+    "id": "1081",
+    "name": "Narrow Wall Sit",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "609"
+  },
+  {
+    "id": "1082",
+    "name": "Negative Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "610"
+  },
+  {
+    "id": "1083",
+    "name": "Negative Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "611"
+  },
+  {
+    "id": "1084",
+    "name": "Neutral Grip Cable Rows",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "612"
+  },
+  {
+    "id": "1085",
+    "name": "Neutral Grip Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "613"
+  },
+  {
+    "id": "1086",
+    "name": "Neutral Grip Pull-Ups",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "614"
+  },
+  {
+    "id": "1087",
+    "name": "Nordic Hamstring Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "615"
+  },
+  {
+    "id": "1088",
+    "name": "Oblique Crunches",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "616"
+  },
+  {
+    "id": "1089",
+    "name": "Olympic Bar Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "617"
+  },
+  {
+    "id": "1090",
+    "name": "Olympic Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "618"
+  },
+  {
+    "id": "1091",
+    "name": "One Arm Dumbbell Fly",
+    "muscle_group_id": "48",
+    "equipment_id": "25",
+    "image_id": "619"
+  },
+  {
+    "id": "1092",
+    "name": "One Arm Dumbbell Upright Row",
+    "muscle_group_id": "62",
+    "equipment_id": "25",
+    "image_id": "620"
+  },
+  {
+    "id": "1093",
+    "name": "One-Handed T Bar Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "621"
+  },
+  {
+    "id": "1094",
+    "name": "Overhead Cable Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "28",
+    "image_id": "622"
+  },
+  {
+    "id": "1095",
+    "name": "Overhead Cable Tricep Extension",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "623"
+  },
+  {
+    "id": "1096",
+    "name": "Overhead Landmine Reverse Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "624"
+  },
+  {
+    "id": "1097",
+    "name": "Overhead Landmine Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "625"
+  },
+  {
+    "id": "1098",
+    "name": "Overhead Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "24",
+    "image_id": "626"
+  },
+  {
+    "id": "1099",
+    "name": "Overhead Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "627"
+  },
+  {
+    "id": "1100",
+    "name": "Parallel Bar Dips",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "628"
+  },
+  {
+    "id": "1101",
+    "name": "Parallel Bar Tricep Dips",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "629"
+  },
+  {
+    "id": "1102",
+    "name": "Resistance Band Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "630"
+  },
+  {
+    "id": "1103",
+    "name": "Pause Jump Squats",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "631"
+  },
+  {
+    "id": "1104",
+    "name": "Pec Deck",
+    "muscle_group_id": "48",
+    "equipment_id": "48",
+    "image_id": "632"
+  },
+  {
+    "id": "1105",
+    "name": "Pelvic Tilt",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "633"
+  },
+  {
+    "id": "1106",
+    "name": "Pendlay Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "634"
+  },
+  {
+    "id": "1107",
+    "name": "Pendulum Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "635"
+  },
+  {
+    "id": "1108",
+    "name": "Pike Push-Up",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "636"
+  },
+  {
+    "id": "1109",
+    "name": "Pin Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "26",
+    "image_id": "637"
+  },
+  {
+    "id": "1110",
+    "name": "Pistol Squat (High Box)",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "638"
+  },
+  {
+    "id": "1111",
+    "name": "Pistol Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "639"
+  },
+  {
+    "id": "1112",
+    "name": "Plank Jack",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "640"
+  },
+  {
+    "id": "1113",
+    "name": "Plank",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "641"
+  },
+  {
+    "id": "1114",
+    "name": "Plate Front Raise",
+    "muscle_group_id": "49",
+    "equipment_id": "45",
+    "image_id": "642"
+  },
+  {
+    "id": "1115",
+    "name": "Plate Pinches",
+    "muscle_group_id": "59",
+    "equipment_id": "45",
+    "image_id": "643"
+  },
+  {
+    "id": "1116",
+    "name": "Plate Push",
+    "muscle_group_id": "47",
+    "equipment_id": "45",
+    "image_id": "644"
+  },
+  {
+    "id": "1117",
+    "name": "Plie Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "645"
+  },
+  {
+    "id": "1118",
+    "name": "Power Clean",
+    "muscle_group_id": "47",
+    "equipment_id": "26",
+    "image_id": "646"
+  },
+  {
+    "id": "1119",
+    "name": "Power Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "647"
+  },
+  {
+    "id": "1120",
+    "name": "Power Rack Row",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "648"
+  },
+  {
+    "id": "1121",
+    "name": "Pronated Grip Cable Fly",
+    "muscle_group_id": "48",
+    "equipment_id": "28",
+    "image_id": "649"
+  },
+  {
+    "id": "1122",
+    "name": "Prone Cobra",
+    "muscle_group_id": "51",
+    "equipment_id": "24",
+    "image_id": "650"
+  },
+  {
+    "id": "1123",
+    "name": "Resistance Band Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "651"
+  },
+  {
+    "id": "1124",
+    "name": "Prone Incline Dumbbell Bicep Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "652"
+  },
+  {
+    "id": "1125",
+    "name": "Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "653"
+  },
+  {
+    "id": "1126",
+    "name": "Pullover",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "654"
+  },
+  {
+    "id": "1127",
+    "name": "Push Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "655"
+  },
+  {
+    "id": "1128",
+    "name": "Push-Up Bars",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "656"
+  },
+  {
+    "id": "1129",
+    "name": "Push-Up Handles",
+    "muscle_group_id": "48",
+    "equipment_id": "46",
+    "image_id": "657"
+  },
+  {
+    "id": "1130",
+    "name": "Push-Up Jack",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "658"
+  },
+  {
+    "id": "1131",
+    "name": "Push-Up with Rotation",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "659"
+  },
+  {
+    "id": "1132",
+    "name": "Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "660"
+  },
+  {
+    "id": "1133",
+    "name": "Resistance Band Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "661"
+  },
+  {
+    "id": "1134",
+    "name": "Quadruped Leg Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "662"
+  },
+  {
+    "id": "1135",
+    "name": "Raise Single Leg Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "663"
+  },
+  {
+    "id": "1136",
+    "name": "Raised Sit-Up",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "664"
+  },
+  {
+    "id": "1137",
+    "name": "Rear Delt Fly",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "665"
+  },
+  {
+    "id": "1138",
+    "name": "Renegade Row",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "666"
+  },
+  {
+    "id": "1139",
+    "name": "Resistance Band Jump Squats",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "667"
+  },
+  {
+    "id": "1140",
+    "name": "Resistance Band Leg Press",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "668"
+  },
+  {
+    "id": "1141",
+    "name": "Resistance Band Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "669"
+  },
+  {
+    "id": "1142",
+    "name": "Resistance Band Seated Leg Extension",
+    "muscle_group_id": "47",
+    "equipment_id": "30",
+    "image_id": "670"
+  },
+  {
+    "id": "1143",
+    "name": "Resistance Band X Lateral Walk",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "671"
+  },
+  {
+    "id": "1144",
+    "name": "Reverse Hyperextension",
+    "muscle_group_id": "50",
+    "equipment_id": "28",
+    "image_id": "672"
+  },
+  {
+    "id": "1145",
+    "name": "Band External Rotation",
+    "muscle_group_id": "65",
+    "equipment_id": "30",
+    "image_id": "673"
+  },
+  {
+    "id": "1146",
+    "name": "Band Internal Rotation",
+    "muscle_group_id": "49",
+    "equipment_id": "30",
+    "image_id": "674"
+  },
+  {
+    "id": "1147",
+    "name": "Band Reverse Fly",
+    "muscle_group_id": "56",
+    "equipment_id": "30",
+    "image_id": "675"
+  },
+  {
+    "id": "1148",
+    "name": "Reverse Crunch",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "676"
+  },
+  {
+    "id": "1149",
+    "name": "Reverse Deficit Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "677"
+  },
+  {
+    "id": "1150",
+    "name": "Reverse Facing Push-Ups",
+    "muscle_group_id": "56",
+    "equipment_id": "24",
+    "image_id": "678"
+  },
+  {
+    "id": "1151",
+    "name": "Reverse Grip Barbell Row",
+    "muscle_group_id": "54",
+    "equipment_id": "26",
+    "image_id": "679"
+  },
+  {
+    "id": "1152",
+    "name": "Reverse Grip Bench Press",
+    "muscle_group_id": "58",
+    "equipment_id": "26",
+    "image_id": "680"
+  },
+  {
+    "id": "1153",
+    "name": "Reverse Grip Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "681"
+  },
+  {
+    "id": "1154",
+    "name": "Reverse Grip Push-Ups",
+    "muscle_group_id": "58",
+    "equipment_id": "24",
+    "image_id": "682"
+  },
+  {
+    "id": "1155",
+    "name": "Reverse Hack Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "683"
+  },
+  {
+    "id": "1156",
+    "name": "Reverse Hyperextension",
+    "muscle_group_id": "50",
+    "equipment_id": "28",
+    "image_id": "684"
+  },
+  {
+    "id": "1157",
+    "name": "Russian Kettlebell Swing",
+    "muscle_group_id": "50",
+    "equipment_id": "42",
+    "image_id": "685"
+  },
+  {
+    "id": "1158",
+    "name": "Reverse Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "686"
+  },
+  {
+    "id": "1159",
+    "name": "Reverse Nordic Curl",
+    "muscle_group_id": "47",
+    "equipment_id": "25",
+    "image_id": "687"
+  },
+  {
+    "id": "1160",
+    "name": "Reverse Pec Deck Machine",
+    "muscle_group_id": "53",
+    "equipment_id": "48",
+    "image_id": "688"
+  },
+  {
+    "id": "1161",
+    "name": "Reverse Swimmers",
+    "muscle_group_id": "53",
+    "equipment_id": "24",
+    "image_id": "689"
+  },
+  {
+    "id": "1162",
+    "name": "Ring Muscle-Up",
+    "muscle_group_id": "49",
+    "equipment_id": "47",
+    "image_id": "690"
+  },
+  {
+    "id": "1163",
+    "name": "Rope Climb",
+    "muscle_group_id": "54",
+    "equipment_id": "31",
+    "image_id": "691"
+  },
+  {
+    "id": "1164",
+    "name": "Rope Hammer Curl Machine",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "692"
+  },
+  {
+    "id": "1165",
+    "name": "Rope Straight Arm Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "693"
+  },
+  {
+    "id": "1166",
+    "name": "Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "694"
+  },
+  {
+    "id": "1167",
+    "name": "Treadmill",
+    "muscle_group_id": "47",
+    "equipment_id": "43",
+    "image_id": "695"
+  },
+  {
+    "id": "1168",
+    "name": "Seated Band Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "30",
+    "image_id": "696"
+  },
+  {
+    "id": "1169",
+    "name": "Scapula Push-Up",
+    "muscle_group_id": "53",
+    "equipment_id": "24",
+    "image_id": "697"
+  },
+  {
+    "id": "1170",
+    "name": "Scapular Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "698"
+  },
+  {
+    "id": "1171",
+    "name": "Scissor Kicks",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "699"
+  },
+  {
+    "id": "1172",
+    "name": "Band Upright Shoulder External Rotation",
+    "muscle_group_id": "65",
+    "equipment_id": "30",
+    "image_id": "700"
+  },
+  {
+    "id": "1173",
+    "name": "Seated Calf Raise (Dumbbell)",
+    "muscle_group_id": "55",
+    "equipment_id": "25",
+    "image_id": "701"
+  },
+  {
+    "id": "1174",
+    "name": "Seated Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "48",
+    "image_id": "702"
+  },
+  {
+    "id": "1175",
+    "name": "Seated Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "703"
+  },
+  {
+    "id": "1176",
+    "name": "Seated Leg Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "704"
+  },
+  {
+    "id": "1177",
+    "name": "Seated Overhead Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "705"
+  },
+  {
+    "id": "1178",
+    "name": "Seated Reverse Fly",
+    "muscle_group_id": "56",
+    "equipment_id": "25",
+    "image_id": "706"
+  },
+  {
+    "id": "1179",
+    "name": "Self-Assisted Inverse Leg Curl",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "707"
+  },
+  {
+    "id": "1180",
+    "name": "Shoulder Pin Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "708"
+  },
+  {
+    "id": "1181",
+    "name": "Shoulder Push-Up",
+    "muscle_group_id": "49",
+    "equipment_id": "24",
+    "image_id": "709"
+  },
+  {
+    "id": "1182",
+    "name": "Shoulder Tap",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "710"
+  },
+  {
+    "id": "1183",
+    "name": "Shrimp Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "711"
+  },
+  {
+    "id": "1184",
+    "name": "Side Bridge Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "712"
+  },
+  {
+    "id": "1185",
+    "name": "Side Crunch",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "713"
+  },
+  {
+    "id": "1186",
+    "name": "Side Hip Abduction",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "714"
+  },
+  {
+    "id": "1187",
+    "name": "Side Leg Swings",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "715"
+  },
+  {
+    "id": "1188",
+    "name": "Side Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "716"
+  },
+  {
+    "id": "1189",
+    "name": "Side Lying Clam",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "717"
+  },
+  {
+    "id": "1190",
+    "name": "Single Arm Arnold Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "718"
+  },
+  {
+    "id": "1191",
+    "name": "Single Arm Bent Over Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "719"
+  },
+  {
+    "id": "1192",
+    "name": "Single Arm Dumbbell Row",
+    "muscle_group_id": "53",
+    "equipment_id": "25",
+    "image_id": "720"
+  },
+  {
+    "id": "1193",
+    "name": "Single Leg Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "721"
+  },
+  {
+    "id": "1194",
+    "name": "Single Leg Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "722"
+  },
+  {
+    "id": "1195",
+    "name": "Single Leg Hip Thrust",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "723"
+  },
+  {
+    "id": "1196",
+    "name": "Single Leg Standing Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "724"
+  },
+  {
+    "id": "1197",
+    "name": "Sit Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "725"
+  },
+  {
+    "id": "1198",
+    "name": "Skater Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "726"
+  },
+  {
+    "id": "1199",
+    "name": "Sled Drag",
+    "muscle_group_id": "47",
+    "equipment_id": "49",
+    "image_id": "727"
+  },
+  {
+    "id": "1200",
+    "name": "Sled Push",
+    "muscle_group_id": "47",
+    "equipment_id": "49",
+    "image_id": "728"
+  },
+  {
+    "id": "1201",
+    "name": "Slider Push-Ups",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "729"
+  },
+  {
+    "id": "1202",
+    "name": "Sliding Leg Curl (With Towel)",
+    "muscle_group_id": "60",
+    "equipment_id": "25",
+    "image_id": "730"
+  },
+  {
+    "id": "1203",
+    "name": "Smith Bent Knee Good Morning",
+    "muscle_group_id": "60",
+    "equipment_id": "50",
+    "image_id": "731"
+  },
+  {
+    "id": "1204",
+    "name": "Smith Machine Bench Press",
+    "muscle_group_id": "48",
+    "equipment_id": "50",
+    "image_id": "732"
+  },
+  {
+    "id": "1205",
+    "name": "Smith Machine Bent Over Row",
+    "muscle_group_id": "53",
+    "equipment_id": "50",
+    "image_id": "733"
+  },
+  {
+    "id": "1206",
+    "name": "Smith Machine Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "50",
+    "image_id": "734"
+  },
+  {
+    "id": "1207",
+    "name": "Smith Machine Deadlift",
+    "muscle_group_id": "51",
+    "equipment_id": "50",
+    "image_id": "735"
+  },
+  {
+    "id": "1208",
+    "name": "Smith Machine Front Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "50",
+    "image_id": "736"
+  },
+  {
+    "id": "1209",
+    "name": "Smith Machine Lunge",
+    "muscle_group_id": "47",
+    "equipment_id": "50",
+    "image_id": "737"
+  },
+  {
+    "id": "1210",
+    "name": "Smith Machine Rack Pull",
+    "muscle_group_id": "51",
+    "equipment_id": "50",
+    "image_id": "738"
+  },
+  {
+    "id": "1211",
+    "name": "Smith Machine Shrug",
+    "muscle_group_id": "61",
+    "equipment_id": "50",
+    "image_id": "739"
+  },
+  {
+    "id": "1212",
+    "name": "Smith Machine Single Arm Row",
+    "muscle_group_id": "54",
+    "equipment_id": "50",
+    "image_id": "740"
+  },
+  {
+    "id": "1213",
+    "name": "Smith Machine Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "50",
+    "image_id": "741"
+  },
+  {
+    "id": "1214",
+    "name": "Sphinx Push-Up",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "742"
+  },
+  {
+    "id": "1215",
+    "name": "Spider Curls",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "743"
+  },
+  {
+    "id": "1216",
+    "name": "Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "744"
+  },
+  {
+    "id": "1217",
+    "name": "Split Squats",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "745"
+  },
+  {
+    "id": "1218",
+    "name": "Squat Hold (2 Seconds)",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "746"
+  },
+  {
+    "id": "1219",
+    "name": "Squat Hold Calf Raises",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "747"
+  },
+  {
+    "id": "1220",
+    "name": "Squat Jump",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "748"
+  },
+  {
+    "id": "1221",
+    "name": "Squat (Knees End Position)",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "749"
+  },
+  {
+    "id": "1222",
+    "name": "Squat Tempo",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "750"
+  },
+  {
+    "id": "1223",
+    "name": "Squat to Calf Raise",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "751"
+  },
+  {
+    "id": "1224",
+    "name": "Stability Ball Push-Up",
+    "muscle_group_id": "58",
+    "equipment_id": "44",
+    "image_id": "752"
+  },
+  {
+    "id": "1225",
+    "name": "Stability Ball Rollout",
+    "muscle_group_id": "44",
+    "equipment_id": "44",
+    "image_id": "753"
+  },
+  {
+    "id": "1226",
+    "name": "Stability Ball Wall Sit",
+    "muscle_group_id": "47",
+    "equipment_id": "44",
+    "image_id": "754"
+  },
+  {
+    "id": "1227",
+    "name": "Staggered Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "755"
+  },
+  {
+    "id": "1228",
+    "name": "Standing Cable Row",
+    "muscle_group_id": "53",
+    "equipment_id": "28",
+    "image_id": "756"
+  },
+  {
+    "id": "1229",
+    "name": "Standing Cable Straight Arm Pushdown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "757"
+  },
+  {
+    "id": "1230",
+    "name": "Standing Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "24",
+    "image_id": "758"
+  },
+  {
+    "id": "1231",
+    "name": "Standing Landmine Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "759"
+  },
+  {
+    "id": "1232",
+    "name": "Standing Long Jump (Plyometric)",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "760"
+  },
+  {
+    "id": "1233",
+    "name": "Standing Smith Machine Shoulder Press",
+    "muscle_group_id": "49",
+    "equipment_id": "50",
+    "image_id": "761"
+  },
+  {
+    "id": "1234",
+    "name": "Stiff-Legged Smith Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "26",
+    "image_id": "762"
+  },
+  {
+    "id": "1235",
+    "name": "Straight Bar Dips",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "763"
+  },
+  {
+    "id": "1236",
+    "name": "Straight Bar Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "764"
+  },
+  {
+    "id": "1237",
+    "name": "Straight Bar Tricep Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "765"
+  },
+  {
+    "id": "1238",
+    "name": "Straight Leg Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "766"
+  },
+  {
+    "id": "1239",
+    "name": "Straight Leg Deadlift",
+    "muscle_group_id": "60",
+    "equipment_id": "26",
+    "image_id": "767"
+  },
+  {
+    "id": "1240",
+    "name": "Straight Leg Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "768"
+  },
+  {
+    "id": "1241",
+    "name": "Suitcase Deadlift",
+    "muscle_group_id": "45",
+    "equipment_id": "26",
+    "image_id": "769"
+  },
+  {
+    "id": "1242",
+    "name": "Sumo Air Squat",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "770"
+  },
+  {
+    "id": "1243",
+    "name": "Sumo Deadlift from Blocks",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "771"
+  },
+  {
+    "id": "1244",
+    "name": "Sumo Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "26",
+    "image_id": "772"
+  },
+  {
+    "id": "1245",
+    "name": "Sumo Smith Machine Deadlift",
+    "muscle_group_id": "50",
+    "equipment_id": "50",
+    "image_id": "773"
+  },
+  {
+    "id": "1246",
+    "name": "Supermans",
+    "muscle_group_id": "51",
+    "equipment_id": "24",
+    "image_id": "774"
+  },
+  {
+    "id": "1247",
+    "name": "Supinated Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "775"
+  },
+  {
+    "id": "1248",
+    "name": "Supine Dumbbell Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "776"
+  },
+  {
+    "id": "1249",
+    "name": "Supine Leg Raises",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "777"
+  },
+  {
+    "id": "1250",
+    "name": "Suspended Push-Ups",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "778"
+  },
+  {
+    "id": "1251",
+    "name": "Svend Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "779"
+  },
+  {
+    "id": "1252",
+    "name": "T Bar Row Machine",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "780"
+  },
+  {
+    "id": "1253",
+    "name": "Table Top Glute Bridge",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "781"
+  },
+  {
+    "id": "1254",
+    "name": "Tate Press",
+    "muscle_group_id": "52",
+    "equipment_id": "25",
+    "image_id": "782"
+  },
+  {
+    "id": "1255",
+    "name": "Kettlebell Halo",
+    "muscle_group_id": "49",
+    "equipment_id": "42",
+    "image_id": "783"
+  },
+  {
+    "id": "1256",
+    "name": "Tire Flip",
+    "muscle_group_id": "47",
+    "equipment_id": "52",
+    "image_id": "784"
+  },
+  {
+    "id": "1257",
+    "name": "Toes to Bar",
+    "muscle_group_id": "64",
+    "equipment_id": "24",
+    "image_id": "785"
+  },
+  {
+    "id": "1258",
+    "name": "Trap Bar Deadlift",
+    "muscle_group_id": "47",
+    "equipment_id": "53",
+    "image_id": "786"
+  },
+  {
+    "id": "1259",
+    "name": "Trap Bar Jump Squat",
+    "muscle_group_id": "50",
+    "equipment_id": "24",
+    "image_id": "787"
+  },
+  {
+    "id": "1260",
+    "name": "Tricep Bar Hammer Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "788"
+  },
+  {
+    "id": "1261",
+    "name": "Tricep Dip",
+    "muscle_group_id": "52",
+    "equipment_id": "24",
+    "image_id": "789"
+  },
+  {
+    "id": "1262",
+    "name": "Tricep Overhead Extensions",
+    "muscle_group_id": "52",
+    "equipment_id": "28",
+    "image_id": "790"
+  },
+  {
+    "id": "1263",
+    "name": "Tuck Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "791"
+  },
+  {
+    "id": "1264",
+    "name": "Tuck Jump",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "792"
+  },
+  {
+    "id": "1265",
+    "name": "Upright Cable Row",
+    "muscle_group_id": "62",
+    "equipment_id": "28",
+    "image_id": "793"
+  },
+  {
+    "id": "1266",
+    "name": "V Bar Tricep Pushdown",
+    "muscle_group_id": "52",
+    "equipment_id": "54",
+    "image_id": "794"
+  },
+  {
+    "id": "1267",
+    "name": "V Sit-Ups",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "795"
+  },
+  {
+    "id": "1268",
+    "name": "Vertical Rope Pulls",
+    "muscle_group_id": "54",
+    "equipment_id": "31",
+    "image_id": "796"
+  },
+  {
+    "id": "1269",
+    "name": "Wall Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "24",
+    "image_id": "798"
+  },
+  {
+    "id": "1270",
+    "name": "Wall Sit",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "799"
+  },
+  {
+    "id": "1271",
+    "name": "Weighted Calf Raise",
+    "muscle_group_id": "55",
+    "equipment_id": "32",
+    "image_id": "800"
+  },
+  {
+    "id": "1272",
+    "name": "Weighted Chin-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "32",
+    "image_id": "801"
+  },
+  {
+    "id": "1273",
+    "name": "Weighted Decline Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "32",
+    "image_id": "802"
+  },
+  {
+    "id": "1274",
+    "name": "Weighted Dips",
+    "muscle_group_id": "52",
+    "equipment_id": "32",
+    "image_id": "803"
+  },
+  {
+    "id": "1275",
+    "name": "Weighted Hyperextension",
+    "muscle_group_id": "51",
+    "equipment_id": "28",
+    "image_id": "804"
+  },
+  {
+    "id": "1276",
+    "name": "Weighted Knee Crunch",
+    "muscle_group_id": "44",
+    "equipment_id": "32",
+    "image_id": "805"
+  },
+  {
+    "id": "1277",
+    "name": "Weighted Neutral Grip Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "806"
+  },
+  {
+    "id": "1278",
+    "name": "Weighted Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "807"
+  },
+  {
+    "id": "1279",
+    "name": "Weighted Push-Up",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "808"
+  },
+  {
+    "id": "1280",
+    "name": "Weighted Step-Up",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "809"
+  },
+  {
+    "id": "1281",
+    "name": "Wide Arm Push-Ups",
+    "muscle_group_id": "48",
+    "equipment_id": "24",
+    "image_id": "810"
+  },
+  {
+    "id": "1282",
+    "name": "Wide Grip Barbell Curls",
+    "muscle_group_id": "46",
+    "equipment_id": "26",
+    "image_id": "811"
+  },
+  {
+    "id": "1283",
+    "name": "Wide Grip Drag Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "25",
+    "image_id": "812"
+  },
+  {
+    "id": "1284",
+    "name": "Wide Grip EZ Bar Curl",
+    "muscle_group_id": "46",
+    "equipment_id": "37",
+    "image_id": "813"
+  },
+  {
+    "id": "1285",
+    "name": "Wide Grip Lat Pulldown",
+    "muscle_group_id": "54",
+    "equipment_id": "28",
+    "image_id": "814"
+  },
+  {
+    "id": "1286",
+    "name": "Wide Grip Pull-Up",
+    "muscle_group_id": "54",
+    "equipment_id": "24",
+    "image_id": "815"
+  },
+  {
+    "id": "1287",
+    "name": "Windshield Wipers",
+    "muscle_group_id": "45",
+    "equipment_id": "24",
+    "image_id": "816"
+  },
+  {
+    "id": "1288",
+    "name": "Wood Chop",
+    "muscle_group_id": "45",
+    "equipment_id": "28",
+    "image_id": "817"
+  },
+  {
+    "id": "1289",
+    "name": "Wrist Extension",
+    "muscle_group_id": "59",
+    "equipment_id": "28",
+    "image_id": "818"
+  },
+  {
+    "id": "1290",
+    "name": "Wrist Flexion",
+    "muscle_group_id": "59",
+    "equipment_id": "24",
+    "image_id": "819"
+  },
+  {
+    "id": "1291",
+    "name": "Wrist Roller",
+    "muscle_group_id": "59",
+    "equipment_id": "25",
+    "image_id": "820"
+  },
+  {
+    "id": "1292",
+    "name": "Yates Row",
+    "muscle_group_id": "54",
+    "equipment_id": "25",
+    "image_id": "821"
+  },
+  {
+    "id": "1293",
+    "name": "Z Press",
+    "muscle_group_id": "49",
+    "equipment_id": "25",
+    "image_id": "822"
+  },
+  {
+    "id": "1294",
+    "name": "Zercher Bulgarian Split Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "823"
+  },
+  {
+    "id": "1295",
+    "name": "Zercher Squat",
+    "muscle_group_id": "47",
+    "equipment_id": "24",
+    "image_id": "824"
+  },
+  {
+    "id": ""
+  }
+]

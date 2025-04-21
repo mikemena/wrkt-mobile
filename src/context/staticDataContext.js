@@ -15,7 +15,8 @@ const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 // Cloudflare R2 Configuration
 const CLOUDFLARE_BASE_URL =
-  'https://pub-a989f0ab2acf49f791c4a368f2cfa33c.r2.dev';
+  'https://pub-510e01a4de414aa79526e42373110829.r2.dev';
+
 const CLOUDFLARE_BUCKET = 'wrkt-images';
 
 const StaticDataContext = createContext();
