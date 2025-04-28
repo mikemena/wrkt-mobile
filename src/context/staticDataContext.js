@@ -41,10 +41,10 @@ export const StaticDataProvider = ({ children }) => {
 
   const initializeData = async () => {
     try {
-      console.log('StaticDataContext: Initializing data...');
-      console.log('Exercises data length:', exercisesData?.length || 0);
-      console.log('Muscles data length:', musclesData?.length || 0);
-      console.log('Equipment data length:', equipmentData?.length || 0);
+      // console.log('StaticDataContext: Initializing data...');
+      // console.log('Exercises data length:', exercisesData?.length || 0);
+      // console.log('Muscles data length:', musclesData?.length || 0);
+      // console.log('Equipment data length:', equipmentData?.length || 0);
 
       // Check if we need to refresh cache
       const needsRefresh = await checkCache();
@@ -60,7 +60,7 @@ export const StaticDataProvider = ({ children }) => {
 
       setData(processedData);
       setIsLoaded(true);
-      console.log('StaticDataContext: Data initialized and ready');
+      // console.log('StaticDataContext: Data initialized and ready');
     } catch (error) {
       console.error('Error initializing static data:', error);
       // Fallback to direct processing without caching
@@ -101,32 +101,32 @@ export const StaticDataProvider = ({ children }) => {
   };
 
   const processImportedData = () => {
-    console.log('Processing imported data...');
+    // console.log('Processing imported data...');
 
     // Filter out any empty items
     const exercises = exercisesData.filter(exercise => exercise.id !== '');
     const muscles = musclesData.filter(muscle => muscle.id !== '');
     const equipment = equipmentData.filter(equip => equip.id !== '');
 
-    console.log('Filtered exercises length:', exercises.length);
-    console.log('Filtered muscles length:', muscles.length);
-    console.log('Filtered equipment length:', equipment.length);
+    // console.log('Filtered exercises length:', exercises.length);
+    // console.log('Filtered muscles length:', muscles.length);
+    // console.log('Filtered equipment length:', equipment.length);
 
-    if (exercises.length > 0) {
-      console.log('Sample exercise:', JSON.stringify(exercises[0], null, 2));
-    }
+    // if (exercises.length > 0) {
+    //   console.log('Sample exercise:', JSON.stringify(exercises[0], null, 2));
+    // }
 
-    if (muscles.length > 0) {
-      console.log('Sample muscle:', JSON.stringify(muscles[0], null, 2));
-    }
+    // if (muscles.length > 0) {
+    //   console.log('Sample muscle:', JSON.stringify(muscles[0], null, 2));
+    // }
 
-    if (equipment.length > 0) {
-      console.log('Sample equipment:', JSON.stringify(equipment[0], null, 2));
-    }
+    // if (equipment.length > 0) {
+    //   console.log('Sample equipment:', JSON.stringify(equipment[0], null, 2));
+    // }
 
     // Create unique muscle groups list
     const muscleGroups = [...new Set(muscles.map(m => m.muscle_group))].sort();
-    console.log('Muscle groups:', muscleGroups);
+    // console.log('Muscle groups:', muscleGroups);
 
     // Create lookup maps
     const musclesByGroup = muscles.reduce((acc, muscle) => {
@@ -169,7 +169,7 @@ export const StaticDataProvider = ({ children }) => {
       return imageUrlMap[exerciseId] || null;
     };
 
-    console.log('Data processing complete');
+    // console.log('Data processing complete');
 
     return {
       exercises,

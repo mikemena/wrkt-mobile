@@ -320,6 +320,10 @@ const RootNavigator = () => {
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  // console.log('Constants:', JSON.stringify(Constants));
+  // console.log('ExpoConfig:', Constants.expoConfig);
+  // console.log('Process env:', process.env);
+
   useEffect(() => {
     async function loadFonts() {
       try {
@@ -333,8 +337,11 @@ const App = () => {
         console.error('Failed to load fonts:', error);
       }
     }
-    const apiUrl = Constants.expoConfig.extra.apiUrl;
-    console.log('API URL from App.jsx', apiUrl);
+
+    const apiUrl =
+      Constants.expoConfig?.extra?.apiUrl ||
+      'https://wrkt-backend-development.up.railway.app';
+    // console.log('API URL from App.jsx', apiUrl);
     initializeApi({ apiUrl });
 
     loadFonts();

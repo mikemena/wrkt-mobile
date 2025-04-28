@@ -5,6 +5,7 @@ import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
+import * as FileSystem from 'expo-file-system';
 
 // R2 configuration
 const R2_CONFIG = {
@@ -20,8 +21,9 @@ const R2_CONFIG = {
   forcePathStyle: true
 };
 
-// Cache TTL in milliseconds (1 hour)
-const CACHE_TTL = 3600 * 1000;
+const IMAGE_CACHE_DIR = `${FileSystem.cacheDirectory}exercise-images/`;
+// Cache TTL in milliseconds (24 hours - increase this to reduce network requests)
+const CACHE_TTL = 24 * 3600 * 1000;
 
 // Initialize S3 client for R2
 const s3Client = new S3Client(R2_CONFIG);
@@ -48,6 +50,19 @@ const ExerciseImage = ({
     themeState.accentColor
   );
 
+  const ensureCacheDirectoryExists = async () => {
+    try {
+      const dirInfo = await FileSystem.getInfoAsync(IMAGE_CACHE_DIR);
+      if (!dirInfo.exists) {
+        await FileSystem.makeDirectoryAsync(IMAGE_CACHE_DIR, {
+          intermediates: true
+        });
+      }
+    } catch (error) {
+      console.error('Error creating cache directory:', error);
+    }
+  };
+
   // Generate a direct URL (without pre-signed URL)
   const generateDirectUrl = imageName => {
     // Just return the direct URL to the image on Cloudflare R2
@@ -58,7 +73,7 @@ const ExerciseImage = ({
   const generatePresignedUrl = async imageName => {
     try {
       // Log the image name for debugging
-      console.log('Generating presigned URL for image name:', imageName);
+      // console.log('Generating presigned URL for image name:', imageName);
 
       // Important: Use the filename directly as the Key, NOT in an 'images/' subfolder
       const command = new GetObjectCommand({
@@ -83,13 +98,13 @@ const ExerciseImage = ({
 
     // If we have an image name, use it
     if (exercise.image_name) {
-      console.log('Found image_name:', exercise.image_name);
+      // console.log('Found image_name:', exercise.image_name);
       return exercise.image_name;
     }
 
     // Fallback to imageUrl if available
     if (exercise.imageUrl) {
-      console.log('Using imageUrl as fallback:', exercise.imageUrl);
+      // console.log('Using imageUrl as fallback:', exercise.imageUrl);
       return exercise.imageUrl;
     }
 
@@ -112,58 +127,90 @@ const ExerciseImage = ({
     setErrorMessage('');
 
     try {
-      // Get image name
       const imageName = getImageName();
-      console.log('Loading image with name:', imageName);
-
       if (!imageName) {
         throw new Error('No image available');
       }
 
-      // For testing: try using direct URL approach first
-      const directUrl = generateDirectUrl(imageName);
-      console.log('Using direct URL:', directUrl);
+      // console.log('Loading image with name:', imageName);
 
-      if (isMounted.current) {
-        setImageUri(directUrl);
-        setIsLoading(false);
-      }
+      // Ensure cache directory exists
+      await ensureCacheDirectoryExists();
 
-      // Skip the presigned URL approach since we're trying direct URLs
-      /*
-      // Try to get from AsyncStorage cache first
-      const cacheKey = `presigned_url_${imageName}`;
-      const cachedData = await AsyncStorage.getItem(cacheKey);
+      // Local cache path
+      const cacheFileName = imageName.replace(/[/\\?%*:|"<>]/g, '_');
+      const localFilePath = `${IMAGE_CACHE_DIR}${cacheFileName}`;
 
-      if (cachedData) {
-        const { url, timestamp } = JSON.parse(cachedData);
-        // Check if the URL is still valid (not expired)
-        if (timestamp + CACHE_TTL > Date.now()) {
-          setImageUri(url);
-          setIsLoading(false);
-          return;
+      // Check if file exists in cache
+      const fileInfo = await FileSystem.getInfoAsync(localFilePath);
+
+      if (fileInfo.exists) {
+        // Check if cache is still valid
+        const cacheMetadataPath = `${localFilePath}.meta`;
+        try {
+          const metadataStr =
+            await FileSystem.readAsStringAsync(cacheMetadataPath);
+          const metadata = JSON.parse(metadataStr);
+
+          if (metadata.timestamp + CACHE_TTL > Date.now()) {
+            // Use cached file
+            // console.log('Using cached image:', localFilePath);
+            if (isMounted.current) {
+              setImageUri(fileInfo.uri);
+              setIsLoading(false);
+            }
+            return;
+          }
+        } catch (e) {
+          // Metadata doesn't exist or is invalid, continue to download
+          // console.log('Cache metadata invalid, downloading fresh image');
         }
       }
 
-      // Generate a new pre-signed URL
-      const presignedUrl = await generatePresignedUrl(imageName);
+      // Download the image
+      const imageUrl = generateDirectUrl(imageName);
+      //console.log('Using direct URL:', imageUrl);
 
-      // Save to cache
-      await AsyncStorage.setItem(
-        cacheKey,
-        JSON.stringify({
-          url: presignedUrl,
-          timestamp: Date.now()
-        })
+      // Download file to cache
+      const downloadResult = await FileSystem.downloadAsync(
+        imageUrl,
+        localFilePath
       );
 
-      if (isMounted.current) {
-        setImageUri(presignedUrl);
-        setIsLoading(false);
+      if (downloadResult.status === 200) {
+        // Save metadata
+        const metadata = {
+          timestamp: Date.now(),
+          url: imageUrl
+        };
+        await FileSystem.writeAsStringAsync(
+          `${localFilePath}.meta`,
+          JSON.stringify(metadata)
+        );
+
+        if (isMounted.current) {
+          setImageUri(downloadResult.uri);
+          setIsLoading(false);
+        }
+      } else {
+        throw new Error(`Download failed with status ${downloadResult.status}`);
       }
-      */
     } catch (error) {
       console.error('Error loading image:', error);
+      const exerciseDetails = {
+        id: exercise?.id,
+        catalogExerciseId: exercise?.catalogExerciseId,
+        name: exercise?.name,
+        imageName: getImageName(),
+        imageUrl: exercise?.imageUrl,
+        error: error.message || 'Unknown error'
+      };
+
+      console.error(
+        'Failed to load image for exercise:',
+        JSON.stringify(exerciseDetails, null, 2)
+      );
+
       if (isMounted.current) {
         setErrorMessage(error.message || 'Failed to load image');
         setImageError(true);
@@ -181,12 +228,21 @@ const ExerciseImage = ({
   const handleImageError = async error => {
     if (!isMounted.current) return;
 
-    console.error('Image loading error:', {
-      exerciseId: exercise?.id,
-      imageName: getImageName(),
-      imageUri,
+    // Get all exercise details for logging
+    const imageName = getImageName();
+    const exerciseDetails = {
+      id: exercise?.id,
+      catalogExerciseId: exercise?.catalogExerciseId,
+      name: exercise?.name,
+      imageName: imageName,
+      imageUrl: exercise?.imageUrl,
       error: error?.nativeEvent?.error || 'Unknown error'
-    });
+    };
+
+    console.error(
+      'Image loading error for exercise:',
+      JSON.stringify(exerciseDetails, null, 2)
+    );
 
     retryCount.current += 1;
 
@@ -251,7 +307,7 @@ const ExerciseImage = ({
           source={{ uri: imageUri }}
           style={[styles.image, imageStyle]}
           onError={handleImageError}
-          onLoad={() => console.log('Image loaded successfully:', imageUri)}
+          // onLoad={() => console.log('Image loaded successfully:', imageUri)}
           resizeMode={resizeMode}
         />
       ) : null}

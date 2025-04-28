@@ -60,18 +60,18 @@ export const UserEquipmentProvider = ({ children }) => {
     if (!userId) return;
 
     try {
-      console.log('Fetching user equipment for userId:', userId);
+      // console.log('Fetching user equipment for userId:', userId);
 
       // Make the API request
       const response = await api.get(`/api/users/${userId}/equipment`);
 
       // Log the raw response to see what's coming back
-      console.log('Equipment API response type:', typeof response);
-      console.log('Equipment API response:', response);
+      // console.log('Equipment API response type:', typeof response);
+      // console.log('Equipment API response:', response);
 
       // Check if response is valid
       if (response && Array.isArray(response)) {
-        console.log('Valid equipment array received:', response);
+        // console.log('Valid equipment array received:', response);
 
         // Determine the equipment names based on response format
         let equipmentNames;
@@ -96,14 +96,14 @@ export const UserEquipmentProvider = ({ children }) => {
           JSON.stringify(equipmentNames)
         );
 
-        console.log('User equipment updated:', equipmentNames);
+        // console.log('User equipment updated:', equipmentNames);
       } else {
         console.warn('Invalid equipment response format:', response);
 
         // For testing - manually set some equipment
         const testEquipment = ['Barbell', 'Dumbbell', 'EZ-Bar'];
         setUserEquipment(testEquipment);
-        console.log('Using test equipment data:', testEquipment);
+        // console.log('Using test equipment data:', testEquipment);
       }
     } catch (err) {
       console.error('Error fetching equipment from API:', err);
@@ -112,7 +112,7 @@ export const UserEquipmentProvider = ({ children }) => {
       // For immediate testing - manually set some equipment
       const fallbackEquipment = ['Barbell', 'Dumbbell', 'EZ-Bar'];
       setUserEquipment(fallbackEquipment);
-      console.log('Using fallback equipment after error:', fallbackEquipment);
+      // console.log('Using fallback equipment after error:', fallbackEquipment);
     } finally {
       setIsLoading(false);
     }

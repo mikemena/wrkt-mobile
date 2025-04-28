@@ -1,7 +1,7 @@
 let apiConfig = null;
 
 export const initializeApi = ({ apiUrl }) => {
-  console.log('API URL from api.js', apiUrl);
+  // console.log('API URL from api.js', apiUrl);
   apiConfig = {
     baseUrl: apiUrl
   };
