@@ -1,32 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Image, ActivityIndicator, Text, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
 import * as FileSystem from 'expo-file-system';
 
-// R2 configuration
-const R2_CONFIG = {
-  region: 'auto',
-  endpoint: 'https://pub-510e01a4de414aa79526e42373110829.r2.dev',
-  credentials: {
-    // IMPORTANT: These should be stored securely, ideally using environment variables
-    // or a secure storage mechanism. For development purposes only!
-    accessKeyId: '140c882768e81c08c6afd2d1004ab296',
-    secretAccessKey:
-      'f5ef273c4096aaa1ca9b7e7fb484a3a6fbeb913ec2f1ca7662264e469fd13ed0'
-  },
-  forcePathStyle: true
-};
-
+// Configuration
 const IMAGE_CACHE_DIR = `${FileSystem.cacheDirectory}exercise-images/`;
-// Cache TTL in milliseconds (24 hours - increase this to reduce network requests)
-const CACHE_TTL = 24 * 3600 * 1000;
-
-// Initialize S3 client for R2
-const s3Client = new S3Client(R2_CONFIG);
+// Increase cache TTL to 7 days
+const CACHE_TTL = 7 * 24 * 3600 * 1000;
+// Keep track of cached image URIs in memory to avoid file system checks
+const inMemoryCache = new Map();
 
 const ExerciseImage = ({
   exercise,
@@ -63,61 +46,24 @@ const ExerciseImage = ({
     }
   };
 
-  // Generate a direct URL (without pre-signed URL)
   const generateDirectUrl = imageName => {
-    // Just return the direct URL to the image on Cloudflare R2
     return `https://pub-510e01a4de414aa79526e42373110829.r2.dev/${imageName}`;
   };
 
-  // Generate a pre-signed URL for R2
-  const generatePresignedUrl = async imageName => {
-    try {
-      // Log the image name for debugging
-      // console.log('Generating presigned URL for image name:', imageName);
-
-      // Important: Use the filename directly as the Key, NOT in an 'images/' subfolder
-      const command = new GetObjectCommand({
-        Bucket: 'wrkt-images',
-        Key: imageName, // Use the image name directly, not in a subfolder
-        ResponseContentType: 'image/gif',
-        ResponseCacheControl: 'public, max-age=86400'
-      });
-
-      const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-      console.log('Generated presigned URL:', url);
-      return url;
-    } catch (error) {
-      console.error('Error generating presigned URL:', error);
-      throw error;
-    }
-  };
-
-  // Extract image name from exercise
   const getImageName = () => {
     if (!exercise) return null;
-
-    // If we have an image name, use it
-    if (exercise.image_name) {
-      // console.log('Found image_name:', exercise.image_name);
-      return exercise.image_name;
-    }
-
-    // Fallback to imageUrl if available
-    if (exercise.imageUrl) {
-      // console.log('Using imageUrl as fallback:', exercise.imageUrl);
-      return exercise.imageUrl;
-    }
-
+    if (exercise.image_name) return exercise.image_name;
+    if (exercise.imageUrl) return exercise.imageUrl;
     console.log('No image name found for exercise:', exercise.id);
     return null;
   };
 
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
+  // Generate a unique cache key for this image
+  const getCacheKey = () => {
+    const imageName = getImageName();
+    if (!imageName) return null;
+    return `exercise_image_${imageName}`;
+  };
 
   const loadImage = async () => {
     if (!isMounted.current) return;
@@ -132,7 +78,25 @@ const ExerciseImage = ({
         throw new Error('No image available');
       }
 
-      // console.log('Loading image with name:', imageName);
+      const cacheKey = getCacheKey();
+
+      // Check in-memory cache first
+      if (cacheKey && inMemoryCache.has(cacheKey)) {
+        const cachedUri = inMemoryCache.get(cacheKey);
+        // Verify the file still exists
+        const fileInfo = await FileSystem.getInfoAsync(cachedUri);
+        if (fileInfo.exists) {
+          if (isMounted.current) {
+            setImageUri(cachedUri);
+            // Immediately set loading to false when using cached image
+            setIsLoading(false);
+          }
+          return;
+        } else {
+          // File doesn't exist anymore, remove from memory cache
+          inMemoryCache.delete(cacheKey);
+        }
+      }
 
       // Ensure cache directory exists
       await ensureCacheDirectoryExists();
@@ -153,23 +117,25 @@ const ExerciseImage = ({
           const metadata = JSON.parse(metadataStr);
 
           if (metadata.timestamp + CACHE_TTL > Date.now()) {
-            // Use cached file
-            // console.log('Using cached image:', localFilePath);
+            // Use cached file and store in memory cache
             if (isMounted.current) {
+              if (cacheKey) {
+                inMemoryCache.set(cacheKey, fileInfo.uri);
+              }
               setImageUri(fileInfo.uri);
+              // Immediately set loading to false when using cached image
               setIsLoading(false);
             }
             return;
           }
         } catch (e) {
           // Metadata doesn't exist or is invalid, continue to download
-          // console.log('Cache metadata invalid, downloading fresh image');
+          console.log('Cache metadata invalid, downloading fresh image');
         }
       }
 
       // Download the image
       const imageUrl = generateDirectUrl(imageName);
-      //console.log('Using direct URL:', imageUrl);
 
       // Download file to cache
       const downloadResult = await FileSystem.downloadAsync(
@@ -189,27 +155,17 @@ const ExerciseImage = ({
         );
 
         if (isMounted.current) {
+          if (cacheKey) {
+            inMemoryCache.set(cacheKey, downloadResult.uri);
+          }
           setImageUri(downloadResult.uri);
-          setIsLoading(false);
+          // Don't set loading to false here - let onLoad handle it
         }
       } else {
         throw new Error(`Download failed with status ${downloadResult.status}`);
       }
     } catch (error) {
       console.error('Error loading image:', error);
-      const exerciseDetails = {
-        id: exercise?.id,
-        catalogExerciseId: exercise?.catalogExerciseId,
-        name: exercise?.name,
-        imageName: getImageName(),
-        imageUrl: exercise?.imageUrl,
-        error: error.message || 'Unknown error'
-      };
-
-      console.error(
-        'Failed to load image for exercise:',
-        JSON.stringify(exerciseDetails, null, 2)
-      );
 
       if (isMounted.current) {
         setErrorMessage(error.message || 'Failed to load image');
@@ -220,37 +176,32 @@ const ExerciseImage = ({
   };
 
   useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!exercise) return;
     loadImage();
   }, [exercise]);
 
-  // Improved error handling for the handleImageError function
   const handleImageError = async error => {
     if (!isMounted.current) return;
 
-    // Get all exercise details for logging
-    const imageName = getImageName();
-    const exerciseDetails = {
-      id: exercise?.id,
-      catalogExerciseId: exercise?.catalogExerciseId,
-      name: exercise?.name,
-      imageName: imageName,
-      imageUrl: exercise?.imageUrl,
-      error: error?.nativeEvent?.error || 'Unknown error'
-    };
-
     console.error(
-      'Image loading error for exercise:',
-      JSON.stringify(exerciseDetails, null, 2)
+      'Image loading error:',
+      error?.nativeEvent?.error || 'Unknown error'
     );
 
     retryCount.current += 1;
 
     if (retryCount.current < MAX_RETRIES) {
       // Clear cache for this image
-      const imageName = getImageName();
-      if (imageName) {
-        await AsyncStorage.removeItem(`presigned_url_${imageName}`);
+      const cacheKey = getCacheKey();
+      if (cacheKey) {
+        inMemoryCache.delete(cacheKey);
       }
 
       // Reset states and force a new URL generation
@@ -260,11 +211,18 @@ const ExerciseImage = ({
 
       // Small delay before retrying
       setTimeout(() => {
-        loadImage(); // Call loadImage again (make sure loadImage is extracted to a named function)
+        loadImage();
       }, 500);
     } else {
       setImageError(true);
       setErrorMessage('Failed after multiple attempts');
+      setIsLoading(false);
+    }
+  };
+
+  const handleImageLoad = () => {
+    if (isMounted.current) {
+      setIsLoading(false);
     }
   };
 
@@ -307,7 +265,13 @@ const ExerciseImage = ({
           source={{ uri: imageUri }}
           style={[styles.image, imageStyle]}
           onError={handleImageError}
-          // onLoad={() => console.log('Image loaded successfully:', imageUri)}
+          onLoad={handleImageLoad}
+          onLoadEnd={() => {
+            // Fallback in case onLoad doesn't fire
+            if (isMounted.current && isLoading) {
+              setIsLoading(false);
+            }
+          }}
           resizeMode={resizeMode}
         />
       ) : null}

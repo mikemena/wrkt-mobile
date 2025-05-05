@@ -130,8 +130,10 @@ const ExerciseSelection = ({ navigation, route }) => {
 
       // Filter by muscles if provided
       if (filterValues.muscles?.length > 0) {
+        // Convert muscle IDs to strings for comparison
+        const muscleFilterIds = filterValues.muscles.map(String);
         filteredData = filteredData.filter(exercise =>
-          filterValues.muscles.includes(exercise.muscle_group_id)
+          muscleFilterIds.includes(String(exercise.muscle_group_id))
         );
         console.log(
           'After muscle filtering, data length:',
@@ -142,9 +144,15 @@ const ExerciseSelection = ({ navigation, route }) => {
       // Filter by equipment if provided
       if (filterValues.equipment?.length > 0) {
         console.log('Filtering by equipment IDs:', filterValues.equipment);
-        filteredData = filteredData.filter(exercise =>
-          filterValues.equipment.includes(exercise.equipment_id)
-        );
+
+        // Convert equipment IDs to strings for comparison
+        const equipmentFilterIds = filterValues.equipment.map(String);
+
+        filteredData = filteredData.filter(exercise => {
+          const exerciseEquipmentId = String(exercise.equipment_id);
+          return equipmentFilterIds.includes(exerciseEquipmentId);
+        });
+
         console.log(
           'After equipment filtering, data length:',
           filteredData.length
@@ -229,11 +237,13 @@ const ExerciseSelection = ({ navigation, route }) => {
       // Convert equipment names to IDs
       const equipmentIds = userEquipment
         .map(equipName => {
-          // Find the equipment object with matching name
-          const equipment = equipmentData.find(eq => eq.name === equipName);
+          // Find the equipment object with matching name (case insensitive)
+          const equipment = equipmentData.find(
+            eq => eq.name.toLowerCase() === equipName.toLowerCase()
+          );
           return equipment ? equipment.id : null;
         })
-        .filter(id => id !== null); // Remove any nulls
+        .filter(id => id !== null);
 
       console.log('Converted equipment names to IDs:', equipmentIds);
 

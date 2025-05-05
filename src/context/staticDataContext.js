@@ -108,22 +108,6 @@ export const StaticDataProvider = ({ children }) => {
     const muscles = musclesData.filter(muscle => muscle.id !== '');
     const equipment = equipmentData.filter(equip => equip.id !== '');
 
-    // console.log('Filtered exercises length:', exercises.length);
-    // console.log('Filtered muscles length:', muscles.length);
-    // console.log('Filtered equipment length:', equipment.length);
-
-    // if (exercises.length > 0) {
-    //   console.log('Sample exercise:', JSON.stringify(exercises[0], null, 2));
-    // }
-
-    // if (muscles.length > 0) {
-    //   console.log('Sample muscle:', JSON.stringify(muscles[0], null, 2));
-    // }
-
-    // if (equipment.length > 0) {
-    //   console.log('Sample equipment:', JSON.stringify(equipment[0], null, 2));
-    // }
-
     // Create unique muscle groups list
     const muscleGroups = [...new Set(muscles.map(m => m.muscle_group))].sort();
     // console.log('Muscle groups:', muscleGroups);
@@ -205,17 +189,17 @@ export const StaticDataProvider = ({ children }) => {
     });
   };
 
-  const getFormattedMuscles = () => {
-    return data.muscles.map(muscle => ({
-      label: `${muscle.muscle} (${muscle.muscle_group})`,
-      value: muscle.muscle
+  const getFormattedEquipment = () => {
+    return equipmentData.map(equipment => ({
+      value: equipment.id,
+      label: equipment.name
     }));
   };
 
-  const getFormattedEquipment = () => {
-    return data.equipment.map(equipment => ({
-      label: equipment.name,
-      value: equipment.name
+  const getFormattedMuscles = () => {
+    return musclesData.map(muscle => ({
+      value: muscle.id,
+      label: muscle.muscle
     }));
   };
 

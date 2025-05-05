@@ -107,6 +107,12 @@ const ExerciseFilter = ({
   const [displayedEquipment, setDisplayedEquipment] = useState([]);
   const { loadUserEquipment } = useUserEquipment();
 
+  useEffect(() => {
+    console.log('Filter values updated:', filterValues);
+    console.log('Equipment options:', equipmentOptions);
+    console.log('Displayed equipment:', displayedEquipment);
+  }, [filterValues, equipmentOptions, displayedEquipment]);
+
   // Load data from static context when component mounts
   useEffect(() => {
     if (isLoaded) {
@@ -133,6 +139,7 @@ const ExerciseFilter = ({
   useEffect(() => {
     // This will run whenever userEquipment changes
     if (userEquipment && userEquipment.length > 0) {
+      setShowMyEquipment(true);
       console.log('User equipment changed in context, updating filter');
 
       // If we're in "My Equipment" mode, update the selections
@@ -159,13 +166,27 @@ const ExerciseFilter = ({
 
   // Update displayed equipment when the toggle state changes or when userEquipment changes
   useEffect(() => {
+    console.log(
+      'Updating displayed equipment. ShowMyEquipment:',
+      showMyEquipment
+    );
+    console.log('User equipment:', userEquipment);
+    console.log('All equipment options:', equipmentOptions);
+
     if (showMyEquipment && userEquipment && userEquipment.length > 0) {
       // Filter equipment to only show user's equipment
-      setDisplayedEquipment(
-        equipmentOptions.filter(item => userEquipment.includes(item.value))
-      );
+      const filteredEquipment = equipmentOptions.filter(item => {
+        // Check if userEquipment contains the equipment name (case-insensitive)
+        return userEquipment.some(
+          userEquip => userEquip.toLowerCase() === item.label.toLowerCase()
+        );
+      });
+
+      console.log('Filtered equipment for user:', filteredEquipment);
+      setDisplayedEquipment(filteredEquipment);
     } else {
       // Show all equipment
+      console.log('Showing all equipment');
       setDisplayedEquipment(equipmentOptions);
     }
   }, [showMyEquipment, equipmentOptions, userEquipment]);
@@ -194,13 +215,14 @@ const ExerciseFilter = ({
   };
 
   const handleEquipmentToggle = equipmentValue => {
+    console.log('Toggling equipment:', equipmentValue);
     const currentEquipment = filterValues.equipment || [];
     const newEquipment = currentEquipment.includes(equipmentValue)
       ? currentEquipment.filter(e => e !== equipmentValue)
       : [...currentEquipment, equipmentValue];
+    console.log('New equipment filter:', newEquipment);
     onFilterChange('equipment', newEquipment);
   };
-
   const handleEquipmentFilterToggle = showOnlyUserEquipment => {
     setShowMyEquipment(showOnlyUserEquipment);
   };
