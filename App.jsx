@@ -3,13 +3,15 @@ import { initializeApi, api } from './src/services/api';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, StyleSheet, ActivityIndicator, Text, Alert } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import * as Font from 'expo-font';
 import Constants from 'expo-constants';
+import * as Crypto from 'expo-crypto';
 import Navigation from './components/Navigation';
 import { ThemeProvider } from './src/context/themeContext';
 import { ProgramProvider } from './src/context/programContext';
 import { WorkoutProvider } from './src/context/workoutContext';
+import { StaticDataProvider } from './src/context/staticDataContext';
 import { AuthProvider, useAuth } from './src/context/authContext';
 import { UserProvider } from './src/context/userContext';
 import { UserEquipmentProvider } from './src/context/userEquipmentContext';
@@ -133,6 +135,17 @@ const linking = {
     }
   }
 };
+
+// Polyfill for crypto.getRandomValues
+if (typeof global.crypto !== 'object') {
+  global.crypto = {};
+}
+
+if (typeof global.crypto.getRandomValues !== 'function') {
+  global.crypto.getRandomValues = function (array) {
+    return Crypto.getRandomValues(array);
+  };
+}
 
 const AuthNavigator = () => (
   <AuthStack.Navigator
@@ -307,6 +320,10 @@ const RootNavigator = () => {
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
+  // console.log('Constants:', JSON.stringify(Constants));
+  // console.log('ExpoConfig:', Constants.expoConfig);
+  // console.log('Process env:', process.env);
+
   useEffect(() => {
     async function loadFonts() {
       try {
@@ -320,8 +337,11 @@ const App = () => {
         console.error('Failed to load fonts:', error);
       }
     }
-    const apiUrl = Constants.expoConfig.extra.apiUrl;
-    console.log('API URL from App.jsx', apiUrl);
+
+    const apiUrl =
+      Constants.expoConfig?.extra?.apiUrl ||
+      'https://wrkt-backend-development.up.railway.app';
+    // console.log('API URL from App.jsx', apiUrl);
     initializeApi({ apiUrl });
 
     loadFonts();
@@ -338,19 +358,21 @@ const App = () => {
   return (
     <AuthProvider>
       <UserProvider>
-        <UserEquipmentProvider>
-          <ProgramProvider>
-            <WorkoutProvider>
-              <ThemeProvider>
-                <View style={styles.container}>
-                  <NavigationContainer linking={linking}>
-                    <RootNavigator />
-                  </NavigationContainer>
-                </View>
-              </ThemeProvider>
-            </WorkoutProvider>
-          </ProgramProvider>
-        </UserEquipmentProvider>
+        <StaticDataProvider>
+          <UserEquipmentProvider>
+            <ProgramProvider>
+              <WorkoutProvider>
+                <ThemeProvider>
+                  <View style={styles.container}>
+                    <NavigationContainer linking={linking}>
+                      <RootNavigator />
+                    </NavigationContainer>
+                  </View>
+                </ThemeProvider>
+              </WorkoutProvider>
+            </ProgramProvider>
+          </UserEquipmentProvider>
+        </StaticDataProvider>
       </UserProvider>
     </AuthProvider>
   );

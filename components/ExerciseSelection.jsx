@@ -14,7 +14,24 @@ import {
   Modal,
   StyleSheet
 } from 'react-native';
-import { api } from '../src/services/api';
+import exerciseData from '../assets/data/exercises.json';
+import musclesData from '../assets/data/muscles.json';
+import equipmentData from '../assets/data/equipments.json';
+
+console.log('Exercise data type:', typeof exerciseData);
+console.log('Is exerciseData an array?', Array.isArray(exerciseData));
+console.log(
+  'Exercise data length:',
+  Array.isArray(exerciseData) ? exerciseData.length : 'not an array'
+);
+console.log(
+  'First exercise:',
+  Array.isArray(exerciseData) && exerciseData.length > 0
+    ? exerciseData[0]
+    : 'no exercises'
+);
+
+// import { api } from '../src/services/api';
 import debounce from 'lodash/debounce';
 import { ProgramContext } from '../src/context/programContext';
 import { WorkoutContext } from '../src/context/workoutContext';
@@ -23,8 +40,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Crypto from 'expo-crypto';
 import { useTheme } from '../src/hooks/useTheme';
 import { getThemedStyles } from '../src/utils/themeUtils';
-import { transformResponseData } from '../src/utils/apiTransformers';
-import { globalStyles, colors } from '../src/styles/globalStyles';
+import { globalStyles } from '../src/styles/globalStyles';
 import SecondaryButton from './SecondaryButton';
 import ExerciseFilter from './ExerciseFilter';
 import ExerciseImage from './ExerciseImage';
@@ -65,47 +81,109 @@ const ExerciseSelection = ({ navigation, route }) => {
     themeState.accentColor
   );
 
-  // Fetch exercises function
+  // Lookup maps for muscles and equipments
+  const muscleMap = useMemo(() => {
+    return musclesData.reduce((acc, muscle) => {
+      if (muscle.id) {
+        acc[muscle.id] = muscle.muscle;
+      }
+      return acc;
+    }, {});
+  }, []);
+
+  const equipmentMap = useMemo(() => {
+    return equipmentData.reduce((acc, equipment) => {
+      if (equipment.id) {
+        acc[equipment.id] = equipment.name;
+      }
+      return acc;
+    }, {});
+  }, []);
+
   const fetchExercises = async (page = 1, shouldAppend = false) => {
+    console.log(
+      'Starting fetchExercises, page:',
+      page,
+      'shouldAppend:',
+      shouldAppend
+    );
+    console.log('Equipment filter values:', filterValues.equipment);
+
     if (!hasMore && page > 1) return;
 
     try {
       setIsLoading(page === 1);
       setIsLoadingMore(page > 1);
 
-      // Build query parameters
-      const params = new URLSearchParams();
-      params.append('page', page.toString());
-      params.append('limit', '20');
+      // Apply filters to local data
+      let filteredData = Array.isArray(exerciseData) ? [...exerciseData] : [];
+      console.log('Initial data length:', filteredData.length);
 
+      // Filter by exercise name if provided
       if (filterValues.exerciseName?.trim()) {
-        params.append('name', filterValues.exerciseName.trim());
+        const searchTerm = filterValues.exerciseName.trim().toLowerCase();
+        filteredData = filteredData.filter(exercise =>
+          exercise.name.toLowerCase().includes(searchTerm)
+        );
+        console.log('After name filtering, data length:', filteredData.length);
       }
 
-      // Add multiple muscles
+      // Filter by muscles if provided
       if (filterValues.muscles?.length > 0) {
-        filterValues.muscles.forEach(muscle => {
-          params.append('muscles[]', muscle);
-        });
+        // Convert muscle IDs to strings for comparison
+        const muscleFilterIds = filterValues.muscles.map(String);
+        filteredData = filteredData.filter(exercise =>
+          muscleFilterIds.includes(String(exercise.muscle_group_id))
+        );
+        console.log(
+          'After muscle filtering, data length:',
+          filteredData.length
+        );
       }
 
-      // Add multiple equipment
+      // Filter by equipment if provided
       if (filterValues.equipment?.length > 0) {
-        filterValues.equipment.forEach(equip => {
-          params.append('equipment[]', equip);
+        console.log('Filtering by equipment IDs:', filterValues.equipment);
+
+        // Convert equipment IDs to strings for comparison
+        const equipmentFilterIds = filterValues.equipment.map(String);
+
+        filteredData = filteredData.filter(exercise => {
+          const exerciseEquipmentId = String(exercise.equipment_id);
+          return equipmentFilterIds.includes(exerciseEquipmentId);
         });
+
+        console.log(
+          'After equipment filtering, data length:',
+          filteredData.length
+        );
       }
 
-      const response = await api.get(
-        `/api/exercise-catalog?${params.toString()}`
-      );
+      // Implement pagination manually
+      const PAGE_SIZE = 20;
+      const totalPages = Math.ceil(filteredData.length / PAGE_SIZE);
+      const startIndex = (page - 1) * PAGE_SIZE;
+      const endIndex = startIndex + PAGE_SIZE;
+      const paginatedData = filteredData.slice(startIndex, endIndex);
 
-      // Transform the data right after receiving it from the API
-      const transformedData = transformResponseData(response);
+      // Format the data to match the expected structure
+      const transformedData = {
+        exercises: paginatedData.map(item => ({
+          id: item.id,
+          name: item.name,
+          muscle: muscleMap[item.muscle_group_id] || 'Unknown Muscle',
+          equipment: equipmentMap[item.equipment_id] || 'Unknown Equipment',
+          imageUrl: item.image_name,
+          muscle_group_id: item.muscle_group_id,
+          equipment_id: item.equipment_id
+        })),
+        pagination: {
+          hasMore: page < totalPages
+        }
+      };
 
       // Reset data when applying new filters
       if (!shouldAppend) {
-        // Safe reset
         setExercises(transformedData.exercises || []);
         setFilteredExercises(transformedData.exercises || []);
         if (flatListRef.current) {
@@ -121,7 +199,7 @@ const ExerciseSelection = ({ navigation, route }) => {
       setHasMore(transformedData.pagination.hasMore);
       setCurrentPage(page);
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error('Error processing exercise data:', error);
       setHasMore(false);
       if (!shouldAppend) {
         setExercises([]);
@@ -133,13 +211,11 @@ const ExerciseSelection = ({ navigation, route }) => {
     }
   };
 
-  // Create debounced filter function
   const debouncedFilterChange = useMemo(
     () =>
       debounce((key, value) => {
         setFilterValues(prev => {
           const newValues = { ...prev, [key]: value };
-
           return newValues;
         });
       }, 300),
@@ -158,16 +234,29 @@ const ExerciseSelection = ({ navigation, route }) => {
         userEquipment
       );
 
-      // Update filter values with user equipment
+      // Convert equipment names to IDs
+      const equipmentIds = userEquipment
+        .map(equipName => {
+          // Find the equipment object with matching name (case insensitive)
+          const equipment = equipmentData.find(
+            eq => eq.name.toLowerCase() === equipName.toLowerCase()
+          );
+          return equipment ? equipment.id : null;
+        })
+        .filter(id => id !== null);
+
+      console.log('Converted equipment names to IDs:', equipmentIds);
+
+      // Update filter values with equipment IDs
       setFilterValues(prev => ({
         ...prev,
-        equipment: userEquipment
+        equipment: equipmentIds
       }));
 
       // Mark that we've applied the user equipment filter
       hasAppliedUserEquipmentRef.current = true;
     }
-  }, [userEquipment]);
+  }, [userEquipment, equipmentData]);
 
   // Replace all three filterValues useEffects with this
   useEffect(() => {
@@ -237,7 +326,7 @@ const ExerciseSelection = ({ navigation, route }) => {
     }
     setFilterValues({
       exerciseName: '',
-      muscle: [],
+      muscles: [],
       equipment: []
     });
     setCurrentPage(1);
@@ -417,6 +506,12 @@ const ExerciseSelection = ({ navigation, route }) => {
       </TouchableOpacity>
     );
   };
+
+  // Add this right before the return statement in your component
+  console.log(
+    'Rendering with filtered exercises count:',
+    filteredExercises.length
+  );
 
   return (
     <View

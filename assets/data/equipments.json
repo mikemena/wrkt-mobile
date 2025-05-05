@@ -1,0 +1,152 @@
+[
+  {
+    "id": "24",
+    "name": "Bodyweight",
+    "image_id": ""
+  },
+  {
+    "id": "25",
+    "name": "Dumbbell",
+    "image_id": ""
+  },
+  {
+    "id": "26",
+    "name": "Barbell",
+    "image_id": ""
+  },
+  {
+    "id": "27",
+    "name": "Arm Blaster",
+    "image_id": ""
+  },
+  {
+    "id": "28",
+    "name": "Cable Machine",
+    "image_id": ""
+  },
+  {
+    "id": "29",
+    "name": "Exercise Ball",
+    "image_id": ""
+  },
+  {
+    "id": "30",
+    "name": "Resistance Band",
+    "image_id": ""
+  },
+  {
+    "id": "31",
+    "name": "Rope",
+    "image_id": ""
+  },
+  {
+    "id": "32",
+    "name": "Weights",
+    "image_id": ""
+  },
+  {
+    "id": "33",
+    "name": "Bosu Ball",
+    "image_id": ""
+  },
+  {
+    "id": "34",
+    "name": "Box",
+    "image_id": ""
+  },
+  {
+    "id": "35",
+    "name": "Boxing Gloves",
+    "image_id": ""
+  },
+  {
+    "id": "36",
+    "name": "Captains Chair",
+    "image_id": ""
+  },
+  {
+    "id": "37",
+    "name": "EZ-Bar",
+    "image_id": ""
+  },
+  {
+    "id": "38",
+    "name": "Hang Bar",
+    "image_id": ""
+  },
+  {
+    "id": "39",
+    "name": "Elliptical Machine",
+    "image_id": ""
+  },
+  {
+    "id": "40",
+    "name": "Exercise Bike",
+    "image_id": ""
+  },
+  {
+    "id": "42",
+    "name": "Kettlebell",
+    "image_id": ""
+  },
+  {
+    "id": "43",
+    "name": "Treadmill",
+    "image_id": ""
+  },
+  {
+    "id": "44",
+    "name": "Stability Ball",
+    "image_id": ""
+  },
+  {
+    "id": "45",
+    "name": "Plate Weights",
+    "image_id": ""
+  },
+  {
+    "id": "46",
+    "name": "Push-up Bar",
+    "image_id": ""
+  },
+  {
+    "id": "47",
+    "name": "Rings",
+    "image_id": ""
+  },
+  {
+    "id": "48",
+    "name": "Strength Machine",
+    "image_id": ""
+  },
+  {
+    "id": "49",
+    "name": "Sled",
+    "image_id": ""
+  },
+  {
+    "id": "50",
+    "name": "Smith Machine",
+    "image_id": ""
+  },
+  {
+    "id": "52",
+    "name": "Tire",
+    "image_id": ""
+  },
+  {
+    "id": "53",
+    "name": "Trap Bar",
+    "image_id": ""
+  },
+  {
+    "id": "54",
+    "name": "V-Bar",
+    "image_id": ""
+  },
+  {
+    "id": "23",
+    "name": "Ab Wheel",
+    "image_id": ""
+  }
+]
